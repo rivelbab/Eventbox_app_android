@@ -5,10 +5,10 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import java.lang.IllegalArgumentException
-import com.eventbox.app.android.common.SingleLiveEvent
-import com.eventbox.app.android.search.location.LocationService
+import com.eventbox.app.android.ui.common.SingleLiveEvent
+import com.eventbox.app.android.service.SearchLocationService
 
-class GeoLocationViewModel(private val locationService: LocationService) : ViewModel() {
+class GeoLocationViewModel(private val searchLocationService: SearchLocationService) : ViewModel() {
     private val mutableLocation = SingleLiveEvent<String>()
     val location: LiveData<String> = mutableLocation
     private val mutableErrorMessage = SingleLiveEvent<String>()
@@ -16,7 +16,7 @@ class GeoLocationViewModel(private val locationService: LocationService) : ViewM
     private val compositeDisposable = CompositeDisposable()
 
     fun configure() {
-        compositeDisposable += locationService.getAdministrativeArea()
+        compositeDisposable += searchLocationService.getAdministrativeArea()
             .subscribe({
                 mutableLocation.value = it
             }, {

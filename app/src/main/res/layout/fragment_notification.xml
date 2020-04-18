@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/swiperefresh"
-    tools:context=".notification.NotificationFragment">
+    tools:context=".fragments.notification.NotificationFragment">
 
     <LinearLayout
         android:id="@+id/notificationCoordinatorLayout"

@@ -57,7 +57,7 @@
 				android:resource="@xml/file_provider" />
 		</provider>
 		<service
-			android:name="com.eventbox.app.android.order.invoice.DownloadInvoiceService"
+			android:name="com.eventbox.app.android.service.DownloadInvoiceService"
 			android:enabled="true"
 			android:exported="false" />
 	</application>

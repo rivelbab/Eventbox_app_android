@@ -17,7 +17,7 @@
             android:background="@android:color/white"
             android:orientation="vertical"
             android:padding="@dimen/padding_payment"
-            tools:context=".attendees.AttendeeFragment">
+            tools:context=".fragments.attendees.AttendeeFragment">
 
             <TextView
                 android:id="@+id/eventName"

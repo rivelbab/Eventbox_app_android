@@ -43,7 +43,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:fitsSystemWindows="false"
-        tools:context="com.eventbox.app.android.search.SearchResultsFragment">
+        tools:context="com.eventbox.app.android.fragments.event.search.SearchResultsFragment">
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBar"
             android:layout_width="match_parent"

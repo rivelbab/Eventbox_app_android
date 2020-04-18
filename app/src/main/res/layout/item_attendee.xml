@@ -3,10 +3,10 @@
     <data>
         <variable
             name="attendee"
-            type="com.eventbox.app.android.attendees.Attendee" />
+            type="com.eventbox.app.android.models.attendees.Attendee" />
         <variable
             name="ticket"
-            type="com.eventbox.app.android.ticket.Ticket" />
+            type="com.eventbox.app.android.models.payment.Ticket" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

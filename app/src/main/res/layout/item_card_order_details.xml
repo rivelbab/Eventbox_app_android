@@ -2,10 +2,10 @@
     <data>
         <variable
             name="attendee"
-            type="com.eventbox.app.android.attendees.Attendee" />
+            type="com.eventbox.app.android.models.attendees.Attendee" />
         <variable
             name="event"
-            type="com.eventbox.app.android.event.Event" />
+            type="com.eventbox.app.android.models.event.Event" />
         <variable
             name="eventDate"
             type="String" />

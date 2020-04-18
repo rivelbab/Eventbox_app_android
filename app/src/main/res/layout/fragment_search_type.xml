@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context="com.eventbox.app.android.search.type.SearchTypeFragment"
+    tools:context="com.eventbox.app.android.fragments.event.search.SearchTypeFragment"
     style="@style/AppTheme.NoActionBar">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
