@@ -3,7 +3,7 @@
 <data>
     <variable
         name="event"
-        type="com.eventbox.app.android.event.Event" />
+        type="com.eventbox.app.android.models.event.Event" />
     <variable
         name="position"
         type="Integer" />

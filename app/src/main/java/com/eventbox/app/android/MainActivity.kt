@@ -9,7 +9,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import kotlinx.android.synthetic.main.activity_main.mainFragmentCoordinatorLayout
 import kotlinx.android.synthetic.main.activity_main.navigation
-import com.eventbox.app.android.auth.AuthFragment
+import com.eventbox.app.android.fragments.auth.AuthFragment
 import com.eventbox.app.android.auth.RC_CREDENTIALS_READ
 import com.eventbox.app.android.auth.SmartAuthUtil
 import com.eventbox.app.android.auth.SmartAuthViewModel

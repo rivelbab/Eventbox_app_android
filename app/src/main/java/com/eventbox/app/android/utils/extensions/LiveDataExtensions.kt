@@ -4,7 +4,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
-import com.eventbox.app.android.common.SingleLiveEvent
+import com.eventbox.app.android.ui.common.SingleLiveEvent
 
 class NonNullMediatorLiveData<T> : MediatorLiveData<T>()
 

@@ -1,7 +1,6 @@
 package com.eventbox.app.android.utils
 
 import java.util.Calendar
-import com.eventbox.app.android.event.EventUtils
 
 object DateTimeUtils {
     fun getNextDate(): String {

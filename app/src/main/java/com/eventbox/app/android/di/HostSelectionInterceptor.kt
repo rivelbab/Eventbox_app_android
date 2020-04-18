@@ -4,8 +4,8 @@ import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.Interceptor
 import okhttp3.Response
 import com.eventbox.app.android.BuildConfig
-import com.eventbox.app.android.data.Preference
-import com.eventbox.app.android.settings.API_URL
+import com.eventbox.app.android.config.Preference
+import com.eventbox.app.android.ui.settings.API_URL
 
 class HostSelectionInterceptor(private val preference: Preference) : Interceptor {
 

@@ -7,7 +7,7 @@
 
         <variable
             name="event"
-            type="com.eventbox.app.android.event.Event" />
+            type="com.eventbox.app.android.models.event.Event" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

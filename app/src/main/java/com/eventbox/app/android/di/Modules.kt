@@ -12,112 +12,112 @@ import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import com.eventbox.app.android.BuildConfig
-import com.eventbox.app.android.EventboxDatabase
-import com.eventbox.app.android.StartupViewModel
-import com.eventbox.app.android.about.AboutEventViewModel
-import com.eventbox.app.android.attendees.Attendee
-import com.eventbox.app.android.attendees.AttendeeApi
-import com.eventbox.app.android.attendees.AttendeeService
-import com.eventbox.app.android.attendees.AttendeeViewModel
-import com.eventbox.app.android.attendees.forms.CustomForm
-import com.eventbox.app.android.auth.AuthApi
-import com.eventbox.app.android.auth.AuthHolder
-import com.eventbox.app.android.auth.AuthService
-import com.eventbox.app.android.auth.AuthViewModel
-import com.eventbox.app.android.auth.EditProfileViewModel
-import com.eventbox.app.android.auth.LoginViewModel
-import com.eventbox.app.android.auth.ProfileViewModel
-import com.eventbox.app.android.auth.RequestAuthenticator
-import com.eventbox.app.android.auth.SignUp
-import com.eventbox.app.android.auth.SignUpViewModel
+import com.eventbox.app.android.data.db.EventboxDatabase
+import com.eventbox.app.android.ui.StartupViewModel
+import com.eventbox.app.android.ui.event.AboutEventViewModel
+import com.eventbox.app.android.models.attendees.Attendee
+import com.eventbox.app.android.networks.api.AttendeeApi
+import com.eventbox.app.android.service.AttendeeService
+import com.eventbox.app.android.ui.attendees.AttendeeViewModel
+import com.eventbox.app.android.models.attendees.CustomForm
+import com.eventbox.app.android.networks.api.AuthApi
+import com.eventbox.app.android.ui.auth.AuthHolder
+import com.eventbox.app.android.service.AuthService
+import com.eventbox.app.android.ui.auth.AuthViewModel
+import com.eventbox.app.android.ui.user.EditProfileViewModel
+import com.eventbox.app.android.ui.auth.LoginViewModel
+import com.eventbox.app.android.ui.user.ProfileViewModel
+import com.eventbox.app.android.networks.payloads.auth.RequestAuthenticator
+import com.eventbox.app.android.models.auth.SignUp
+import com.eventbox.app.android.ui.auth.SignUpViewModel
 import com.eventbox.app.android.auth.SmartAuthViewModel
-import com.eventbox.app.android.auth.User
-import com.eventbox.app.android.connectivity.MutableConnectionLiveData
-import com.eventbox.app.android.data.Network
-import com.eventbox.app.android.data.Preference
-import com.eventbox.app.android.data.Resource
-import com.eventbox.app.android.discount.DiscountApi
-import com.eventbox.app.android.discount.DiscountCode
-import com.eventbox.app.android.event.Event
-import com.eventbox.app.android.event.EventApi
-import com.eventbox.app.android.event.EventDetailsViewModel
-import com.eventbox.app.android.event.EventId
-import com.eventbox.app.android.event.EventService
-import com.eventbox.app.android.event.EventsViewModel
-import com.eventbox.app.android.event.faq.EventFAQ
-import com.eventbox.app.android.event.faq.EventFAQApi
-import com.eventbox.app.android.event.faq.EventFAQViewModel
-import com.eventbox.app.android.event.location.EventLocation
-import com.eventbox.app.android.event.location.EventLocationApi
-import com.eventbox.app.android.event.subtopic.EventSubTopic
-import com.eventbox.app.android.event.tax.Tax
-import com.eventbox.app.android.event.tax.TaxApi
-import com.eventbox.app.android.event.tax.TaxService
-import com.eventbox.app.android.event.topic.EventTopic
-import com.eventbox.app.android.event.topic.EventTopicApi
-import com.eventbox.app.android.event.types.EventType
-import com.eventbox.app.android.event.types.EventTypesApi
-import com.eventbox.app.android.favorite.FavoriteEvent
-import com.eventbox.app.android.favorite.FavoriteEventApi
-import com.eventbox.app.android.favorite.FavoriteEventsViewModel
-import com.eventbox.app.android.feedback.Feedback
-import com.eventbox.app.android.feedback.FeedbackApi
-import com.eventbox.app.android.feedback.FeedbackService
-import com.eventbox.app.android.feedback.FeedbackViewModel
-import com.eventbox.app.android.notification.Notification
-import com.eventbox.app.android.notification.NotificationApi
-import com.eventbox.app.android.notification.NotificationService
-import com.eventbox.app.android.notification.NotificationViewModel
-import com.eventbox.app.android.order.Charge
-import com.eventbox.app.android.order.ConfirmOrder
-import com.eventbox.app.android.order.Order
-import com.eventbox.app.android.order.OrderApi
-import com.eventbox.app.android.order.OrderCompletedViewModel
-import com.eventbox.app.android.order.OrderDetailsViewModel
-import com.eventbox.app.android.order.OrderService
-import com.eventbox.app.android.order.OrdersUnderUserViewModel
-import com.eventbox.app.android.paypal.Paypal
-import com.eventbox.app.android.paypal.PaypalApi
-import com.eventbox.app.android.search.SearchResultsViewModel
-import com.eventbox.app.android.search.SearchViewModel
+import com.eventbox.app.android.models.user.User
+import com.eventbox.app.android.networks.connectivity.MutableConnectionLiveData
+import com.eventbox.app.android.config.Network
+import com.eventbox.app.android.config.Preference
+import com.eventbox.app.android.config.Resource
+import com.eventbox.app.android.networks.api.DiscountApi
+import com.eventbox.app.android.models.payment.DiscountCode
+import com.eventbox.app.android.models.event.Event
+import com.eventbox.app.android.networks.api.EventApi
+import com.eventbox.app.android.ui.event.EventDetailsViewModel
+import com.eventbox.app.android.models.event.EventId
+import com.eventbox.app.android.service.EventService
+import com.eventbox.app.android.ui.event.EventsViewModel
+import com.eventbox.app.android.models.event.EventFAQ
+import com.eventbox.app.android.networks.api.EventFAQApi
+import com.eventbox.app.android.ui.event.faq.EventFAQViewModel
+import com.eventbox.app.android.models.event.EventLocation
+import com.eventbox.app.android.networks.api.EventLocationApi
+import com.eventbox.app.android.models.event.EventSubTopic
+import com.eventbox.app.android.models.payment.Tax
+import com.eventbox.app.android.networks.api.TaxApi
+import com.eventbox.app.android.service.TaxService
+import com.eventbox.app.android.models.event.EventTopic
+import com.eventbox.app.android.networks.api.EventTopicApi
+import com.eventbox.app.android.models.event.EventType
+import com.eventbox.app.android.networks.api.EventTypesApi
+import com.eventbox.app.android.models.event.FavoriteEvent
+import com.eventbox.app.android.networks.api.FavoriteEventApi
+import com.eventbox.app.android.ui.event.FavoriteEventsViewModel
+import com.eventbox.app.android.models.feedback.Feedback
+import com.eventbox.app.android.networks.api.FeedbackApi
+import com.eventbox.app.android.service.FeedbackService
+import com.eventbox.app.android.ui.feedback.FeedbackViewModel
+import com.eventbox.app.android.models.notification.Notification
+import com.eventbox.app.android.networks.api.NotificationApi
+import com.eventbox.app.android.service.NotificationService
+import com.eventbox.app.android.ui.notification.NotificationViewModel
+import com.eventbox.app.android.models.payment.Charge
+import com.eventbox.app.android.models.payment.ConfirmOrder
+import com.eventbox.app.android.models.payment.Order
+import com.eventbox.app.android.networks.api.OrderApi
+import com.eventbox.app.android.ui.payment.OrderCompletedViewModel
+import com.eventbox.app.android.ui.payment.OrderDetailsViewModel
+import com.eventbox.app.android.service.OrderService
+import com.eventbox.app.android.ui.payment.OrdersUnderUserViewModel
+import com.eventbox.app.android.models.payment.Paypal
+import com.eventbox.app.android.networks.api.PaypalApi
+import com.eventbox.app.android.ui.event.search.SearchResultsViewModel
+import com.eventbox.app.android.ui.event.search.SearchViewModel
 import com.eventbox.app.android.location.GeoLocationViewModel
-import com.eventbox.app.android.search.location.LocationService
-import com.eventbox.app.android.location.LocationServiceImpl
-import com.eventbox.app.android.search.location.SearchLocationViewModel
-import com.eventbox.app.android.search.time.SearchTimeViewModel
-import com.eventbox.app.android.search.type.SearchTypeViewModel
-import com.eventbox.app.android.sessions.Session
-import com.eventbox.app.android.sessions.SessionApi
-import com.eventbox.app.android.sessions.SessionService
-import com.eventbox.app.android.sessions.SessionViewModel
-import com.eventbox.app.android.sessions.microlocation.MicroLocation
-import com.eventbox.app.android.sessions.sessiontype.SessionType
-import com.eventbox.app.android.sessions.track.Track
-import com.eventbox.app.android.settings.Settings
-import com.eventbox.app.android.settings.SettingsApi
-import com.eventbox.app.android.settings.SettingsService
-import com.eventbox.app.android.settings.SettingsViewModel
-import com.eventbox.app.android.social.SocialLink
-import com.eventbox.app.android.social.SocialLinkApi
-import com.eventbox.app.android.social.SocialLinksService
-import com.eventbox.app.android.speakercall.EditSpeakerViewModel
-import com.eventbox.app.android.speakercall.Proposal
-import com.eventbox.app.android.speakercall.SpeakersCall
-import com.eventbox.app.android.speakercall.SpeakersCallProposalViewModel
-import com.eventbox.app.android.speakercall.SpeakersCallViewModel
-import com.eventbox.app.android.speakers.Speaker
-import com.eventbox.app.android.speakers.SpeakerApi
-import com.eventbox.app.android.speakers.SpeakerService
-import com.eventbox.app.android.speakers.SpeakerViewModel
-import com.eventbox.app.android.sponsor.Sponsor
-import com.eventbox.app.android.sponsor.SponsorApi
-import com.eventbox.app.android.sponsor.SponsorService
-import com.eventbox.app.android.sponsor.SponsorsViewModel
-import com.eventbox.app.android.ticket.Ticket
-import com.eventbox.app.android.ticket.TicketApi
-import com.eventbox.app.android.ticket.TicketId
-import com.eventbox.app.android.ticket.TicketService
-import com.eventbox.app.android.ticket.TicketsViewModel
+import com.eventbox.app.android.service.SearchLocationService
+import com.eventbox.app.android.location.SearchLocationServiceImpl
+import com.eventbox.app.android.ui.event.search.SearchLocationViewModel
+import com.eventbox.app.android.ui.event.search.SearchTimeViewModel
+import com.eventbox.app.android.ui.event.search.SearchTypeViewModel
+import com.eventbox.app.android.models.session.Session
+import com.eventbox.app.android.networks.api.SessionApi
+import com.eventbox.app.android.service.SessionService
+import com.eventbox.app.android.ui.session.SessionViewModel
+import com.eventbox.app.android.models.session.MicroLocation
+import com.eventbox.app.android.models.session.SessionType
+import com.eventbox.app.android.models.session.Track
+import com.eventbox.app.android.models.settings.Settings
+import com.eventbox.app.android.networks.api.SettingsApi
+import com.eventbox.app.android.service.SettingsService
+import com.eventbox.app.android.ui.settings.SettingsViewModel
+import com.eventbox.app.android.models.event.SocialLink
+import com.eventbox.app.android.networks.api.SocialLinkApi
+import com.eventbox.app.android.service.SocialLinksService
+import com.eventbox.app.android.ui.speakers.EditSpeakerViewModel
+import com.eventbox.app.android.models.speakers.Proposal
+import com.eventbox.app.android.models.speakers.SpeakersCall
+import com.eventbox.app.android.ui.speakers.SpeakersCallProposalViewModel
+import com.eventbox.app.android.ui.speakers.SpeakersCallViewModel
+import com.eventbox.app.android.models.speakers.Speaker
+import com.eventbox.app.android.networks.api.SpeakerApi
+import com.eventbox.app.android.service.SpeakerService
+import com.eventbox.app.android.ui.speakers.SpeakerViewModel
+import com.eventbox.app.android.models.sponsor.Sponsor
+import com.eventbox.app.android.networks.api.SponsorApi
+import com.eventbox.app.android.service.SponsorService
+import com.eventbox.app.android.ui.sponsor.SponsorsViewModel
+import com.eventbox.app.android.models.payment.Ticket
+import com.eventbox.app.android.networks.api.TicketApi
+import com.eventbox.app.android.models.payment.TicketId
+import com.eventbox.app.android.service.TicketService
+import com.eventbox.app.android.ui.payment.TicketsViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -125,15 +125,13 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.jackson.JacksonConverterFactory
-import javax.net.ssl.HostnameVerifier
-import javax.net.ssl.SSLSession
 
 val commonModule = module {
     single { Preference() }
     single { Network() }
     single { Resource() }
     factory { MutableConnectionLiveData() }
-    factory<LocationService> { LocationServiceImpl(androidContext(), get()) }
+    factory<SearchLocationService> { SearchLocationServiceImpl(androidContext(), get()) }
 }
 
 val apiModule = module {
@@ -219,56 +217,314 @@ val apiModule = module {
     }
 
     factory { AuthHolder(get()) }
-    factory { AuthService(get(), get(), get(), get(), get(), get(), get()) }
+    factory {
+        AuthService(
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
 
-    factory { EventService(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
-    factory { SpeakerService(get(), get(), get()) }
-    factory { SponsorService(get(), get(), get()) }
-    factory { TicketService(get(), get(), get()) }
+    factory {
+        EventService(
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
+    factory {
+        SpeakerService(
+            get(),
+            get(),
+            get()
+        )
+    }
+    factory {
+        SponsorService(
+            get(),
+            get(),
+            get()
+        )
+    }
+    factory {
+        TicketService(
+            get(),
+            get(),
+            get()
+        )
+    }
     factory { SocialLinksService(get(), get()) }
-    factory { AttendeeService(get(), get(), get()) }
-    factory { OrderService(get(), get(), get(), get(), get()) }
+    factory {
+        AttendeeService(
+            get(),
+            get(),
+            get()
+        )
+    }
+    factory {
+        OrderService(
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
     factory { SessionService(get(), get()) }
-    factory { NotificationService(get(), get()) }
+    factory {
+        NotificationService(
+            get(),
+            get()
+        )
+    }
     factory { FeedbackService(get(), get()) }
     factory { SettingsService(get(), get()) }
     factory { TaxService(get(), get()) }
 }
 
 val viewModelModule = module {
-    viewModel { LoginViewModel(get(), get(), get(), get()) }
-    viewModel { EventsViewModel(get(), get(), get(), get(), get(), get()) }
-    viewModel { StartupViewModel(get(), get(), get(), get(), get(), get()) }
-    viewModel { ProfileViewModel(get(), get()) }
-    viewModel { SignUpViewModel(get(), get(), get()) }
     viewModel {
-        EventDetailsViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
-    viewModel { SessionViewModel(get(), get(), get()) }
-    viewModel { SearchViewModel(get(), get()) }
-    viewModel { SearchResultsViewModel(get(), get(), get(), get(), get(), get()) }
-    viewModel { AttendeeViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
-    viewModel { SearchLocationViewModel(get(), get(), get()) }
+        LoginViewModel(
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        EventsViewModel(
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        StartupViewModel(
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
+    viewModel { ProfileViewModel(get(), get()) }
+    viewModel {
+        SignUpViewModel(
+            get(),
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        EventDetailsViewModel(
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        SessionViewModel(
+            get(),
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        SearchViewModel(
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        SearchResultsViewModel(
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        AttendeeViewModel(
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        SearchLocationViewModel(
+            get(),
+            get(),
+            get()
+        )
+    }
     viewModel { SearchTimeViewModel(get()) }
-    viewModel { SearchTypeViewModel(get(), get(), get()) }
-    viewModel { TicketsViewModel(get(), get(), get(), get(), get(), get()) }
-    viewModel { AboutEventViewModel(get(), get()) }
-    viewModel { EventFAQViewModel(get(), get()) }
-    viewModel { FavoriteEventsViewModel(get(), get(), get()) }
-    viewModel { SettingsViewModel(get(), get(), get()) }
-    viewModel { OrderCompletedViewModel(get(), get(), get(), get()) }
-    viewModel { OrdersUnderUserViewModel(get(), get(), get(), get(), get()) }
-    viewModel { OrderDetailsViewModel(get(), get(), get(), get()) }
-    viewModel { EditProfileViewModel(get(), get(), get()) }
+    viewModel {
+        SearchTypeViewModel(
+            get(),
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        TicketsViewModel(
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        AboutEventViewModel(
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        EventFAQViewModel(
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        FavoriteEventsViewModel(
+            get(),
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        SettingsViewModel(
+            get(),
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        OrderCompletedViewModel(
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        OrdersUnderUserViewModel(
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        OrderDetailsViewModel(
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        EditProfileViewModel(
+            get(),
+            get(),
+            get()
+        )
+    }
     viewModel { GeoLocationViewModel(get()) }
     viewModel { SmartAuthViewModel() }
-    viewModel { SpeakerViewModel(get(), get()) }
-    viewModel { SponsorsViewModel(get(), get()) }
-    viewModel { NotificationViewModel(get(), get(), get(), get()) }
-    viewModel { AuthViewModel(get(), get(), get()) }
-    viewModel { SpeakersCallViewModel(get(), get(), get(), get(), get(), get()) }
-    viewModel { SpeakersCallProposalViewModel(get(), get(), get(), get(), get()) }
-    viewModel { EditSpeakerViewModel(get(), get(), get(), get()) }
-    viewModel { FeedbackViewModel(get(), get()) }
+    viewModel {
+        SpeakerViewModel(
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        SponsorsViewModel(
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        NotificationViewModel(
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        AuthViewModel(
+            get(),
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        SpeakersCallViewModel(
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        SpeakersCallProposalViewModel(
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        EditSpeakerViewModel(
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        FeedbackViewModel(
+            get(),
+            get()
+        )
+    }
 }
 
 val networkModule = module {
@@ -297,7 +553,11 @@ val networkModule = module {
             .connectTimeout(connectTimeout.toLong(), TimeUnit.SECONDS)
             .readTimeout(readTimeout.toLong(), TimeUnit.SECONDS)
             .addInterceptor(HostSelectionInterceptor(get()))
-            .addInterceptor(RequestAuthenticator(get()))
+            .addInterceptor(
+                RequestAuthenticator(
+                    get()
+                )
+            )
             .addNetworkInterceptor(StethoInterceptor())
 
         if (BuildConfig.DEBUG) {
