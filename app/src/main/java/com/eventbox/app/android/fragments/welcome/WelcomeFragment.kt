@@ -13,15 +13,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_welcome.view.currentLocation
-import kotlinx.android.synthetic.main.fragment_welcome.view.locationProgressBar
-import kotlinx.android.synthetic.main.fragment_welcome.view.pickCityButton
-import kotlinx.android.synthetic.main.fragment_welcome.view.skip
 import com.eventbox.app.android.R
 import com.eventbox.app.android.config.Preference
 import com.eventbox.app.android.location.GeoLocationViewModel
 import com.eventbox.app.android.ui.event.search.SAVED_LOCATION
 import com.eventbox.app.android.utils.Utils.isLocationEnabled
+import kotlinx.android.synthetic.main.fragment_welcome.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val LOCATION_PERMISSION_REQUEST = 1000
@@ -37,9 +34,9 @@ class WelcomeFragment : Fragment() {
         val thisActivity = activity
         if (thisActivity is AppCompatActivity)
             thisActivity.supportActionBar?.hide()
-        rootView.pickCityButton.setOnClickListener {
-            Navigation.findNavController(rootView)
-                .navigate(WelcomeFragmentDirections.actionWelcomeToSearch(WELCOME_FRAGMENT))
+
+        rootView.welcomeLetsGoBtn.setOnClickListener {
+            redirectToAuth()
         }
 
         rootView.currentLocation.setOnClickListener {

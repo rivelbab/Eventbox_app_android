@@ -58,7 +58,7 @@
                     android:layout_marginBottom="@dimen/layout_margin_large"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_very_large"
-                    android:text="@string/eventyay_logo"/>
+                    android:text="@string/eventbox_logo"/>
                 <!-- Email Label -->
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"

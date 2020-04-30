@@ -26,7 +26,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/heading_text_size"
                 android:textStyle="bold"
-                tools:text="FOSSASIA summit" />
+                tools:text="Eventbox summit" />
 
             <TextView
                 android:id="@+id/time"
@@ -287,7 +287,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size_large"
-                        android:text="@string/used_eventyay_before"/>
+                        android:text="@string/used_eventbox_before"/>
                     <TextView
                         android:id="@+id/signInText"
                         android:layout_width="match_parent"

@@ -7,7 +7,7 @@
     <item
         android:width="@dimen/avatar_medium"
         android:height="@dimen/avatar_medium"
-        android:drawable="@drawable/ic_open_event"
+        android:drawable="@drawable/eventbox_logo"
         android:gravity="center" />
 
 </layer-list>

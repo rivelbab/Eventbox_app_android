@@ -106,7 +106,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/eventName"
                 app:layout_constraintStart_toStartOf="@+id/eventName"
                 app:layout_constraintTop_toBottomOf="@+id/eventName"
-                tools:text="by FOSSASIA" />
+                tools:text="by Eventbox" />
 
             <LinearLayout
                 android:id="@+id/eventTimingLinearLayout"

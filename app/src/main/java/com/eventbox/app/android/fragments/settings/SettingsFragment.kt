@@ -42,10 +42,10 @@ const val LOCAL_TIMEZONE = "localTimeZone"
 
 class SettingsFragment : PreferenceFragmentCompat(), PreferenceChangeListener {
 
-    private val PRIVACY_LINK: String = "https://eventyay.com/privacy-policy"
-    private val TERMS_OF_SERVICE_LINK: String = "https://eventyay.com/terms"
-    private val REFUND_POLICY_LINK: String = "https://eventyay.com/refunds"
-    private val WEBSITE_LINK: String = "https://eventyay.com/"
+    private val PRIVACY_LINK: String = "https://eventbox.com/privacy-policy"
+    private val TERMS_OF_SERVICE_LINK: String = "https://eventbox.com/terms"
+    private val REFUND_POLICY_LINK: String = "https://eventbox.com/refunds"
+    private val WEBSITE_LINK: String = "https://eventbox.com/"
     private val settingsViewModel by viewModel<SettingsViewModel>()
     private val profileViewModel by viewModel<ProfileViewModel>()
     private val smartAuthViewModel by viewModel<SmartAuthViewModel>()
@@ -75,18 +75,10 @@ class SettingsFragment : PreferenceFragmentCompat(), PreferenceChangeListener {
             timeZonePreference.getBoolean(LOCAL_TIMEZONE, false)
         )
 
-        preferenceScreen.findPreference<Preference>(getString(R.string.key_profile))?.isVisible =
-            profileViewModel.isLoggedIn()
         preferenceScreen.findPreference<Preference>(getString(R.string.key_change_password))?.isVisible =
             profileViewModel.isLoggedIn()
         preferenceScreen.findPreference<Preference>(getString(R.string.key_timezone_switch))?.isVisible =
             profileViewModel.isLoggedIn()
-
-        preferenceScreen.findPreference<PreferenceCategory>(getString(R.string.key_server_configuration))
-            ?.isVisible = BuildConfig.FLAVOR == FDROID_BUILD_FLAVOR
-
-        preferenceScreen.findPreference<Preference>(getString(R.string.key_api_url))?.title =
-            settingsViewModel.getApiUrl()
     }
 
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
@@ -106,9 +98,6 @@ class SettingsFragment : PreferenceFragmentCompat(), PreferenceChangeListener {
                 }
             })
 
-        if (preference?.key == getString(R.string.key_api_url)) {
-            showChangeApiDialog()
-        }
         if (preference?.key == getString(R.string.key_visit_website)) {
             // Goes to website
             Utils.openUrl(requireContext(), WEBSITE_LINK)
@@ -120,10 +109,6 @@ class SettingsFragment : PreferenceFragmentCompat(), PreferenceChangeListener {
             return true
         }
 
-        if (preference?.key == getString(R.string.key_profile)) {
-            showLogoutDialog()
-            return true
-        }
         if (preference?.key == getString(R.string.key_change_password)) {
             showChangePasswordDialog()
             return true
@@ -152,64 +137,12 @@ class SettingsFragment : PreferenceFragmentCompat(), PreferenceChangeListener {
         return false
     }
 
-    private fun showChangeApiDialog() {
-        val layout = layoutInflater.inflate(R.layout.dialog_api_configuration, null)
-        layout.urlCheckBox.text = BuildConfig.DEFAULT_BASE_URL
-
-        val dialog = AlertDialog.Builder(requireContext())
-            .setView(layout)
-            .setPositiveButton(getString(R.string.change)) { _, _ ->
-                val url = if (layout.urlCheckBox.isChecked) BuildConfig.DEFAULT_BASE_URL
-                                else layout.urlEditText.text.toString()
-                if (url === settingsViewModel.getApiUrl()) return@setPositiveButton
-                settingsViewModel.changeApiUrl(url)
-                view?.snackbar("API URL changed to $url")
-                findNavController().popBackStack(R.id.eventsFragment, false)
-            }
-            .setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.cancel() }
-            .setCancelable(false)
-            .show()
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = false
-
-        layout.urlCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            layout.urlTextInputLayout.isVisible = !isChecked
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = isChecked
-        }
-
-        layout.urlEditText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                val url = s.toString()
-                val isValidUrl = (URLUtil.isHttpUrl(url) || URLUtil.isHttpsUrl(url)) &&
-                    URLUtil.isValidUrl(url)
-                dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = isValidUrl ||
-                    layout.urlCheckBox.isChecked
-                if (!isValidUrl) layout.urlEditText.error = getString(R.string.invalid_url)
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { /*Implement here*/ }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { /*Implement here*/ }
-        })
-    }
-
     private fun startAppPlayStore(packageName: String) {
         try {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(settingsViewModel.getMarketAppLink(packageName))))
         } catch (error: ActivityNotFoundException) {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(settingsViewModel.getMarketWebLink(packageName))))
         }
-    }
-
-    private fun showLogoutDialog() {
-        AlertDialog.Builder(requireContext()).setMessage(getString(R.string.message))
-            .setPositiveButton(getString(R.string.logout)) { _, _ ->
-                if (profileViewModel.isLoggedIn()) {
-                    profileViewModel.logout()
-                    findNavController().popBackStack(R.id.eventsFragment, false)
-                }
-            }
-            .setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.cancel() }
-            .show()
     }
 
     private fun showChangePasswordDialog() {

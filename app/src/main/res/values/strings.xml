@@ -3,8 +3,23 @@
 	<string name="events">Events</string>
 	<string name="profile">Profile</string>
 	<string name="likes">Likes</string>
+	<string name="home">Home</string>
+	<string name="news">News</string>
+	<string name="messages">Messages</string>
 	<string name="location_hint">Enter a location</string>
 	<string name="reset_password_message">Reset password successfully, Please log in to continue</string>
+	<string name="under_construction">Page under construction</string>
+
+	<!-- Welcome page-->
+	<string name="welcome_message">Welcome to eventbox</string>
+	<string name="welcome_message_interest">Please, define your interests to see what events match better with it</string>
+	<string name="welcome_button_message">Ready ? Let\'s go</string>
+
+	<!-- message page-->
+	<string name="no_message_yet">You have no message</string>
+
+	<!-- news page-->
+	<string name="no_news_yet">There is no news yet</string>
 
 	<!--event details-->
 	<string name="report_event">Report Event</string>
@@ -31,6 +46,11 @@
 	<string name="choose_preferred_location_message">Please choose your preferred location</string>
 	<string name="already_registered_message">You\'re in it to win it</string>
 	<string name="see_your_ticket">See your ticket</string>
+	<plurals name="events_number">
+		<item quantity="zero">No events</item>
+		<item quantity="one">%1$s event</item>
+		<item quantity="other">%1$s events</item>
+	</plurals>
 
 	<!--Search event details-->
 	<string name="search">Search</string>
@@ -62,7 +82,7 @@
 	<string name="manage_events">Manage Events</string>
 	<string name="edit_profile">Edit Profile</string>
 	<string name="ticket_issues">Ticket Issues</string>
-	<string name="ticket_issues_url" translatable="false">https://support.eventyay.com</string>
+	<string name="ticket_issues_url" translatable="false">https://support.eventbox.com</string>
 	<string name="confirm_password">Confirm Password</string>
 	<string name="first_name_optional">First Name (Optional)</string>
 	<string name="last_name_optional">Last Name (Optional)</string>
@@ -75,8 +95,8 @@
 	<string name="verification_error_message">Error in verifying email</string>
 	<string name="verify_your_profile">Please verify your email to buy free tickets</string>
 
-	<!--eventyay-->
-	<string name="eventyay_logo" translatable="false">eventyay</string>
+	<!--eventbox-->
+	<string name="eventbox_logo" translatable="false">eventbox</string>
 
 	<!--share details-->
 	<string name="starts_on">Starts On :&#160;</string>
@@ -163,9 +183,9 @@
 	<string name="order_identifier_preview" translatable="false">3456789</string>
 	<string name="location_preview" translatable="false">Singapore</string>
 	<string name="date_preview" translatable="false">Thu,June 14</string>
-	<string name="event_preview" translatable="false">FOSSASIA summit</string>
-	<string name="name_preview" translatable="false">Nikit Bhandari</string>
-	<string name="email_preview" translatable="false">fossasia.asia@gmail.com</string>
+	<string name="event_preview" translatable="false">Eventbox summit</string>
+	<string name="name_preview" translatable="false">Rivel babin</string>
+	<string name="email_preview" translatable="false">popenet2@gmail.com</string>
 	<string name="checkin_status">Check-in status</string>
 	<string name="checked_in">Checked In</string>
 	<string name="not_checked_in">Not Checked In</string>
@@ -180,7 +200,7 @@
 	<string name="key_rating">rating</string>
 	<string name="key_account">account</string>
 	<string name="rating_settings">Rate Us</string>
-	<string name="app_name_capital" translatable="false">Open Event Android</string>
+	<string name="app_name_capital" translatable="false">Eventbox Android</string>
 	<string name="key_acknowledgements" translatable="false">key_acknowledgements</string>
 	<string name="key_profile">profile</string>
 	<string name="logged_in_account">Account</string>
@@ -225,8 +245,8 @@
 	<string name="terms_text">terms of service</string>
 	<string name="middle_text">and have read the</string>
 	<string name="privacy_text">privacy policy</string>
-	<string name="privacy_policy" translatable="false">https://eventyay.com/privacy-policy</string>
-	<string name="terms_of_service" translatable="false">https://eventyay.com/terms</string>
+	<string name="privacy_policy" translatable="false">https://eventbox.com/privacy-policy</string>
+	<string name="terms_of_service" translatable="false">https://eventbox.com/terms</string>
 	<string name="stripe" translatable="false">Stripe</string>
 	<string name="paypal" translatable="false">PayPal</string>
 	<string name="country">Country</string>
@@ -273,7 +293,7 @@
 	<string name="city">City</string>
 	<string name="checkbox_message">Ticket holder is the same person as ticket buyer</string>
 	<string name="error_fetching_attendees">Error fetching attendees</string>
-	<string name="used_eventyay_before">Used Eventyay before?</string>
+	<string name="used_eventbox_before">Used eventbox before?</string>
 	<string name="sign_in_order_text">for fast and easy ordering</string>
 	<string name="sign_in_to_order_ticket">Please sign in to order the ticket</string>
 	<string name="total_column">Total:</string>
@@ -296,7 +316,7 @@
 	<!--auth fragment-->
 	<string name="auth_title">Let\'s get started</string>
 	<string name="auth_subtitle">Sign up or log in to see what\'s happening near you</string>
-	<string name="get_started">Get Started</string>
+	<string name="get_started">Login or register</string>
 	<string name="skip_for_now">Skip for now</string>
 
 	<!--sign up fragment-->
@@ -380,10 +400,10 @@
 	<string name="sort_by">Sort By</string>
 	<string name="category">Category</string>
 	<string name="sessions_and_speakers">Sessions and speakers</string>
-	<string name="rate_eventyay">Rate Eventyay</string>
+	<string name="rate_eventbox">Rate eventbox</string>
 	<string name="no_thanks">No thanks</string>
 	<string name="maybe_later">Maybe later</string>
-	<string name="rate_eventyay_dialog_message">If you enjoy using Eventyay, would you mind taking a moment to rate it? It won\'t take more than a minute. Thanks fot your support!</string>
+	<string name="rate_eventbox_dialog_message">If you enjoy using Eventbox, would you mind taking a moment to rate it? It won\'t take more than a minute. Thanks fot your support!</string>
 
 	<!--Notification fragment-->
 	<string name="msg_failed_to_load_notification">Failed to load notifications</string>
@@ -429,7 +449,7 @@
 	<string name="update_speaker_fail_message">Fail on updating speaker profile</string>
 	<string name="loading_message">Loading...</string>
 	<string name="creating_order_message">Creating order...</string>
-	<string name="profile_settings">Profile Settings</string>
+	<string name="profile_settings">Account</string>
 	<string name="loading_tickets">Loading tickets...</string>
 	<string name="download_invoice">Download Invoice</string>
 	<string name="invalid_url_message">This is not a valid URL</string>
@@ -536,6 +556,12 @@
 	<string name="error_making_paypal_payment_message">Fail on making Paypal payment</string>
 	<string name="social_link">Social Link</string>
 	<string name="tick">tick</string>
-	<string name="general_settings_and_support">General Settings and Support</string>
+	<string name="general_settings_and_support">Events and Support</string>
+
+	<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="type">Type</string>
+	<string name="topic">Topic</string>
+	<string name="sub_topic">Sub topic</string>
 
 </resources>

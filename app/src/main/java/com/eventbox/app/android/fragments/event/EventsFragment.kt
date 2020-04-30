@@ -74,7 +74,7 @@ class EventsFragment : Fragment(), BottomIconDoubleClick {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setPostponeSharedElementTransition()
+        //setPostponeSharedElementTransition()
         rootView = inflater.inflate(R.layout.fragment_events, container, false)
         if (preference.getString(SAVED_LOCATION).isNullOrEmpty() &&
             !preference.getBoolean(BEEN_TO_WELCOME_SCREEN, false)) {
@@ -154,13 +154,14 @@ class EventsFragment : Fragment(), BottomIconDoubleClick {
         rootView.notificationToolbar.isVisible = eventsViewModel.isLoggedIn()
 
         eventsViewModel.loadLocation()
-        if (rootView.locationTextView.text == getString(R.string.enter_location)) {
+        /*if (rootView.locationTextView.text == getString(R.string.enter_location)) {
             rootView.emptyEventsText.text = getString(R.string.choose_preferred_location_message)
         } else {
             rootView.emptyEventsText.text = getString(R.string.no_events_message)
-        }
+        }*/
         rootView.locationTextView.text = eventsViewModel.savedLocation.value
-        rootView.toolbar.title = rootView.locationTextView.text
+        //rootView.toolbar.title = rootView.locationTextView.text
+        rootView.toolbar.title = getString(R.string.app_name)
 
         eventsViewModel.savedLocation
             .nonNull()
@@ -233,7 +234,7 @@ class EventsFragment : Fragment(), BottomIconDoubleClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rootView.eventsRecycler.viewTreeObserver.addOnGlobalLayoutListener {
-            setStartPostponedEnterTransition()
+            //setStartPostponedEnterTransition()
         }
         rootView.notification.setOnClickListener {
             moveToNotification()

@@ -69,6 +69,20 @@
 
     </fragment>
     <fragment
+        android:id="@+id/messageFragment"
+        android:name="com.eventbox.app.android.fragments.message.MessageFragment"
+        android:label="MessageFragment"
+        tools:layout="@layout/fragment_message">
+
+    </fragment>
+    <fragment
+        android:id="@+id/newsFragment"
+        android:name="com.eventbox.app.android.fragments.news.NewsFragment"
+        android:label="NewsFragment"
+        tools:layout="@layout/fragment_news">
+
+    </fragment>
+    <fragment
         android:id="@+id/searchFragment"
         android:name="com.eventbox.app.android.fragments.event.search.SearchFragment"
         android:label="SearchFragment"

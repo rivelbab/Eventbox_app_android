@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:gravity="center|bottom"
             android:layout_marginBottom="@dimen/layout_margin_large"
-            android:text="@string/eventyay_logo"
+            android:text="@string/eventbox_logo"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_very_large" />
 

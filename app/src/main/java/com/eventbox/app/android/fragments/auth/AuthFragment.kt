@@ -17,7 +17,6 @@ import kotlinx.android.synthetic.main.fragment_auth.view.email
 import kotlinx.android.synthetic.main.fragment_auth.view.emailLayout
 import kotlinx.android.synthetic.main.fragment_auth.view.getStartedButton
 import kotlinx.android.synthetic.main.fragment_auth.view.rootLayout
-import kotlinx.android.synthetic.main.fragment_auth.view.setting
 import kotlinx.android.synthetic.main.fragment_auth.view.skipTextView
 import kotlinx.android.synthetic.main.fragment_auth.view.toolbar
 import com.eventbox.app.android.BuildConfig
@@ -148,9 +147,6 @@ class AuthFragment : Fragment(), ComplexBackPressFragment {
         setToolbar(activity, show = false)
         rootView.toolbar.setNavigationOnClickListener {
             activity?.onBackPressed()
-        }
-        rootView.setting.setOnClickListener {
-            findNavController(rootView).navigate(AuthFragmentDirections.actionAuthToSetting())
         }
     }
 

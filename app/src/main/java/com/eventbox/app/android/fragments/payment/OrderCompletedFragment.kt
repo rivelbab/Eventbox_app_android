@@ -73,7 +73,7 @@ class OrderCompletedFragment : Fragment() {
         rootView.similarEventsRecycler.layoutManager = similarLinearLayoutManager
         rootView.similarEventsRecycler.adapter = similarEventsAdapter
 
-        displayRateEventyayAlertDialog()
+        displayRateEventboxAlertDialog()
 
         orderCompletedViewModel.loadEvent(safeArgs.eventId)
         orderCompletedViewModel.event
@@ -126,7 +126,7 @@ class OrderCompletedFragment : Fragment() {
         return rootView
     }
 
-    private fun displayRateEventyayAlertDialog() {
+    private fun displayRateEventboxAlertDialog() {
         if (!preferences.getBoolean(DISPLAY_RATING_DIALOG, true))
             return
         val layout = layoutInflater.inflate(R.layout.dialog_rate_us, null)
@@ -137,7 +137,7 @@ class OrderCompletedFragment : Fragment() {
             }.setPositiveButton(getString(R.string.maybe_later)) { _, _ ->
                 preferences.putBoolean(DISPLAY_RATING_DIALOG, true)
             }.show()
-        layout.rateEventyayButton.setOnClickListener {
+        layout.rateEventboxButton.setOnClickListener {
             alertDialog.dismiss()
             val appPackageName = BuildConfig.APPLICATION_ID
             preferences.putBoolean(DISPLAY_RATING_DIALOG, false)

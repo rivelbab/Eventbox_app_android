@@ -65,7 +65,6 @@ import com.eventbox.app.android.ui.common.EventClickListener
 import com.eventbox.app.android.ui.common.FavoriteFabClickListener
 import com.eventbox.app.android.ui.common.SessionClickListener
 import com.eventbox.app.android.ui.common.SpeakerClickListener
-import com.eventbox.app.android.databinding.FragmentEventBinding
 import com.eventbox.app.android.models.event.Event
 import com.eventbox.app.android.utils.EventUtils.loadMapUrl
 import com.eventbox.app.android.adapters.SimilarEventsListAdapter
@@ -76,6 +75,7 @@ import com.eventbox.app.android.adapters.SocialLinksRecyclerAdapter
 import com.eventbox.app.android.adapters.SpeakerRecyclerAdapter
 import com.eventbox.app.android.adapters.SponsorClickListener
 import com.eventbox.app.android.adapters.SponsorRecyclerAdapter
+import com.eventbox.app.android.databinding.FragmentEventBinding
 import com.eventbox.app.android.ui.event.EventDetailsViewModel
 import com.eventbox.app.android.utils.*
 import com.eventbox.app.android.utils.Utils.progressDialog
@@ -700,7 +700,7 @@ class EventDetailsFragment : Fragment() {
     }
 
     private fun reportEvent(event: Event) {
-        val email = "support@eventyay.com"
+        val email = "support@eventbox.com"
         val subject = "Report of ${event.name} (${event.identifier})"
         val body = "Let us know what's wrong"
         val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$email"))

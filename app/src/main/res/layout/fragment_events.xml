@@ -20,7 +20,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/background_fragment"
+                app:srcCompat="@drawable/background_fragment"
                 android:scaleType="fitXY"/>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -37,26 +37,28 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="?selectableItemBackground"
-                        android:src="@drawable/ic_notifications_white"/>
+                        app:srcCompat="@drawable/ic_notifications_white"/>
                     <ImageView
                         android:id="@+id/newNotificationDot"
                         android:layout_width="@dimen/text_size_small"
                         android:layout_height="@dimen/text_size_small"
-                        android:src="@drawable/ic_circle"/>
+                        app:srcCompat="@drawable/ic_circle"/>
                 </RelativeLayout>
 
                 <ImageView
                     android:id="@+id/eventIcon"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
+                    android:visibility="invisible"
                     android:layout_marginTop="@dimen/layout_margin_extra_large"
                     android:layout_marginStart="@dimen/layout_margin_large"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:src="@drawable/ic_event"/>
+                    app:srcCompat="@drawable/ic_event"/>
                 <TextView
                     android:id="@+id/whatIsGoodText"
                     android:layout_width="wrap_content"
+                    android:visibility="invisible"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin_extra_large"
                     android:text="@string/whats_good"
@@ -67,35 +69,26 @@
                     app:layout_constraintLeft_toRightOf="@+id/eventIcon" />
 
                 <RelativeLayout
+                    android:id="@+id/searchRelativeLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintLeft_toRightOf="@id/eventIcon"
+                    android:layout_marginEnd="@dimen/layout_margin_extra_large"
+                    app:layout_constraintLeft_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/whatIsGoodText"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/eventIcon"
+                    app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="@dimen/layout_margin_extra_large">
                     <TextView
                         android:id="@+id/locationTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:gravity="start"
-                        android:maxLines="2"
-                        app:autoSizeTextType="uniform"
-                        app:autoSizeMinTextSize="@dimen/text_size_larger"
-                        app:autoSizeMaxTextSize="@dimen/text_size_extra_large"
-                        android:textSize="@dimen/text_size_extra_large"
-                        android:background="?selectableItemBackground"
-                        tools:text="India" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/event_name_divider_height"
-                        android:layout_alignEnd="@id/locationTextView"
-                        android:layout_alignStart="@+id/locationTextView"
-                        android:layout_below="@id/locationTextView"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@color/grey" />
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_margin="1dp"
+                        android:background="@drawable/background_edittext"
+                        android:ems="10"
+                        tools:text="@string/search_hint"
+                        android:drawableEnd="@drawable/ic_search_grey"
+                        android:gravity="center"
+                        />
                 </RelativeLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -209,12 +202,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
-                android:src="@drawable/ic_notifications_white"/>
+                app:srcCompat="@drawable/ic_notifications_white"/>
             <ImageView
                 android:id="@+id/newNotificationDotToolbar"
                 android:layout_width="@dimen/text_size_small"
                 android:layout_height="@dimen/text_size_small"
-                android:src="@drawable/ic_circle"/>
+                app:srcCompat="@drawable/ic_circle"/>
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 </androidx.cardview.widget.CardView>

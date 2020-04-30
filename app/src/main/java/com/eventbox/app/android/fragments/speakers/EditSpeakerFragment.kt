@@ -311,13 +311,13 @@ class EditSpeakerFragment : Fragment(), ComplexBackPressFragment {
         val editImageView = layoutInflater.inflate(R.layout.dialog_edit_profile_image, null)
 
         editImageView.removeImage.isVisible = this::speakerAvatar.isInitialized && speakerAvatar.isNotEmpty()
-        editImageView.editImage.isVisible = false
+        //editImageView.editImage.isVisible = false
 
         val dialog = AlertDialog.Builder(requireContext())
             .setView(editImageView)
             .create()
 
-        editImageView.editImage.isVisible = false
+        //editImageView.editImage.isVisible = false
 
         editImageView.removeImage.setOnClickListener {
             dialog.cancel()

@@ -18,7 +18,7 @@ import com.eventbox.app.android.R
 import com.eventbox.app.android.fragments.user.PROFILE_FRAGMENT
 import com.eventbox.app.android.models.auth.SignUp
 import com.eventbox.app.android.fragments.event.EVENT_DETAIL_FRAGMENT
-import com.eventbox.app.android.fragments.event.FAVORITE_FRAGMENT
+import com.eventbox.app.android.fragments.message.MESSAGE_FRAGMENT
 import com.eventbox.app.android.fragments.notification.NOTIFICATION_FRAGMENT
 import com.eventbox.app.android.fragments.payment.ORDERS_FRAGMENT
 import com.eventbox.app.android.ui.event.search.ORDER_COMPLETED_FRAGMENT
@@ -203,7 +203,7 @@ class SignUpFragment : Fragment() {
                 TICKETS_FRAGMENT -> R.id.ticketsFragment
                 NOTIFICATION_FRAGMENT -> R.id.notificationFragment
                 SPEAKERS_CALL_FRAGMENT -> R.id.speakersCallFragment
-                FAVORITE_FRAGMENT -> R.id.favoriteFragment
+                MESSAGE_FRAGMENT -> R.id.favoriteFragment
                 SEARCH_RESULTS_FRAGMENT -> R.id.searchResultsFragment
                 ORDER_COMPLETED_FRAGMENT -> R.id.orderCompletedFragment
                 else -> R.id.eventsFragment

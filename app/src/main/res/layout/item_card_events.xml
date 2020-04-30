@@ -47,6 +47,22 @@
             android:src="@drawable/header" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/interestedFab"
+            android:layout_width="@dimen/fab_width"
+            android:layout_height="@dimen/fab_height"
+            android:layout_marginEnd="132dp"
+            android:background="@android:color/white"
+            android:scaleType="center"
+            app:backgroundTint="@android:color/white"
+            app:tint="@color/colorAccent"
+            app:elevation="@dimen/fab_elevation"
+            app:layout_constraintBottom_toBottomOf="@+id/eventImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/eventImage"
+            app:fabCustomSize="40dp"
+            app:srcCompat="@drawable/ic_star_border" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/shareFab"
             android:layout_width="@dimen/fab_width"
             android:layout_height="@dimen/fab_height"
@@ -59,6 +75,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/eventImage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/eventImage"
+            app:fabCustomSize="40dp"
             app:srcCompat="@drawable/ic_share_grey" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -75,6 +92,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/eventImage"
             app:layout_constraintEnd_toEndOf="@+id/eventImage"
             app:layout_constraintTop_toBottomOf="@+id/eventImage"
+            app:fabCustomSize="40dp"
             app:srcCompat="@drawable/ic_baseline_favorite_border" />
 
         <TextView
@@ -129,7 +147,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/eventName"
             app:layout_constraintTop_toBottomOf="@+id/eventName"
-            tools:text="Jaipur, Rajasthan, India" />
+            android:drawableStart="@drawable/ic_location_on_black"
+            tools:text="Paris, France" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipTags"
@@ -144,6 +163,24 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/eventName"
             app:layout_constraintTop_toBottomOf="@+id/locationName">
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/topic"
+                android:checkable="false"
+                android:id="@+id/topicChip"/>
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/type"
+                android:checkable="false"
+                android:id="@+id/typeChip"/>
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sub_topic"
+                android:checkable="false"
+                android:id="@+id/subTopicChip"/>
         </com.google.android.material.chip.ChipGroup>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -219,9 +219,9 @@ class EditProfileFragment : Fragment(), ComplexBackPressFragment {
                     .into(rootView.profilePhoto)
             }
         } else {
-            val croppedImage = decodeBitmap(safeArgs.croppedImage)
-            editProfileViewModel.encodedImage = encodeImage(croppedImage)
-            editProfileViewModel.avatarUpdated = true
+            //val croppedImage = decodeBitmap(safeArgs.croppedImage)
+            //editProfileViewModel.encodedImage = encodeImage(croppedImage)
+            //editProfileViewModel.avatarUpdated = true
         }
         setTextIfNull(rootView.firstName, userFirstName)
         setTextIfNull(rootView.lastName, userLastName)
@@ -243,7 +243,7 @@ class EditProfileFragment : Fragment(), ComplexBackPressFragment {
             .setView(editImageView)
             .create()
 
-        editImageView.editImage.setOnClickListener {
+        /*editImageView.editImage.setOnClickListener {
 
             if (!editProfileViewModel.userAvatar.isNullOrEmpty()) {
                 val currentUserAvatar = editProfileViewModel.userAvatar
@@ -261,7 +261,7 @@ class EditProfileFragment : Fragment(), ComplexBackPressFragment {
             }
 
             dialog.cancel()
-        }
+        }*/
 
         editImageView.removeImage.setOnClickListener {
             dialog.cancel()
