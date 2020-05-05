@@ -12,7 +12,7 @@ import timber.log.Timber
 class EventsDataSource(
     private val eventService: EventService,
     private val compositeDisposable: CompositeDisposable,
-    private val query: String? = "Nanterre",
+    private val query: String?,
     private val mutableProgress: MutableLiveData<Boolean>
 
 ) : PageKeyedDataSource<Int, Event>() {
@@ -49,6 +49,6 @@ class EventsDataSource(
                 }, { error ->
                     Timber.e(error, "Fail on fetching page of events")
                 }
-            )
+                )
     }
 }

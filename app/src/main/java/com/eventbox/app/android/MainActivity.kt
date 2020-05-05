@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
             R.id.messageFragment,
             R.id.profileFragment,
             R.id.newsFragment,
-            R.id.favoriteFragment -> navAnimVisible(navigation, this@MainActivity)
+            R.id.eventMainFragment -> navAnimVisible(navigation, this@MainActivity)
             else -> navAnimGone(navigation, this@MainActivity)
         }
     }

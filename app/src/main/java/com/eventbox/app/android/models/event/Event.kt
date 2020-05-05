@@ -68,6 +68,8 @@ data class Event(
     val isMapShown: Boolean = false,
     var favorite: Boolean = false,
     var favoriteEventId: Long? = null,
+    var interested: Boolean = false,
+    var interestedEventId: Long? = null,
     @ColumnInfo(index = true)
     @Relationship("event-topic", resolve = true)
     val eventTopic: EventTopic? = null,

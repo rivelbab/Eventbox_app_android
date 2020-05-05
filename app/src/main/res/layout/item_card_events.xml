@@ -142,7 +142,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_margin_small"
             android:layout_marginEnd="@dimen/layout_margin_medium"
-            android:textSize="@dimen/text_size_small"
+            android:textSize="@dimen/text_size_medium"
             android:text="@{event.locationName}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/eventName"
@@ -166,21 +166,21 @@
             <com.google.android.material.chip.Chip
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/topic"
+                android:text="@string/category"
                 android:checkable="false"
-                android:id="@+id/topicChip"/>
+                android:id="@+id/cat1"/>
             <com.google.android.material.chip.Chip
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/type"
+                android:text="@string/category"
                 android:checkable="false"
-                android:id="@+id/typeChip"/>
+                android:id="@+id/cat2"/>
             <com.google.android.material.chip.Chip
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sub_topic"
+                android:text="@string/category"
                 android:checkable="false"
-                android:id="@+id/subTopicChip"/>
+                android:id="@+id/cat3"/>
         </com.google.android.material.chip.ChipGroup>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

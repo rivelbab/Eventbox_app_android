@@ -18,8 +18,20 @@
 	<!-- message page-->
 	<string name="no_message_yet">You have no message</string>
 
+	<!-- event tab menu -->
+	<string name="tab_favorite">Favorite</string>
+	<string name="tab_saved">Interested</string>
+	<string name="tab_created">Created</string>
+
 	<!-- news page-->
 	<string name="no_news_yet">There is no news yet</string>
+
+	<!-- interested page-->
+	<string name="no_interested_event">Find an event to join !</string>
+	<string name="remember_interested">Remember to shortlist the events you love so you don\'t miss out!</string>
+
+	<!-- created page-->
+	<string name="no_created_event">No event created yet !</string>
 
 	<!--event details-->
 	<string name="report_event">Report Event</string>
@@ -315,7 +327,7 @@
 
 	<!--auth fragment-->
 	<string name="auth_title">Let\'s get started</string>
-	<string name="auth_subtitle">Sign up or log in to see what\'s happening near you</string>
+	<string name="auth_subtitle">Put your email to sign up or login</string>
 	<string name="get_started">Login or register</string>
 	<string name="skip_for_now">Skip for now</string>
 

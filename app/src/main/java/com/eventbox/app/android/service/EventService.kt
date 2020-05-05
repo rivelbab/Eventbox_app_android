@@ -67,10 +67,12 @@ class EventService(
     fun getFavoriteEvents(): Flowable<List<Event>> {
         return eventDao.getFavoriteEvents()
     }
+    fun getInterestedEvents(): Flowable<List<Event>> {
+        return eventDao.getInterestedEvents()
+    }
 
     fun getEventsByLocationPaged(locationName: String?, page: Int, pageSize: Int = 5): Flowable<List<Event>> {
-        val query = "[{\"name\":\"location-name\",\"op\":\"ilike\",\"val\":\"%$locationName%\"}," +
-            "{\"name\":\"ends-at\",\"op\":\"ge\",\"val\":\"%${EventUtils.getTimeInISO8601(Date())}%\"}]"
+        val query = "[]"
         return eventApi.searchEventsPaged("name", query, page, pageSize).flatMapPublisher { apiList ->
             updateFavorites(apiList)
         }
@@ -89,6 +91,27 @@ class EventService(
                     if (index != -1) {
                         it.favorite = true
                         it.favoriteEventId = favEventFavIdsList[index]
+                    }
+                }
+                eventDao.insertEvents(apiList)
+                val eventIds = apiList.map { it.id }.toList()
+                eventDao.getEventWithIds(eventIds)
+            }
+    }
+
+    private fun updateInterested(apiList: List<Event>): Flowable<List<Event>> {
+
+        val ids = apiList.map { it.id }.toList()
+        eventTopicsDao.insertEventTopics(getEventTopicList(apiList))
+        return eventDao.getInterestedEventWithinIds(ids)
+            .flatMapPublisher { interestEvents ->
+                val interestEventIdsList = interestEvents.map { it.id }
+                val interestEventInterestIdsList = interestEvents.map { it.interestedEventId }
+                apiList.map {
+                    val index = interestEventIdsList.indexOf(it.id)
+                    if (index != -1) {
+                        it.interested = true
+                        it.interestedEventId = interestEventInterestIdsList[index]
                     }
                 }
                 eventDao.insertEvents(apiList)
@@ -124,6 +147,8 @@ class EventService(
 
     fun loadFavoriteEvent(): Single<List<FavoriteEvent>> = favoriteEventApi.getFavorites()
 
+    fun loadInterestedEvent(): Single<List<FavoriteEvent>> = favoriteEventApi.getFavorites()
+
     fun saveFavoritesEventFromApi(favIdsList: List<FavoriteEvent>): Single<List<Event>> {
         val idsList = favIdsList.filter { it.event != null }.map { it.event!!.id }
         val query = """[{
@@ -151,10 +176,25 @@ class EventService(
             it
         }
 
+    fun addInterested(favoriteEvent: FavoriteEvent, event: Event) =
+        favoriteEventApi.addFavorite(favoriteEvent).map {
+            event.favoriteEventId = it.id
+           // event.favorite = true
+            event.interested = true
+            eventDao.insertEvent(event)
+            it
+        }
+
     fun removeFavorite(favoriteEvent: FavoriteEvent, event: Event): Completable =
         favoriteEventApi.removeFavorite(event.id).andThen {
             event.favorite = false
             event.favoriteEventId = null
+            eventDao.insertEvent(event)
+        }
+    fun removeInterested(favoriteEvent: FavoriteEvent, event: Event): Completable =
+        favoriteEventApi.removeFavorite(event.id).andThen {
+            event.interested = false
+            event.interestedEventId = null
             eventDao.insertEvent(event)
         }
 

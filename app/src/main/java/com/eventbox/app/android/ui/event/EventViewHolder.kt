@@ -51,6 +51,7 @@ class EventViewHolder(private val binding: ItemCardEventsBinding) : RecyclerView
 
         itemView.shareFab.scaleType = ImageView.ScaleType.CENTER
         itemView.favoriteFab.scaleType = ImageView.ScaleType.CENTER
+
         /*if (itemView.chipTags != null) {
             itemView.chipTags.removeAllViews()
             event.eventType?.let {

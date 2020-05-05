@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_margin_large"
                 android:layout_marginTop="@dimen/layout_margin_extra_large"
-                android:text="@string/tab_favorite"
+                android:text="@string/tab_saved"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textSize="@dimen/text_size_expanded_title_large"
@@ -85,7 +85,7 @@
                     android:textSize="@dimen/text_size_expanded_title_medium"
                     android:textStyle="bold"
                     android:layout_gravity="center_horizontal"
-                    android:text="@string/find_something_to_do"
+                    android:text="@string/no_interested_event"
                     android:textColor="@color/black"
                     android:id="@+id/findText"/>
 
@@ -139,7 +139,7 @@
                         android:layout_width="@dimen/event_details_divider_margin"
                         android:layout_height="@dimen/event_details_divider_margin"
                         android:layout_gravity="center_vertical"
-                        app:srcCompat="@drawable/ic_baseline_favorite"
+                        app:srcCompat="@drawable/ic_baseline_star"
                         android:id="@+id/likeIcon"
                         android:layout_marginRight="@dimen/layout_margin_large"/>
 
@@ -148,7 +148,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size_small"
                         android:layout_gravity="center_vertical"
-                        android:text="@string/remember_like"
+                        android:text="@string/remember_interested"
                         android:id="@+id/likeText"/>
                 </LinearLayout>
             </LinearLayout>
@@ -167,6 +167,6 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         app:titleTextColor="@color/white"
-        app:title="@string/tab_favorite"/>
+        app:title="@string/tab_saved"/>
 </androidx.cardview.widget.CardView>
 </FrameLayout>

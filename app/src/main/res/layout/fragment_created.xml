@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_margin_large"
                 android:layout_marginTop="@dimen/layout_margin_extra_large"
-                android:text="@string/tab_favorite"
+                android:text="@string/tab_created"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textSize="@dimen/text_size_expanded_title_large"
@@ -85,77 +85,13 @@
                     android:textSize="@dimen/text_size_expanded_title_medium"
                     android:textStyle="bold"
                     android:layout_gravity="center_horizontal"
-                    android:text="@string/find_something_to_do"
+                    android:text="@string/no_created_event"
                     android:textColor="@color/black"
                     android:id="@+id/findText"/>
-
-                <com.google.android.material.chip.ChipGroup
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/chipGroup"
-                    android:layout_gravity="center_horizontal"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="@dimen/view_height_25dp"
-                    app:chipSpacingHorizontal="@dimen/view_height_25dp"
-                    app:chipSpacingVertical="@dimen/divider_margin_top">
-                    <com.google.android.material.chip.Chip
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/today"
-                        android:checkable="false"
-                        android:id="@+id/todayChip"/>
-
-                    <com.google.android.material.chip.Chip
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tomorrow"
-                        android:checkable="false"
-                        android:id="@+id/tomorrowChip"/>
-
-                    <com.google.android.material.chip.Chip
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/weekend"
-                        android:checkable="false"
-                        android:id="@+id/weekendChip"/>
-
-                    <com.google.android.material.chip.Chip
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/month"
-                        android:textSize="@dimen/text_size_small"
-                        android:checkable="false"
-                        android:id="@+id/monthChip"/>
-                </com.google.android.material.chip.ChipGroup>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/view_height_25dp">
-
-                    <ImageView
-                        android:layout_width="@dimen/event_details_divider_margin"
-                        android:layout_height="@dimen/event_details_divider_margin"
-                        android:layout_gravity="center_vertical"
-                        app:srcCompat="@drawable/ic_baseline_favorite"
-                        android:id="@+id/likeIcon"
-                        android:layout_marginRight="@dimen/layout_margin_large"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_size_small"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/remember_like"
-                        android:id="@+id/likeText"/>
-                </LinearLayout>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </androidx.core.widget.NestedScrollView>
-
 <androidx.cardview.widget.CardView
     android:id="@+id/toolbarLayout"
     android:layout_width="match_parent"
@@ -167,6 +103,15 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         app:titleTextColor="@color/white"
-        app:title="@string/tab_favorite"/>
+        app:title="@string/tab_created"/>
 </androidx.cardview.widget.CardView>
-</FrameLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabCreate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        app:srcCompat="@drawable/ic_add"
+        android:contentDescription="@string/edit_profile"
+        android:layout_margin="16dp" />
+</RelativeLayout>

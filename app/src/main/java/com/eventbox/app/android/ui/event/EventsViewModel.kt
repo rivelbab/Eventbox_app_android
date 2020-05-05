@@ -63,13 +63,12 @@ class EventsViewModel(
             return
         }
 
-        sourceFactory =
-            EventsDataSourceFactory(
-                compositeDisposable,
-                eventService,
-                mutableSavedLocation.value,
-                mutableProgress
-            )
+        sourceFactory = EventsDataSourceFactory(
+            compositeDisposable,
+            eventService,
+            mutableSavedLocation.value,
+            mutableProgress
+        )
         val eventPagedList = RxPagedListBuilder(sourceFactory, config)
             .setFetchScheduler(Schedulers.io())
             .buildObservable()
@@ -115,10 +114,7 @@ class EventsViewModel(
     }
 
     private fun addFavorite(event: Event) {
-        val favoriteEvent = FavoriteEvent(
-            authHolder.getId(),
-            EventId(event.id)
-        )
+        val favoriteEvent = FavoriteEvent(authHolder.getId(), EventId(event.id))
         compositeDisposable += eventService.addFavorite(favoriteEvent, event)
             .withDefaultSchedulers()
             .subscribe({
@@ -132,10 +128,7 @@ class EventsViewModel(
     private fun removeFavorite(event: Event) {
         val favoriteEventId = event.favoriteEventId ?: return
 
-        val favoriteEvent = FavoriteEvent(
-            favoriteEventId,
-            EventId(event.id)
-        )
+        val favoriteEvent = FavoriteEvent(favoriteEventId, EventId(event.id))
         compositeDisposable += eventService.removeFavorite(favoriteEvent, event)
             .withDefaultSchedulers()
             .subscribe({

@@ -8,6 +8,7 @@ import com.eventbox.app.android.ui.common.EventsDiffCallback
 import com.eventbox.app.android.ui.common.FavoriteFabClickListener
 import com.eventbox.app.android.databinding.ItemCardFavoriteEventBinding
 import com.eventbox.app.android.models.event.Event
+import com.eventbox.app.android.ui.common.InterestedFabClickListener
 import com.eventbox.app.android.ui.event.FavoriteEventViewHolder
 import com.eventbox.app.android.utils.EventUtils.getEventDateTime
 import com.eventbox.app.android.utils.EventUtils.getFormattedDate
@@ -24,6 +25,7 @@ class FavoriteEventsListAdapter : ListAdapter<Event, FavoriteEventViewHolder>(Ev
 
     var onEventClick: EventClickListener? = null
     var onFavFabClick: FavoriteFabClickListener? = null
+    var onInterestedFavClick: InterestedFabClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteEventViewHolder {
         val binding = ItemCardFavoriteEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -43,6 +45,7 @@ class FavoriteEventsListAdapter : ListAdapter<Event, FavoriteEventViewHolder>(Ev
             bind(event, position, if (showEventDate) eventDate else "")
             eventClickListener = onEventClick
             favFabClickListener = onFavFabClick
+            interestFabClickListener = onInterestedFavClick
         }
     }
 
