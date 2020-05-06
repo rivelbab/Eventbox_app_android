@@ -4,7 +4,6 @@
     xmlns:bind="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="event"
             type="com.eventbox.app.android.models.event.Event" />

@@ -1,6 +1,7 @@
 package com.eventbox.app.android.fragments.event.search
 
 import android.content.res.ColorStateList
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.CompoundButton
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -44,7 +46,6 @@ import com.eventbox.app.android.ui.common.FavoriteFabClickListener
 import com.eventbox.app.android.models.event.Event
 import com.eventbox.app.android.utils.EventUtils
 import com.eventbox.app.android.utils.RedirectToLogin
-import com.eventbox.app.android.models.event.EventType
 import com.eventbox.app.android.adapters.SearchPagedListAdapter
 import com.eventbox.app.android.ui.event.search.SearchResultsViewModel
 import com.eventbox.app.android.utils.Utils.hideSoftKeyboard
@@ -70,28 +71,20 @@ class SearchResultsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
     private lateinit var days: Array<String>
     private lateinit var eventDate: String
     private lateinit var eventType: String
-    private var eventTypesList: List<EventType>? = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         days = resources.getStringArray(R.array.days)
         eventDate = searchResultsViewModel.savedTime ?: safeArgs.date
         eventType = searchResultsViewModel.savedType ?: safeArgs.type
-
-        searchResultsViewModel.loadEventTypes()
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.fragment_search_results, container, false)
         setPostponeSharedElementTransition()
         setupToolbar()
         setChips()
-
-        searchResultsViewModel.eventTypes
-            .nonNull()
-            .observe(viewLifecycleOwner, Observer { list ->
-                eventTypesList = list
-            })
 
         rootView.eventsRecycler.layoutManager = LinearLayoutManager(context)
 
@@ -163,6 +156,7 @@ class SearchResultsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun setChips(date: String = eventDate, type: String = eventType) {
         if (rootView.chipGroup.childCount> 0) {
             rootView.chipGroup.removeAllViews()
@@ -174,13 +168,6 @@ class SearchResultsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
             }
             date != getString(R.string.anytime) && type == getString(R.string.anything) -> {
                 addChips(date, true)
-                searchResultsViewModel.eventTypes
-                    .nonNull()
-                    .observe(viewLifecycleOwner, Observer { list ->
-                        list.forEach {
-                            addChips(it.name, false)
-                        }
-                    })
             }
             date == getString(R.string.anytime) && type != getString(R.string.anything) -> {
                 addChips(type, true)
@@ -239,6 +226,7 @@ class SearchResultsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
         rootView.chipGroup.addView(chip)
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val eventClickListener: EventClickListener = object : EventClickListener {
@@ -345,6 +333,7 @@ class SearchResultsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
         rootView.chipGroupLayout.visibility = if (show) View.GONE else View.VISIBLE
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         days.forEach {
             if (it == buttonView?.text) {
@@ -355,16 +344,9 @@ class SearchResultsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
                 return@forEach
             }
         }
-        eventTypesList?.forEach {
-            if (it.name == buttonView?.text) {
-                searchResultsViewModel.savedType = if (isChecked) it.name else null
-                eventType = if (isChecked) it.name else getString(R.string.anything)
-                refreshEvents()
-                return@forEach
-            }
-        }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun refreshEvents() {
         setChips()
         rootView.noSearchResults.isVisible = false

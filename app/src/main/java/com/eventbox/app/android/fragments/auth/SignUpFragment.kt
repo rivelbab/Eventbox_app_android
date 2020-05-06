@@ -23,7 +23,6 @@ import com.eventbox.app.android.fragments.notification.NOTIFICATION_FRAGMENT
 import com.eventbox.app.android.fragments.payment.ORDERS_FRAGMENT
 import com.eventbox.app.android.ui.event.search.ORDER_COMPLETED_FRAGMENT
 import com.eventbox.app.android.fragments.event.search.SEARCH_RESULTS_FRAGMENT
-import com.eventbox.app.android.fragments.speakers.SPEAKERS_CALL_FRAGMENT
 import com.eventbox.app.android.fragments.payment.TICKETS_FRAGMENT
 import com.eventbox.app.android.utils.StringUtils.getTermsAndPolicyText
 import com.eventbox.app.android.utils.Utils.hideSoftKeyboard
@@ -202,7 +201,6 @@ class SignUpFragment : Fragment() {
                 ORDERS_FRAGMENT -> R.id.orderUnderUserFragment
                 TICKETS_FRAGMENT -> R.id.ticketsFragment
                 NOTIFICATION_FRAGMENT -> R.id.notificationFragment
-                SPEAKERS_CALL_FRAGMENT -> R.id.speakersCallFragment
                 MESSAGE_FRAGMENT -> R.id.favoriteFragment
                 SEARCH_RESULTS_FRAGMENT -> R.id.searchResultsFragment
                 ORDER_COMPLETED_FRAGMENT -> R.id.orderCompletedFragment

@@ -89,12 +89,6 @@ class OrderDetailsViewHolder(private val binding: ItemCardOrderDetailsBinding) :
                 itemView.context.startActivity(mapIntent)
             }
         }
-        if (!attendee.pdfUrl.isNullOrBlank()) {
-            itemView.downloadButton.isEnabled = true
-            itemView.downloadButton.setOnClickListener {
-                itemView.context.browse(attendee.pdfUrl)
-            }
-        }
 
         itemView.calendar.setOnClickListener {
             val intent = Intent(Intent.ACTION_INSERT)

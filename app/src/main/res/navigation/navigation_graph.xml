@@ -290,44 +290,6 @@
             android:defaultValue="false"/>
     </fragment>
     <fragment
-        android:id="@+id/speakerFragment"
-        android:name="com.eventbox.app.android.fragments.speakers.SpeakerFragment"
-        android:label="SpeakerFragment"
-        tools:layout="@layout/fragment_speaker">
-
-        <argument
-            android:name="speakerId"
-            app:argType="long"
-            android:defaultValue="-1L"/>
-    </fragment>
-    <fragment
-        android:id="@+id/sessionFragment"
-        android:name="com.eventbox.app.android.fragments.session.SessionFragment"
-        android:label="SessionFragment"
-        tools:layout="@layout/fragment_session">
-        <action
-            android:id="@+id/action_session_to_speaker"
-            app:destination="@id/speakerFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
-        <argument
-            android:name="sessionId"
-            app:argType="long"
-            android:defaultValue="-1L"/>
-    </fragment>
-    <fragment
-        android:id="@+id/sponsorsFragment"
-        android:name="com.eventbox.app.android.fragments.sponsor.SponsorsFragment"
-        android:label="Sponsors"
-        tools:layout="@layout/fragment_sponsors">
-        <argument
-            android:name="eventId"
-            app:argType="long"
-            android:defaultValue="-1L"/>
-    </fragment>
-    <fragment
         android:id="@+id/eventMainFragment"
         android:name="com.eventbox.app.android.fragments.event.EventMainFragment"
         android:label="EventMainFragment"
@@ -553,52 +515,7 @@
             app:argType="long"
             android:defaultValue="-1L"/>
     </fragment>
-    <fragment
-        android:id="@+id/speakersCallProposalFragment"
-        android:name="com.eventbox.app.android.fragments.speakers.SpeakersCallProposalFragment"
-        android:label="SpeakersCallProposal"
-        tools:layout="@layout/fragment_speakers_call_proposal">
-        <action
-            android:id="@+id/action_proposal_to_edit_speaker"
-            app:destination="@id/editSpeakerFragment"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"
-            app:enterAnim="@anim/fade_in"
-            app:exitAnim="@anim/fade_out"/>
-        <argument
-            android:name="eventId"
-            app:argType="long"
-            android:defaultValue="-1L"/>
-        <argument
-            android:name="speakerId"
-            app:argType="long"
-            android:defaultValue="-1L"/>
-        <argument
-            android:name="sessionId"
-            app:argType="long"
-            android:defaultValue="-1L"/>
-    </fragment>
-    <fragment
-        android:id="@+id/editSpeakerFragment"
-        android:name="com.eventbox.app.android.fragments.speakers.EditSpeakerFragment"
-        android:label="EditSpeakerFragment"
-        tools:layout="@layout/fragment_proposal_speaker">
-        <action
-            android:id="@+id/action_edit_speaker_to_crop_image"
-            app:destination="@id/cropImageFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
-        <argument
-            android:name="eventId"
-            app:argType="long"
-            android:defaultValue="-1L"/>
-        <argument
-            android:name="speakerId"
-            app:argType="long"
-            android:defaultValue="-1L"/>
-    </fragment>
+
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.eventbox.app.android.fragments.user.ProfileFragment"
@@ -685,13 +602,6 @@
         android:label="EventDetailsFragment"
         tools:layout="@layout/fragment_event">
         <action
-            android:id="@+id/action_event_details_to_speakers_call"
-            app:destination="@id/speakersCallFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
-        <action
             android:id="@+id/action_event_details_to_feedback"
             app:destination="@id/feedbackFragment"
             app:popEnterAnim="@anim/slide_in_left"
@@ -708,20 +618,6 @@
         <action
             android:id="@+id/action_similar_events_to_event_details"
             app:destination="@id/eventDetailsFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
-        <action
-            android:id="@+id/action_event_details_to_session"
-            app:destination="@id/sessionFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
-        <action
-            android:id="@+id/action_event_details_to_sponsor"
-            app:destination="@id/sponsorsFragment"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
@@ -751,13 +647,6 @@
         <action
             android:id="@+id/action_event_details_to_about_event"
             app:destination="@id/aboutEventFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
-        <action
-            android:id="@+id/action_event_details_to_speaker"
-            app:destination="@id/speakerFragment"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
@@ -992,46 +881,6 @@
             android:name="redirectedFrom"
             app:argType="string"
             android:defaultValue="profile"/>
-    </fragment>
-    <fragment
-        android:id="@+id/speakersCallFragment"
-        android:name="com.eventbox.app.android.fragments.speakers.SpeakersCallFragment"
-        android:label="SpeakersCallFragment"
-        tools:layout="@layout/fragment_speakers_call">
-        <action
-            android:id="@+id/action_speakers_call_to_proposal"
-            app:destination="@+id/speakersCallProposalFragment"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"
-            app:enterAnim="@anim/fade_in"
-            app:exitAnim="@anim/fade_out"/>
-        <action
-            android:id="@+id/action_speakers_call_to_add_speaker"
-            app:destination="@+id/editSpeakerFragment"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"
-            app:enterAnim="@anim/fade_in"
-            app:exitAnim="@anim/fade_out"/>
-        <action
-            android:id="@+id/action_speakers_call_to_auth"
-            app:destination="@+id/authFragment"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"
-            app:enterAnim="@anim/fade_in"
-            app:exitAnim="@anim/fade_out"/>
-        <argument
-            android:name="eventIdentifier"
-            app:argType="string"
-            android:defaultValue="''"/>
-        <argument
-            android:name="eventId"
-            app:argType="long"
-            android:defaultValue="-1L"/>
-        <argument
-            android:name="timeZone"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null"/>
     </fragment>
     <fragment
         android:id="@+id/searchFilterFragment"

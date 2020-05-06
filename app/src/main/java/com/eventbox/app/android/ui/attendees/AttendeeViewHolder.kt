@@ -14,47 +14,19 @@ import kotlinx.android.synthetic.main.item_attendee.view.address
 import kotlinx.android.synthetic.main.item_attendee.view.addressLayout
 import kotlinx.android.synthetic.main.item_attendee.view.attendeeBillingAddress
 import kotlinx.android.synthetic.main.item_attendee.view.attendeeBillingAddressLayout
-import kotlinx.android.synthetic.main.item_attendee.view.blog
-import kotlinx.android.synthetic.main.item_attendee.view.blogLayout
 import kotlinx.android.synthetic.main.item_attendee.view.city
 import kotlinx.android.synthetic.main.item_attendee.view.cityLayout
-import kotlinx.android.synthetic.main.item_attendee.view.company
-import kotlinx.android.synthetic.main.item_attendee.view.companyLayout
-import kotlinx.android.synthetic.main.item_attendee.view.country
-import kotlinx.android.synthetic.main.item_attendee.view.countryLayout
 import kotlinx.android.synthetic.main.item_attendee.view.email
 import kotlinx.android.synthetic.main.item_attendee.view.emailLayout
-import kotlinx.android.synthetic.main.item_attendee.view.facebook
-import kotlinx.android.synthetic.main.item_attendee.view.facebookLayout
 import kotlinx.android.synthetic.main.item_attendee.view.firstName
 import kotlinx.android.synthetic.main.item_attendee.view.firstNameLayout
 import kotlinx.android.synthetic.main.item_attendee.view.genderLayout
 import kotlinx.android.synthetic.main.item_attendee.view.genderSpinner
 import kotlinx.android.synthetic.main.item_attendee.view.genderText
-import kotlinx.android.synthetic.main.item_attendee.view.github
-import kotlinx.android.synthetic.main.item_attendee.view.githubLayout
-import kotlinx.android.synthetic.main.item_attendee.view.homeAddress
-import kotlinx.android.synthetic.main.item_attendee.view.homeAddressLayout
-import kotlinx.android.synthetic.main.item_attendee.view.jobTitle
-import kotlinx.android.synthetic.main.item_attendee.view.jobTitleLayout
 import kotlinx.android.synthetic.main.item_attendee.view.lastName
 import kotlinx.android.synthetic.main.item_attendee.view.lastNameLayout
 import kotlinx.android.synthetic.main.item_attendee.view.phone
 import kotlinx.android.synthetic.main.item_attendee.view.phoneLayout
-import kotlinx.android.synthetic.main.item_attendee.view.shippingAddress
-import kotlinx.android.synthetic.main.item_attendee.view.shippingAddressLayout
-import kotlinx.android.synthetic.main.item_attendee.view.state
-import kotlinx.android.synthetic.main.item_attendee.view.stateLayout
-import kotlinx.android.synthetic.main.item_attendee.view.taxBusinessInfo
-import kotlinx.android.synthetic.main.item_attendee.view.taxBusinessInfoLayout
-import kotlinx.android.synthetic.main.item_attendee.view.twitter
-import kotlinx.android.synthetic.main.item_attendee.view.twitterLayout
-import kotlinx.android.synthetic.main.item_attendee.view.website
-import kotlinx.android.synthetic.main.item_attendee.view.websiteLayout
-import kotlinx.android.synthetic.main.item_attendee.view.workAddress
-import kotlinx.android.synthetic.main.item_attendee.view.workAddressLayout
-import kotlinx.android.synthetic.main.item_attendee.view.workPhone
-import kotlinx.android.synthetic.main.item_attendee.view.workPhoneLayout
 import com.eventbox.app.android.R
 import com.eventbox.app.android.models.attendees.Attendee
 import com.eventbox.app.android.adapters.AttendeeDetailChangeListener
@@ -67,7 +39,6 @@ import com.eventbox.app.android.models.payment.Ticket
 import com.eventbox.app.android.models.payment.TicketId
 import com.eventbox.app.android.utils.checkEmpty
 import com.eventbox.app.android.utils.checkValidEmail
-import com.eventbox.app.android.utils.checkValidURI
 import com.eventbox.app.android.utils.emptyToNull
 import com.eventbox.app.android.utils.nullToEmpty
 import com.eventbox.app.android.utils.setRequired
@@ -134,39 +105,11 @@ class AttendeeViewHolder(private val binding: ItemAttendeeBinding) : RecyclerVie
                 setupField(itemView.addressLayout, itemView.address, form.isRequired, textWatcher)
             FormIdentifier.CITY ->
                 setupField(itemView.cityLayout, itemView.city, form.isRequired, textWatcher)
-            FormIdentifier.STATE ->
-                setupField(itemView.stateLayout, itemView.state, form.isRequired, textWatcher)
-            FormIdentifier.COUNTRY ->
-                setupField(itemView.countryLayout, itemView.country, form.isRequired, textWatcher)
-            FormIdentifier.JOB_TITLE ->
-                setupField(itemView.jobTitleLayout, itemView.jobTitle, form.isRequired, textWatcher)
             FormIdentifier.PHONE ->
                 setupField(itemView.phoneLayout, itemView.phone, form.isRequired, textWatcher)
-            FormIdentifier.TAX_INFO ->
-                setupField(itemView.taxBusinessInfoLayout, itemView.taxBusinessInfo, form.isRequired, textWatcher)
             FormIdentifier.BILLING_ADDRESS ->
                 setupField(itemView.attendeeBillingAddressLayout, itemView.attendeeBillingAddress, form.isRequired,
                     textWatcher)
-            FormIdentifier.HOME_ADDRESS ->
-                setupField(itemView.homeAddressLayout, itemView.homeAddress, form.isRequired, textWatcher)
-            FormIdentifier.SHIPPING_ADDRESS ->
-                setupField(itemView.shippingAddressLayout, itemView.shippingAddress, form.isRequired, textWatcher)
-            FormIdentifier.WORK_ADDRESS ->
-                setupField(itemView.workAddressLayout, itemView.workAddress, form.isRequired, textWatcher)
-            FormIdentifier.WORK_PHONE ->
-                setupField(itemView.workPhoneLayout, itemView.workPhone, form.isRequired, textWatcher)
-            FormIdentifier.WEBSITE ->
-                setupField(itemView.websiteLayout, itemView.website, form.isRequired, textWatcher)
-            FormIdentifier.BLOG ->
-                setupField(itemView.blogLayout, itemView.blog, form.isRequired, textWatcher)
-            FormIdentifier.TWITTER ->
-                setupField(itemView.twitterLayout, itemView.twitter, form.isRequired, textWatcher)
-            FormIdentifier.FACEBOOK ->
-                setupField(itemView.facebookLayout, itemView.facebook, form.isRequired, textWatcher)
-            FormIdentifier.COMPANY ->
-                setupField(itemView.companyLayout, itemView.company, form.isRequired, textWatcher)
-            FormIdentifier.GITHUB ->
-                setupField(itemView.githubLayout, itemView.github, form.isRequired, textWatcher)
             FormIdentifier.GENDER -> {
                 itemView.genderLayout.isVisible = true
                 if (form.isRequired) {
@@ -223,10 +166,6 @@ class AttendeeViewHolder(private val binding: ItemAttendeeBinding) : RecyclerVie
             valid = it.first.checkEmpty(it.second) &&
                 when (it.second) {
                     itemView.emailLayout -> it.first.checkValidEmail(it.second)
-                    itemView.websiteLayout,
-                    itemView.facebookLayout,
-                    itemView.twitterLayout,
-                    itemView.facebookLayout -> it.first.checkValidURI(it.second)
                     else -> true
                 }
         }
@@ -241,22 +180,8 @@ class AttendeeViewHolder(private val binding: ItemAttendeeBinding) : RecyclerVie
             email = itemView.email.text.toString(),
             address = itemView.address.text.toString().emptyToNull(),
             city = itemView.city.text.toString().emptyToNull(),
-            state = itemView.state.text.toString().emptyToNull(),
-            country = itemView.country.text.toString().emptyToNull(),
-            jobTitle = itemView.jobTitle.text.toString().emptyToNull(),
             phone = itemView.phone.text.toString().emptyToNull(),
-            taxBusinessInfo = itemView.taxBusinessInfo.text.toString().emptyToNull(),
             billingAddress = itemView.attendeeBillingAddress.text.toString().emptyToNull(),
-            homeAddress = itemView.homeAddress.text.toString().emptyToNull(),
-            shippingAddress = itemView.shippingAddress.text.toString().emptyToNull(),
-            company = itemView.company.text.toString().emptyToNull(),
-            workAddress = itemView.workAddress.text.toString().emptyToNull(),
-            workPhone = itemView.workPhone.text.toString().emptyToNull(),
-            website = itemView.website.text.toString().emptyToNull(),
-            blog = itemView.blog.text.toString().emptyToNull(),
-            twitter = itemView.twitter.text.toString().emptyToNull(),
-            facebook = itemView.facebook.text.toString().emptyToNull(),
-            github = itemView.github.text.toString().emptyToNull(),
             gender = itemView.genderSpinner.selectedItem.toString(),
             ticket = TicketId(ticket.id.toLong()),
             event = EventId(eventId)

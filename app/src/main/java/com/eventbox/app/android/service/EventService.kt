@@ -15,13 +15,8 @@ import com.eventbox.app.android.networks.api.EventLocationApi
 import com.eventbox.app.android.models.event.EventTopic
 import com.eventbox.app.android.networks.api.EventTopicApi
 import com.eventbox.app.android.data.dao.EventTopicsDao
-import com.eventbox.app.android.models.event.EventType
-import com.eventbox.app.android.networks.api.EventTypesApi
 import com.eventbox.app.android.models.event.FavoriteEvent
 import com.eventbox.app.android.networks.api.FavoriteEventApi
-import com.eventbox.app.android.models.session.Track
-import com.eventbox.app.android.models.speakers.SpeakersCall
-import com.eventbox.app.android.data.dao.SpeakersCallDao
 import org.jetbrains.anko.collections.forEachWithIndex
 
 class EventService(
@@ -29,10 +24,8 @@ class EventService(
     private val eventDao: EventDao,
     private val eventTopicApi: EventTopicApi,
     private val eventTopicsDao: EventTopicsDao,
-    private val eventTypesApi: EventTypesApi,
     private val eventLocationApi: EventLocationApi,
     private val eventFAQApi: EventFAQApi,
-    private val speakersCallDao: SpeakersCallDao,
     private val favoriteEventApi: FavoriteEventApi
 ) {
 
@@ -51,15 +44,8 @@ class EventService(
             .toList()
     }
 
-    fun getEventTypes(): Single<List<EventType>> {
-        return eventTypesApi.getEventTypes()
-    }
-
     fun getSearchEventsPaged(filter: String, sortBy: String, page: Int): Flowable<List<Event>> {
         return eventApi.searchEventsPaged(sortBy, filter, page).flatMapPublisher { eventsList ->
-            eventsList.forEach {
-                it.speakersCall?.let { sc -> speakersCallDao.insertSpeakerCall(sc) }
-            }
             updateFavorites(eventsList)
         }
     }
@@ -207,13 +193,4 @@ class EventService(
                 updateFavorites(it)
             }
     }
-
-    fun getSpeakerCall(id: Long): Single<SpeakersCall> =
-        speakersCallDao.getSpeakerCall(id).onErrorResumeNext {
-            eventApi.getSpeakerCallForEvent(id).doAfterSuccess {
-                speakersCallDao.insertSpeakerCall(it)
-            }
-        }
-
-    fun fetchTracksUnderEvent(eventId: Long): Single<List<Track>> = eventApi.fetchTracksUnderEvent(eventId)
 }

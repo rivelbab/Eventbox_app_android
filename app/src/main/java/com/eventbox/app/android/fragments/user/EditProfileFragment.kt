@@ -8,7 +8,6 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Base64
-import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,22 +28,18 @@ import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 import kotlinx.android.synthetic.main.fragment_edit_profile.view.details
-import kotlinx.android.synthetic.main.fragment_edit_profile.view.facebook
 import kotlinx.android.synthetic.main.fragment_edit_profile.view.firstName
-import kotlinx.android.synthetic.main.fragment_edit_profile.view.instagram
 import kotlinx.android.synthetic.main.fragment_edit_profile.view.lastName
 import kotlinx.android.synthetic.main.fragment_edit_profile.view.phone
 import kotlinx.android.synthetic.main.fragment_edit_profile.view.profilePhoto
 import kotlinx.android.synthetic.main.fragment_edit_profile.view.profilePhotoFab
 import kotlinx.android.synthetic.main.fragment_edit_profile.view.toolbar
-import kotlinx.android.synthetic.main.fragment_edit_profile.view.twitter
 import kotlinx.android.synthetic.main.fragment_edit_profile.view.updateButton
 import com.eventbox.app.android.utils.CircleTransform
 import com.eventbox.app.android.ComplexBackPressFragment
 import com.eventbox.app.android.MainActivity
 import com.eventbox.app.android.R
 import com.eventbox.app.android.utils.RotateBitmap
-import com.eventbox.app.android.utils.ImageUtils.decodeBitmap
 import com.eventbox.app.android.utils.Utils.hideSoftKeyboard
 import com.eventbox.app.android.utils.Utils.progressDialog
 import com.eventbox.app.android.utils.Utils.requireDrawable
@@ -81,9 +76,6 @@ class EditProfileFragment : Fragment(), ComplexBackPressFragment {
     private lateinit var userLastName: String
     private lateinit var userDetails: String
     private lateinit var userPhone: String
-    private lateinit var userFacebook: String
-    private lateinit var userTwitter: String
-    private lateinit var userInstagram: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -182,20 +174,7 @@ class EditProfileFragment : Fragment(), ComplexBackPressFragment {
     }
 
     private fun isValidInput(): Boolean {
-        var valid = true
-        if (!rootView.instagram.text.isNullOrEmpty() && !Patterns.WEB_URL.matcher(rootView.instagram.text).matches()) {
-            rootView.instagram.error = getString(R.string.invalid_url_message)
-            valid = false
-        }
-        if (!rootView.facebook.text.isNullOrEmpty() && !Patterns.WEB_URL.matcher(rootView.facebook.text).matches()) {
-            rootView.facebook.error = getString(R.string.invalid_url_message)
-            valid = false
-        }
-        if (!rootView.twitter.text.isNullOrEmpty() && !Patterns.WEB_URL.matcher(rootView.twitter.text).matches()) {
-            rootView.twitter.error = getString(R.string.invalid_url_message)
-            valid = false
-        }
-        return valid
+        return true
     }
 
     private fun loadUserUI(user: User) {
@@ -204,10 +183,7 @@ class EditProfileFragment : Fragment(), ComplexBackPressFragment {
         userDetails = user.details.nullToEmpty()
         if (editProfileViewModel.userAvatar == null)
             editProfileViewModel.userAvatar = user.avatarUrl.nullToEmpty()
-        userPhone = user.contact.nullToEmpty()
-        userFacebook = user.facebookUrl.nullToEmpty()
-        userTwitter = user.twitterUrl.nullToEmpty()
-        userInstagram = user.instagramUrl.nullToEmpty()
+        userPhone = user.phone.nullToEmpty()
 
         if (safeArgs.croppedImage.isEmpty()) {
             if (!editProfileViewModel.userAvatar.isNullOrEmpty() && !editProfileViewModel.avatarUpdated) {
@@ -227,9 +203,6 @@ class EditProfileFragment : Fragment(), ComplexBackPressFragment {
         setTextIfNull(rootView.lastName, userLastName)
         setTextIfNull(rootView.details, userDetails)
         setTextIfNull(rootView.phone, userPhone)
-        setTextIfNull(rootView.facebook, userFacebook)
-        setTextIfNull(rootView.twitter, userTwitter)
-        setTextIfNull(rootView.instagram, userInstagram)
     }
 
     private fun setTextIfNull(input: TextInputEditText, text: String) {
@@ -391,9 +364,7 @@ class EditProfileFragment : Fragment(), ComplexBackPressFragment {
             firstName = rootView.firstName.text.toString(),
             lastName = rootView.lastName.text.toString(),
             details = rootView.details.text.toString(),
-            facebookUrl = rootView.facebook.text.toString().emptyToNull(),
-            twitterUrl = rootView.twitter.text.toString().emptyToNull(),
-            contact = rootView.phone.text.toString().emptyToNull()
+            phone = rootView.phone.text.toString().emptyToNull()
         )
         editProfileViewModel.updateProfile(newUser)
     }
@@ -402,9 +373,6 @@ class EditProfileFragment : Fragment(), ComplexBackPressFragment {
         rootView.lastName.text.toString() == userLastName &&
         rootView.firstName.text.toString() == userFirstName &&
         rootView.details.text.toString() == userDetails &&
-        rootView.facebook.text.toString() == userFacebook &&
-        rootView.twitter.text.toString() == userTwitter &&
-        rootView.instagram.text.toString() == userInstagram &&
         rootView.phone.text.toString() == userPhone
 
     override fun onDestroyView() {

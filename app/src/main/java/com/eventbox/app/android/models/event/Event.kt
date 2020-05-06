@@ -9,7 +9,6 @@ import com.github.jasminb.jsonapi.LongIdHandler
 import com.github.jasminb.jsonapi.annotations.Id
 import com.github.jasminb.jsonapi.annotations.Relationship
 import com.github.jasminb.jsonapi.annotations.Type
-import com.eventbox.app.android.models.speakers.SpeakersCall
 
 @Type("event")
 @JsonNaming(PropertyNamingStrategy.KebabCaseStrategy::class)
@@ -18,69 +17,50 @@ data class Event(
     @Id(LongIdHandler::class)
     @PrimaryKey
     val id: Long,
+    //== basic details
     val name: String,
     val identifier: String,
+    val description: String? = null,
+    val locationName: String? = null,
     val startsAt: String,
     val endsAt: String,
-    val timezone: String,
-    val privacy: String = "public",
-    val paymentCountry: String? = null,
-    val paypalEmail: String? = null,
-    val thumbnailImageUrl: String? = null,
-    val schedulePublishedOn: String? = null,
-    val paymentCurrency: String? = null,
-    val ownerDescription: String? = null,
-    val originalImageUrl: String? = null,
-    val onsiteDetails: String? = null,
-    val ownerName: String? = null,
-    val largeImageUrl: String? = null,
-    val deletedAt: String? = null,
-    val ticketUrl: String? = null,
-    val locationName: String? = null,
     val codeOfConduct: String? = null,
-    val state: String? = null,
-    val searchableLocationName: String? = null,
-    val description: String? = null,
-    val pentabarfUrl: String? = null,
-    val xcalUrl: String? = null,
-    val logoUrl: String? = null,
-    val externalEventUrl: String? = null,
-    val iconImageUrl: String? = null,
-    val icalUrl: String? = null,
     val createdAt: String? = null,
-    val bankDetails: String? = null,
-    val chequeDetails: String? = null,
+    val deletedAt: String? = null,
     val isComplete: Boolean = false,
+    val privacy: String = "public",
+    //== image url
+    val thumbnailImageUrl: String? = null,
+    val originalImageUrl: String? = null,
+    val largeImageUrl: String? = null,
+    //== owner details
+    val ownerDescription: String? = null,
+    val ownerName: String? = null,
+    val hasOwnerInfo: Boolean = false,
+    //== geolocation details
+    val timezone: String = "UTC",
     val latitude: Double? = null,
     val longitude: Double? = null,
-    val refundPolicy: String? = null,
-
-    val canPayByStripe: Boolean = false,
-    val canPayByCheque: Boolean = false,
-    val canPayByBank: Boolean = false,
-    val canPayByPaypal: Boolean = false,
-    val canPayOnsite: Boolean = false,
-    val isSponsorsEnabled: Boolean = false,
-    val hasOwnerInfo: Boolean = false,
-    val isSessionsSpeakersEnabled: Boolean = false,
-    val isTicketingEnabled: Boolean = false,
-    val isTaxEnabled: Boolean = false,
     val isMapShown: Boolean = false,
+    //== favorite and interested
     var favorite: Boolean = false,
     var favoriteEventId: Long? = null,
     var interested: Boolean = false,
     var interestedEventId: Long? = null,
+    //== payment details
+    val paymentCurrency: String? = null,
+    val paymentCountry: String? = null,
+    val paypalEmail: String? = null,
+    val ticketUrl: String? = null,
+    val refundPolicy: String? = null,
+    val canPayByStripe: Boolean = false,
+    val canPayByBank: Boolean = false,
+    val canPayByPaypal: Boolean = false,
+    val canPayOnsite: Boolean = false,
+    val isTicketingEnabled: Boolean = false,
+    val isTaxEnabled: Boolean = false,
+
     @ColumnInfo(index = true)
     @Relationship("event-topic", resolve = true)
-    val eventTopic: EventTopic? = null,
-    @ColumnInfo(index = true)
-    @Relationship("event-type", resolve = true)
-    val eventType: EventType? = null,
-    @ColumnInfo(index = true)
-    @Relationship("event-sub-topic", resolve = true)
-    val eventSubTopic: EventSubTopic? = null,
-    @ColumnInfo(index = true)
-    @Relationship("speakers-call", resolve = true)
-    val speakersCall: SpeakersCall? = null
-
+    val eventTopic: EventTopic? = null
 )

@@ -28,14 +28,6 @@ import com.eventbox.app.android.models.event.EventId
 import com.eventbox.app.android.models.payment.Order
 import com.eventbox.app.android.service.OrderService
 import com.eventbox.app.android.service.EventService
-import com.eventbox.app.android.models.session.Session
-import com.eventbox.app.android.service.SessionService
-import com.eventbox.app.android.models.event.SocialLink
-import com.eventbox.app.android.service.SocialLinksService
-import com.eventbox.app.android.models.speakers.Speaker
-import com.eventbox.app.android.service.SpeakerService
-import com.eventbox.app.android.models.sponsor.Sponsor
-import com.eventbox.app.android.service.SponsorService
 import com.eventbox.app.android.models.payment.TicketPriceRange
 import com.eventbox.app.android.service.TicketService
 import com.eventbox.app.android.utils.extensions.withDefaultSchedulers
@@ -45,10 +37,6 @@ class EventDetailsViewModel(
     private val eventService: EventService,
     private val ticketService: TicketService,
     private val authHolder: AuthHolder,
-    private val speakerService: SpeakerService,
-    private val sponsorService: SponsorService,
-    private val sessionService: SessionService,
-    private val socialLinksService: SocialLinksService,
     private val feedbackService: FeedbackService,
     private val resource: Resource,
     private val orderService: OrderService,
@@ -73,14 +61,6 @@ class EventDetailsViewModel(
     val feedbackProgress: LiveData<Boolean> = mutableFeedbackProgress
     private val mutableSubmittedFeedback = MutableLiveData<Feedback>()
     val submittedFeedback: LiveData<Feedback> = mutableSubmittedFeedback
-    private val mutableEventSessions = MutableLiveData<List<Session>>()
-    val eventSessions: LiveData<List<Session>> = mutableEventSessions
-    private val mutableEventSpeakers = MutableLiveData<List<Speaker>>()
-    val eventSpeakers: LiveData<List<Speaker>> = mutableEventSpeakers
-    private val mutableEventSponsors = MutableLiveData<List<Sponsor>>()
-    val eventSponsors: LiveData<List<Sponsor>> = mutableEventSponsors
-    private val mutableSocialLinks = MutableLiveData<List<SocialLink>>()
-    val socialLinks: LiveData<List<SocialLink>> = mutableSocialLinks
     private val mutableSimilarEvents = MutableLiveData<PagedList<Event>>()
     val similarEvents: LiveData<PagedList<Event>> = mutableSimilarEvents
     private val mutableSimilarEventsProgress = MediatorLiveData<Boolean>()
@@ -129,41 +109,6 @@ class EventDetailsViewModel(
                 mutablePopMessage.value = resource.getString(R.string.error_submitting_feedback)
             })
     }
-    fun fetchEventSpeakers(id: Long) {
-        if (id == -1L) return
-
-        val query = """[{
-                |   'and':[{
-                |       'name':'is-featured',
-                |       'op':'eq',
-                |       'val':'true'
-                |    }]
-                |}]""".trimMargin().replace("'", "\"")
-
-        compositeDisposable += speakerService.fetchSpeakersForEvent(id, query)
-            .withDefaultSchedulers()
-            .subscribe({
-                mutableEventSpeakers.value = it
-            }, {
-                Timber.e(it, "Error fetching speaker for event id %d", id)
-                mutablePopMessage.value = resource.getString(R.string.error_fetching_event_section_message,
-                    resource.getString(R.string.speakers))
-            })
-    }
-
-    fun fetchSocialLink(id: Long) {
-        if (id == -1L) return
-
-        compositeDisposable += socialLinksService.getSocialLinks(id)
-            .withDefaultSchedulers()
-            .subscribe({
-                mutableSocialLinks.value = it
-            }, {
-                Timber.e(it, "Error fetching social link for event id $id")
-                mutablePopMessage.value = resource.getString(R.string.error_fetching_event_section_message,
-                    resource.getString(R.string.social_links))
-            })
-    }
 
     fun fetchSimilarEvents(eventId: Long, topicId: Long, location: String?) {
         if (eventId == -1L) return
@@ -204,20 +149,6 @@ class EventDetailsViewModel(
             })
     }
 
-    fun fetchEventSponsors(id: Long) {
-        if (id == -1L) return
-
-        compositeDisposable += sponsorService.fetchSponsorsWithEvent(id)
-            .withDefaultSchedulers()
-            .subscribe({
-                mutableEventSponsors.value = it
-            }, {
-                Timber.e(it, "Error fetching sponsor for event id %d", id)
-                mutablePopMessage.value = resource.getString(R.string.error_fetching_event_section_message,
-                    resource.getString(R.string.sponsors))
-            })
-    }
-
     fun loadEvent(id: Long) {
         if (id == -1L) {
             mutablePopMessage.value = resource.getString(R.string.error_fetching_event_message)
@@ -254,20 +185,6 @@ class EventDetailsViewModel(
             }, {
                 Timber.e(it, "Error fetching event")
                 mutablePopMessage.value = resource.getString(R.string.error_fetching_event_message)
-            })
-    }
-
-    fun fetchEventSessions(id: Long) {
-        if (id == -1L) return
-
-        compositeDisposable += sessionService.fetchSessionForEvent(id)
-            .withDefaultSchedulers()
-            .subscribe({
-                mutableEventSessions.value = it
-            }, {
-                mutablePopMessage.value = resource.getString(R.string.error_fetching_event_section_message,
-                    resource.getString(R.string.sessions))
-                Timber.e(it, "Error fetching events sessions")
             })
     }
 

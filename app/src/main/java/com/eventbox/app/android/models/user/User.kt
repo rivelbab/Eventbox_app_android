@@ -18,21 +18,19 @@ data class User(
     val firstName: String? = null,
     val lastName: String? = null,
     val email: String? = null,
-    val contact: String? = null,
     val details: String? = null,
+    val phone: String? = null,
+    //== image details
     val thumbnailImageUrl: String? = null,
     val iconImageUrl: String? = null,
     val smallImageUrl: String? = null,
     val avatarUrl: String? = null,
-    val facebookUrl: String? = null,
-    val twitterUrl: String? = null,
-    val instagramUrl: String? = null,
-    val googlePlusUrl: String? = null,
     val originalImageUrl: String? = null,
-
+    //=== security details
     val isVerified: Boolean = false,
     val isAdmin: Boolean? = false,
     val isSuperAdmin: Boolean? = false,
+    //== date details
     val createdAt: String? = null,
     val lastAccessedAt: String? = null,
     val deletedAt: String? = null

@@ -1,9 +1,11 @@
 package com.eventbox.app.android.fragments.event.search
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -32,6 +34,7 @@ class SearchTypeFragment : Fragment() {
     private lateinit var rootView: View
     private val eventTypesList = ArrayList<String>()
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,19 +45,7 @@ class SearchTypeFragment : Fragment() {
         setToolbar(activity, show = false)
         rootView.eventTypesRecyclerView.layoutManager = LinearLayoutManager(activity)
         rootView.eventTypesRecyclerView.adapter = typesAdapter
-        searchTypeViewModel.loadEventTypes()
         eventTypesList.add(getString(R.string.anything))
-
-        searchTypeViewModel.connection
-            .nonNull()
-            .observe(viewLifecycleOwner, Observer { isConnected ->
-                if (isConnected) {
-                    searchTypeViewModel.loadEventTypes()
-                    showNoInternetError(false)
-                } else {
-                    showNoInternetError(searchTypeViewModel.eventTypes.value == null)
-                }
-            })
 
         searchTypeViewModel.showShimmer
             .nonNull()
@@ -67,17 +58,6 @@ class SearchTypeFragment : Fragment() {
                 rootView.shimmerSearchEventTypes.isVisible = shouldShowShimmer
             })
 
-        searchTypeViewModel.eventTypes
-            .nonNull()
-            .observe(viewLifecycleOwner, Observer { list ->
-                list.forEach {
-                    eventTypesList.add(it.name)
-                }
-                setCurrentChoice(safeArgs.type)
-                typesAdapter.addAll(eventTypesList)
-                typesAdapter.notifyDataSetChanged()
-            })
-
         val listener: TypeClickListener = object :
             TypeClickListener {
             override fun onClick(chosenType: String) {
@@ -85,9 +65,9 @@ class SearchTypeFragment : Fragment() {
             }
         }
         typesAdapter.setListener(listener)
-
+        //=== here
         rootView.retry.setOnClickListener {
-            if (searchTypeViewModel.isConnected()) searchTypeViewModel.loadEventTypes()
+            if (searchTypeViewModel.isConnected()) true
         }
 
         rootView.toolbar.setNavigationOnClickListener {

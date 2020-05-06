@@ -61,7 +61,6 @@ import kotlinx.android.synthetic.main.fragment_attendee.view.billingState
 import kotlinx.android.synthetic.main.fragment_attendee.view.cancelButton
 import kotlinx.android.synthetic.main.fragment_attendee.view.cardNumber
 import kotlinx.android.synthetic.main.fragment_attendee.view.cardNumberLayout
-import kotlinx.android.synthetic.main.fragment_attendee.view.chequeRadioButton
 import kotlinx.android.synthetic.main.fragment_attendee.view.countryPicker
 import kotlinx.android.synthetic.main.fragment_attendee.view.cvc
 import kotlinx.android.synthetic.main.fragment_attendee.view.cvcLayout
@@ -76,8 +75,6 @@ import kotlinx.android.synthetic.main.fragment_attendee.view.lastNameLayout
 import kotlinx.android.synthetic.main.fragment_attendee.view.loginButton
 import kotlinx.android.synthetic.main.fragment_attendee.view.month
 import kotlinx.android.synthetic.main.fragment_attendee.view.monthText
-import kotlinx.android.synthetic.main.fragment_attendee.view.offlinePayment
-import kotlinx.android.synthetic.main.fragment_attendee.view.offlinePaymentDescription
 import kotlinx.android.synthetic.main.fragment_attendee.view.onSiteRadioButton
 import kotlinx.android.synthetic.main.fragment_attendee.view.paymentOptionsGroup
 import kotlinx.android.synthetic.main.fragment_attendee.view.paymentSelectorContainer
@@ -173,11 +170,8 @@ class AttendeeFragment : Fragment(), ComplexBackPressFragment {
         attendeeViewModel.forms.value?.let { attendeeRecyclerAdapter.setCustomForm(it) }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         rootView = inflater.inflate(R.layout.fragment_attendee, container, false)
         setToolbar(activity, getString(R.string.attendee_details))
         setHasOptionsMenu(true)
@@ -592,7 +586,6 @@ class AttendeeFragment : Fragment(), ComplexBackPressFragment {
     private fun setupPaymentOptions(event: Event) {
         rootView.paypalRadioButton.isVisible = event.canPayByPaypal
         rootView.stripeRadioButton.isVisible = event.canPayByStripe
-        rootView.chequeRadioButton.isVisible = event.canPayByCheque
         rootView.bankRadioButton.isVisible = event.canPayByBank
         rootView.onSiteRadioButton.isVisible = event.canPayOnsite
 
@@ -600,38 +593,24 @@ class AttendeeFragment : Fragment(), ComplexBackPressFragment {
             when (checkedId) {
                 R.id.stripeRadioButton -> {
                     rootView.stripePayment.isVisible = true
-                    rootView.offlinePayment.isVisible = false
                     attendeeViewModel.selectedPaymentMode =
                         PAYMENT_MODE_STRIPE
                     rootView.register.text = getString(R.string.pay_now)
                 }
                 R.id.onSiteRadioButton -> {
-                    rootView.offlinePayment.isVisible = true
                     rootView.stripePayment.isVisible = false
-                    rootView.offlinePaymentDescription.text = event.onsiteDetails
                     attendeeViewModel.selectedPaymentMode =
                         PAYMENT_MODE_ONSITE
                     rootView.register.text = getString(R.string.register)
                 }
                 R.id.bankRadioButton -> {
-                    rootView.offlinePayment.isVisible = true
                     rootView.stripePayment.isVisible = false
-                    rootView.offlinePaymentDescription.text = event.bankDetails
                     attendeeViewModel.selectedPaymentMode =
                         PAYMENT_MODE_BANK
                     rootView.register.text = getString(R.string.register)
                 }
-                R.id.chequeRadioButton -> {
-                    rootView.offlinePayment.isVisible = true
-                    rootView.stripePayment.isVisible = false
-                    rootView.offlinePaymentDescription.text = event.chequeDetails
-                    attendeeViewModel.selectedPaymentMode =
-                        PAYMENT_MODE_CHEQUE
-                    rootView.register.text = getString(R.string.register)
-                }
                 else -> {
                     rootView.stripePayment.isVisible = false
-                    rootView.offlinePayment.isVisible = false
                     attendeeViewModel.selectedPaymentMode =
                         PAYMENT_MODE_PAYPAL
                     rootView.register.text = getString(R.string.pay_now)

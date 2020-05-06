@@ -41,27 +41,3 @@ interface InterestedFabClickListener {
      */
     fun onClick(event: Event, itemPosition: Int)
 }
-
-/**
- * The callback interface for Speaker item clicks
- */
-interface SpeakerClickListener {
-    /**
-     * The function to be invoked when a speaker item is clicked
-     *
-     * @param speakerId The ID of the clicked speaker
-     */
-    fun onClick(speakerId: Long)
-}
-
-/**
- * The callback interface for Speaker item clicks
- */
-interface SessionClickListener {
-    /**
-     * The function to be invoked when a speaker item is clicked
-     *
-     * @param sessionId The ID of the clicked session
-     */
-    fun onClick(sessionId: Long)
-}

@@ -29,7 +29,6 @@ import com.eventbox.app.android.fragments.event.EVENT_DETAIL_FRAGMENT
 import com.eventbox.app.android.ui.event.search.ORDER_COMPLETED_FRAGMENT
 import com.eventbox.app.android.fragments.event.search.SEARCH_RESULTS_FRAGMENT
 import com.eventbox.app.android.fragments.event.search.SEARCH_LOCATION_FRAGMENT
-import com.eventbox.app.android.fragments.speakers.SPEAKERS_CALL_FRAGMENT
 import com.eventbox.app.android.fragments.payment.TICKETS_FRAGMENT
 import com.eventbox.app.android.utils.Utils.hideSoftKeyboard
 import com.eventbox.app.android.utils.Utils.progressDialog
@@ -178,7 +177,6 @@ class AuthFragment : Fragment(), ComplexBackPressFragment {
             PROFILE_FRAGMENT -> findNavController(rootView).popBackStack(R.id.profileFragment, false)
             SEARCH_RESULTS_FRAGMENT -> findNavController(rootView).popBackStack(R.id.searchResultsFragment, false)
             ORDER_COMPLETED_FRAGMENT -> findNavController(rootView).popBackStack(R.id.orderCompletedFragment, false)
-            SPEAKERS_CALL_FRAGMENT -> findNavController(rootView).popBackStack(R.id.speakersCallFragment, false)
             else -> findNavController(rootView).navigate(AuthFragmentDirections.actionAuthToEventsPop())
         }
     }

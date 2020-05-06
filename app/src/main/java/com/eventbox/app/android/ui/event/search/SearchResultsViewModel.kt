@@ -22,7 +22,6 @@ import com.eventbox.app.android.models.event.Event
 import com.eventbox.app.android.models.event.EventId
 import com.eventbox.app.android.service.EventService
 import com.eventbox.app.android.utils.EventUtils
-import com.eventbox.app.android.models.event.EventType
 import com.eventbox.app.android.models.event.FavoriteEvent
 import com.eventbox.app.android.data.dataSource.SearchEventsDataSourceFactory
 import com.eventbox.app.android.utils.DateTimeUtils
@@ -45,10 +44,9 @@ class SearchResultsViewModel(
     val showShimmerResults: MediatorLiveData<Boolean> = mutableShowShimmerResults
     private val mutablePagedEvents = MutableLiveData<PagedList<Event>>()
     val pagedEvents: LiveData<PagedList<Event>> = mutablePagedEvents
-    private val mutableEventTypes = MutableLiveData<List<EventType>>()
+
     private val mutableMessage = SingleLiveEvent<String>()
     val message: SingleLiveEvent<String> = mutableMessage
-    val eventTypes: LiveData<List<EventType>> = mutableEventTypes
     val connection: LiveData<Boolean> = mutableConnectionLiveData
 
     private val savedNextDate = DateTimeUtils.getNextDate()
@@ -64,16 +62,6 @@ class SearchResultsViewModel(
     var savedTime: String? = null
 
     fun isLoggedIn() = authHolder.isLoggedIn()
-
-    fun loadEventTypes() {
-        compositeDisposable += eventService.getEventTypes()
-            .withDefaultSchedulers()
-            .subscribe({
-                mutableEventTypes.value = it
-            }, {
-                Timber.e(it, "Error fetching events types")
-            })
-    }
 
     fun loadEvents(
         location: String,

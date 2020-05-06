@@ -5,10 +5,6 @@ import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
-import kotlinx.android.synthetic.main.item_card_events.view.chipTags
-import kotlinx.android.synthetic.main.item_card_events.view.eventImage
-import kotlinx.android.synthetic.main.item_card_events.view.favoriteFab
-import kotlinx.android.synthetic.main.item_card_events.view.shareFab
 import com.eventbox.app.android.R
 import com.eventbox.app.android.ui.common.EventClickListener
 import com.eventbox.app.android.ui.common.FavoriteFabClickListener
@@ -16,6 +12,7 @@ import com.eventbox.app.android.databinding.ItemCardEventsBinding
 import com.eventbox.app.android.models.event.Event
 import com.eventbox.app.android.adapters.EventHashTagClickListener
 import com.eventbox.app.android.utils.EventUtils
+import kotlinx.android.synthetic.main.item_card_events.view.*
 
 /**
  * The [RecyclerView.ViewHolder] class for Event items list in [EventsFragment]
@@ -51,6 +48,7 @@ class EventViewHolder(private val binding: ItemCardEventsBinding) : RecyclerView
 
         itemView.shareFab.scaleType = ImageView.ScaleType.CENTER
         itemView.favoriteFab.scaleType = ImageView.ScaleType.CENTER
+        itemView.interestedFab.scaleType = ImageView.ScaleType.CENTER
 
         /*if (itemView.chipTags != null) {
             itemView.chipTags.removeAllViews()
