@@ -60,10 +60,6 @@ android {
     flavorDimensions "default"
 
     productFlavors {
-        fdroid {
-            dimension "default"
-        }
-
         playStore {
             dimension "default"
         }

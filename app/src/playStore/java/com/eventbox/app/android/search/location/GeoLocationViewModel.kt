@@ -5,9 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
-import com.eventbox.app.android.common.SingleLiveEvent
-import com.eventbox.app.android.location.LocationPermissionException
-import com.eventbox.app.android.location.NoLocationSourceException
+import com.eventbox.app.android.config.exceptions.LocationPermissionException
+import com.eventbox.app.android.config.exceptions.NoLocationSourceException
+import com.eventbox.app.android.service.LocationService
+import com.eventbox.app.android.ui.common.SingleLiveEvent
 
 class GeoLocationViewModel(private val locationService: LocationService) : ViewModel() {
     private val mutableLocation = MutableLiveData<String>()

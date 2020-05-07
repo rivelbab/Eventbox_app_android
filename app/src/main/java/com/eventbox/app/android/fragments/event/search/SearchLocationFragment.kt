@@ -37,7 +37,6 @@ import kotlinx.android.synthetic.main.fragment_search_location.view.toolbarTitle
 import com.eventbox.app.android.R
 import com.eventbox.app.android.adapters.LocationsAdapter
 import com.eventbox.app.android.adapters.TextClickListener
-import com.eventbox.app.android.location.GeoLocationViewModel
 import com.eventbox.app.android.ui.event.search.SearchLocationViewModel
 import com.eventbox.app.android.adapters.SearchPlaceSuggestionsAdapter
 import com.eventbox.app.android.utils.Utils.hideSoftKeyboard
@@ -46,6 +45,7 @@ import com.eventbox.app.android.utils.Utils.setToolbar
 import com.eventbox.app.android.utils.Utils.showSoftKeyboard
 import com.eventbox.app.android.utils.extensions.nonNull
 import com.eventbox.app.android.fragments.welcome.WELCOME_FRAGMENT
+import com.eventbox.app.android.search.location.GeoLocationViewModel
 import org.jetbrains.anko.design.snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

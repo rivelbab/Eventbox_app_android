@@ -21,7 +21,6 @@ import androidx.preference.PreferenceManager
 import java.util.prefs.PreferenceChangeEvent
 import java.util.prefs.PreferenceChangeListener
 import com.eventbox.app.android.BuildConfig
-import com.eventbox.app.android.FDROID_BUILD_FLAVOR
 import com.eventbox.app.android.PLAY_STORE_BUILD_FLAVOR
 import com.eventbox.app.android.R
 import com.eventbox.app.android.fragments.auth.MINIMUM_PASSWORD_LENGTH
@@ -33,7 +32,6 @@ import com.eventbox.app.android.utils.Utils
 import com.eventbox.app.android.utils.Utils.setToolbar
 import com.eventbox.app.android.utils.extensions.nonNull
 import com.eventbox.app.android.utils.nullToEmpty
-import kotlinx.android.synthetic.main.dialog_api_configuration.view.*
 import kotlinx.android.synthetic.main.dialog_change_password.view.*
 import org.jetbrains.anko.design.snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel

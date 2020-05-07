@@ -17,12 +17,10 @@ import com.eventbox.app.android.ui.StartupViewModel
 import com.eventbox.app.android.ui.event.AboutEventViewModel
 import com.eventbox.app.android.models.attendees.Attendee
 import com.eventbox.app.android.networks.api.AttendeeApi
-import com.eventbox.app.android.service.AttendeeService
 import com.eventbox.app.android.ui.attendees.AttendeeViewModel
 import com.eventbox.app.android.models.attendees.CustomForm
 import com.eventbox.app.android.networks.api.AuthApi
 import com.eventbox.app.android.ui.auth.AuthHolder
-import com.eventbox.app.android.service.AuthService
 import com.eventbox.app.android.ui.auth.AuthViewModel
 import com.eventbox.app.android.ui.user.EditProfileViewModel
 import com.eventbox.app.android.ui.auth.LoginViewModel
@@ -42,7 +40,6 @@ import com.eventbox.app.android.models.event.Event
 import com.eventbox.app.android.networks.api.EventApi
 import com.eventbox.app.android.ui.event.EventDetailsViewModel
 import com.eventbox.app.android.models.event.EventId
-import com.eventbox.app.android.service.EventService
 import com.eventbox.app.android.ui.event.EventsViewModel
 import com.eventbox.app.android.models.event.EventFAQ
 import com.eventbox.app.android.networks.api.EventFAQApi
@@ -51,7 +48,6 @@ import com.eventbox.app.android.models.event.EventLocation
 import com.eventbox.app.android.networks.api.EventLocationApi
 import com.eventbox.app.android.models.payment.Tax
 import com.eventbox.app.android.networks.api.TaxApi
-import com.eventbox.app.android.service.TaxService
 import com.eventbox.app.android.models.event.EventTopic
 import com.eventbox.app.android.networks.api.EventTopicApi
 import com.eventbox.app.android.models.event.FavoriteEvent
@@ -59,11 +55,9 @@ import com.eventbox.app.android.networks.api.FavoriteEventApi
 import com.eventbox.app.android.ui.event.FavoriteEventsViewModel
 import com.eventbox.app.android.models.feedback.Feedback
 import com.eventbox.app.android.networks.api.FeedbackApi
-import com.eventbox.app.android.service.FeedbackService
 import com.eventbox.app.android.ui.feedback.FeedbackViewModel
 import com.eventbox.app.android.models.notification.Notification
 import com.eventbox.app.android.networks.api.NotificationApi
-import com.eventbox.app.android.service.NotificationService
 import com.eventbox.app.android.ui.notification.NotificationViewModel
 import com.eventbox.app.android.models.payment.Charge
 import com.eventbox.app.android.models.payment.ConfirmOrder
@@ -71,26 +65,19 @@ import com.eventbox.app.android.models.payment.Order
 import com.eventbox.app.android.networks.api.OrderApi
 import com.eventbox.app.android.ui.payment.OrderCompletedViewModel
 import com.eventbox.app.android.ui.payment.OrderDetailsViewModel
-import com.eventbox.app.android.service.OrderService
 import com.eventbox.app.android.ui.payment.OrdersUnderUserViewModel
 import com.eventbox.app.android.models.payment.Paypal
 import com.eventbox.app.android.networks.api.PaypalApi
-import com.eventbox.app.android.ui.event.search.SearchResultsViewModel
-import com.eventbox.app.android.ui.event.search.SearchViewModel
-import com.eventbox.app.android.location.GeoLocationViewModel
-import com.eventbox.app.android.service.SearchLocationService
-import com.eventbox.app.android.location.SearchLocationServiceImpl
-import com.eventbox.app.android.ui.event.search.SearchLocationViewModel
-import com.eventbox.app.android.ui.event.search.SearchTimeViewModel
-import com.eventbox.app.android.ui.event.search.SearchTypeViewModel
 import com.eventbox.app.android.models.settings.Settings
 import com.eventbox.app.android.networks.api.SettingsApi
-import com.eventbox.app.android.service.SettingsService
 import com.eventbox.app.android.ui.settings.SettingsViewModel
 import com.eventbox.app.android.models.payment.Ticket
 import com.eventbox.app.android.networks.api.TicketApi
 import com.eventbox.app.android.models.payment.TicketId
-import com.eventbox.app.android.service.TicketService
+import com.eventbox.app.android.search.location.GeoLocationViewModel
+import com.eventbox.app.android.search.location.LocationServiceImpl
+import com.eventbox.app.android.service.*
+import com.eventbox.app.android.ui.event.search.*
 import com.eventbox.app.android.ui.payment.TicketsViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
@@ -105,7 +92,7 @@ val commonModule = module {
     single { Network() }
     single { Resource() }
     factory { MutableConnectionLiveData() }
-    factory<SearchLocationService> { SearchLocationServiceImpl(androidContext(), get()) }
+    factory<LocationService> { LocationServiceImpl(androidContext(), get()) }
 }
 
 val apiModule = module {
