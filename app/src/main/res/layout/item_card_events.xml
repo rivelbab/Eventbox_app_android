@@ -60,7 +60,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/eventImage"
             app:fabCustomSize="40dp"
-            app:srcCompat="@drawable/ic_star_border" />
+            app:srcCompat="@drawable/ic_calendar_add" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/shareFab"
@@ -103,7 +103,7 @@
             android:layout_marginTop="@dimen/layout_margin_extra_small"
             android:textAlignment="center"
             android:textAllCaps="true"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/red"
             android:text="@{monthTime}"
             app:layout_constraintStart_toStartOf="@+id/eventImage"
             app:layout_constraintTop_toTopOf="@+id/eventName"
@@ -113,7 +113,7 @@
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
+            android:textColor="@color/red"
             android:text="@{dateTime}"
             app:layout_constraintEnd_toEndOf="@+id/month"
             app:layout_constraintStart_toStartOf="@+id/month"
@@ -128,7 +128,7 @@
             android:layout_marginLeft="@dimen/layout_margin_medium"
             android:layout_marginEnd="@dimen/layout_margin_medium"
             android:layout_marginRight="@dimen/layout_margin_medium"
-            android:textColor="@color/black"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/heading_text_size"
             android:text="@{event.name}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -152,35 +152,58 @@
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipTags"
-            android:layout_width="@dimen/layout_margin_none"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_margin_small"
-            android:layout_marginEnd="@dimen/layout_margin_medium"
+            android:layout_marginStart="@dimen/layout_margin_none"
+            android:layout_marginBottom="@dimen/layout_margin_extra_large"
+            app:chipSpacingVertical="4dp"
+            app:chipSpacingHorizontal="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/chipJoin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/locationName">
+            <com.google.android.material.chip.Chip
+                android:id="@+id/cat1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category"
+                android:checkable="false"
+                app:chipStrokeColor="@color/colorSecondary"
+                app:chipStrokeWidth="1dp"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/cat2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category"
+                android:checkable="false"
+                app:chipStrokeWidth="1dp"
+                app:chipStrokeColor="@color/colorSecondary"/>
+        </com.google.android.material.chip.ChipGroup>
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipJoin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_margin_small"
+            android:layout_marginStart="@dimen/layout_margin_none"
             android:layout_marginBottom="@dimen/layout_margin_extra_large"
             app:chipSpacingVertical="4dp"
             app:chipSpacingHorizontal="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/eventName"
+            app:layout_constraintStart_toEndOf="@+id/chipTags"
             app:layout_constraintTop_toBottomOf="@+id/locationName">
             <com.google.android.material.chip.Chip
+                android:id="@+id/btn_join"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/category"
+                android:text="@string/btn_join"
                 android:checkable="false"
-                android:id="@+id/cat1"/>
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/category"
-                android:checkable="false"
-                android:id="@+id/cat2"/>
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/category"
-                android:checkable="false"
-                android:id="@+id/cat3"/>
+                android:textColor="@color/white"
+                app:chipIconEnabled="true"
+                app:chipIcon="@drawable/ic_baseline_star_white"
+                app:chipBackgroundColor="@color/colorPrimary"
+                app:chipStrokeColor="@color/colorPrimaryDark" />
         </com.google.android.material.chip.ChipGroup>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

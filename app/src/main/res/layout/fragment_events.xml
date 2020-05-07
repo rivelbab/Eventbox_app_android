@@ -25,7 +25,16 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
+                <TextView
+                    android:id="@+id/appName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:text="@string/app_name"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_larger"
+                    android:padding="@dimen/padding_large"/>
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -45,36 +54,13 @@
                         app:srcCompat="@drawable/ic_circle"/>
                 </RelativeLayout>
 
-                <ImageView
-                    android:id="@+id/eventIcon"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:visibility="invisible"
-                    android:layout_marginTop="@dimen/layout_margin_extra_large"
-                    android:layout_marginStart="@dimen/layout_margin_large"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_event"/>
-                <TextView
-                    android:id="@+id/whatIsGoodText"
-                    android:layout_width="wrap_content"
-                    android:visibility="invisible"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin_extra_large"
-                    android:text="@string/whats_good"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_large"
-                    android:layout_marginStart="@dimen/layout_margin_extra_large"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toRightOf="@+id/eventIcon" />
-
                 <RelativeLayout
                     android:id="@+id/searchRelativeLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/layout_margin_extra_large"
                     app:layout_constraintLeft_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/whatIsGoodText"
+                    app:layout_constraintTop_toBottomOf="@id/appName"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="@dimen/layout_margin_extra_large">
@@ -97,15 +83,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/layout_margin_medium"
                     android:layout_marginEnd="@dimen/layout_margin_medium"
-                    android:layout_marginTop="@dimen/layout_margin_extra_large"
-                    app:layout_constraintTop_toBottomOf="@id/eventIcon"
+                    android:layout_marginTop="@dimen/layout_margin_moderate"
+                    app:layout_constraintTop_toBottomOf="@id/searchRelativeLayout"
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:scrollbars="vertical" />
 
                 <include android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin_extra_large"
-                    app:layout_constraintTop_toBottomOf="@id/eventIcon"
+                    android:layout_marginTop="@dimen/layout_margin_moderate"
+                    app:layout_constraintTop_toBottomOf="@id/searchRelativeLayout"
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:visibility="gone"
                     tools:visibility="visible"
@@ -117,7 +103,7 @@
                     android:id="@+id/shimmerEvents"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin_extra_large"
+                    android:layout_marginTop="@dimen/layout_margin_large"
                     app:layout_constraintTop_toBottomOf="@id/eventsRecycler"
                     app:layout_constraintLeft_toLeftOf="parent">
                     <LinearLayout
@@ -189,7 +175,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         app:titleTextColor="@color/white"
-        app:title="@string/events">
+        app:title="@string/app_name">
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

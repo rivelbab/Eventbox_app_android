@@ -112,6 +112,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         app:srcCompat="@drawable/ic_add"
-        android:contentDescription="@string/edit_profile"
+        android:contentDescription="@string/tab_created"
         android:layout_margin="16dp" />
 </RelativeLayout>

@@ -34,6 +34,7 @@
 	<string name="no_created_event">No event created yet !</string>
 
 	<!--event details-->
+	<string name="btn_join">Participer</string>
 	<string name="report_event">Report Event</string>
 	<string name="open_external_event_url">Open External Event URL</string>
 	<string name="about">About</string>

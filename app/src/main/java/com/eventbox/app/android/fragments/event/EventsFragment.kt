@@ -18,7 +18,6 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.content_no_internet.view.noInternetCard
 import kotlinx.android.synthetic.main.content_no_internet.view.retry
-import kotlinx.android.synthetic.main.fragment_events.view.emptyEventsText
 import kotlinx.android.synthetic.main.fragment_events.view.eventsEmptyView
 import kotlinx.android.synthetic.main.fragment_events.view.eventsRecycler
 import kotlinx.android.synthetic.main.fragment_events.view.locationTextView
@@ -51,8 +50,6 @@ import com.eventbox.app.android.utils.Utils.setToolbar
 import com.eventbox.app.android.utils.Utils.show
 import com.eventbox.app.android.utils.extensions.hideWithFading
 import com.eventbox.app.android.utils.extensions.nonNull
-import com.eventbox.app.android.utils.extensions.setPostponeSharedElementTransition
-import com.eventbox.app.android.utils.extensions.setStartPostponedEnterTransition
 import com.eventbox.app.android.utils.extensions.showWithFading
 import kotlinx.android.synthetic.main.dialog_change_password.view.*
 import org.jetbrains.anko.design.longSnackbar
@@ -74,7 +71,6 @@ class EventsFragment : Fragment(), BottomIconDoubleClick {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //setPostponeSharedElementTransition()
         rootView = inflater.inflate(R.layout.fragment_events, container, false)
         if (preference.getString(SAVED_LOCATION).isNullOrEmpty() &&
             !preference.getBoolean(BEEN_TO_WELCOME_SCREEN, false)) {

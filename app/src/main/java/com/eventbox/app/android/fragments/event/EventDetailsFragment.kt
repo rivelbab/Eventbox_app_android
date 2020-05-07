@@ -25,29 +25,6 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.content_event.view.alreadyRegisteredLayout
-import kotlinx.android.synthetic.main.content_event.view.eventDateDetailsFirst
-import kotlinx.android.synthetic.main.content_event.view.eventDateDetailsSecond
-import kotlinx.android.synthetic.main.content_event.view.eventDescription
-import kotlinx.android.synthetic.main.content_event.view.eventImage
-import kotlinx.android.synthetic.main.content_event.view.eventLocationLinearLayout
-import kotlinx.android.synthetic.main.content_event.view.eventName
-import kotlinx.android.synthetic.main.content_event.view.eventOrganiserDescription
-import kotlinx.android.synthetic.main.content_event.view.eventTimingLinearLayout
-import kotlinx.android.synthetic.main.content_event.view.feedbackBtn
-import kotlinx.android.synthetic.main.content_event.view.feedbackProgress
-import kotlinx.android.synthetic.main.content_event.view.feedbackRv
-import kotlinx.android.synthetic.main.content_event.view.imageMap
-import kotlinx.android.synthetic.main.content_event.view.nestedContentEventScroll
-import kotlinx.android.synthetic.main.content_event.view.noFeedBackTv
-import kotlinx.android.synthetic.main.content_event.view.priceRangeTextView
-import kotlinx.android.synthetic.main.content_event.view.seeFeedbackTextView
-import kotlinx.android.synthetic.main.content_event.view.seeMore
-import kotlinx.android.synthetic.main.content_event.view.seeMoreOrganizer
-import kotlinx.android.synthetic.main.content_event.view.shimmerSimilarEvents
-import kotlinx.android.synthetic.main.content_event.view.similarEventsContainer
-import kotlinx.android.synthetic.main.content_event.view.similarEventsRecycler
-import kotlinx.android.synthetic.main.content_event.view.ticketPriceLinearLayout
 import kotlinx.android.synthetic.main.content_fetching_event_error.view.retry
 import kotlinx.android.synthetic.main.fragment_event.view.buttonTickets
 import kotlinx.android.synthetic.main.fragment_event.view.container
@@ -67,6 +44,7 @@ import com.eventbox.app.android.utils.Utils.progressDialog
 import com.eventbox.app.android.utils.Utils.setToolbar
 import com.eventbox.app.android.utils.Utils.show
 import com.eventbox.app.android.utils.extensions.nonNull
+import kotlinx.android.synthetic.main.content_event.view.*
 import kotlinx.android.synthetic.main.dialog_feedback.view.*
 import org.jetbrains.anko.design.longSnackbar
 import org.jetbrains.anko.design.snackbar
@@ -86,13 +64,10 @@ class EventDetailsFragment : Fragment() {
     private lateinit var rootView: View
     private lateinit var binding: FragmentEventBinding
     private val LINE_COUNT: Int = 3
-    private val LINE_COUNT_ORGANIZER: Int = 2
     private var menuActionBar: Menu? = null
     private var currentEvent: Event? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-        //setSharedElementEnterTransition()
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_event, container, false)
         val progressDialog = progressDialog(context, getString(R.string.loading_message))
@@ -181,13 +156,6 @@ class EventDetailsFragment : Fragment() {
                 Timber.d("Fetched events of id ${it.id}")
                 showEventErrorScreen(false)
                 setHasOptionsMenu(true)
-            })
-
-        eventViewModel.priceRange
-            .nonNull()
-            .observe(viewLifecycleOwner, Observer {
-                rootView.ticketPriceLinearLayout.isVisible = true
-                rootView.priceRangeTextView.text = it
             })
 
         val eventIdentifier = arguments?.getString(EVENT_IDENTIFIER)
@@ -295,23 +263,6 @@ class EventDetailsFragment : Fragment() {
             .placeholder(R.drawable.header)
             .into(rootView.eventImage)
 
-        // Organizer Section
-        if (!event.ownerName.isNullOrEmpty()) {
-            val organizerDescriptionListener = View.OnClickListener {
-                rootView.eventOrganiserDescription.toggle()
-                rootView.seeMoreOrganizer.text = if (rootView.eventOrganiserDescription.isExpanded)
-                    getString(R.string.see_less) else getString(R.string.see_more)
-            }
-
-            rootView.eventOrganiserDescription.post {
-                if (rootView.eventOrganiserDescription.lineCount > LINE_COUNT_ORGANIZER) {
-                    rootView.seeMoreOrganizer.isVisible = true
-                    // Set up toggle organizer description
-                    rootView.seeMoreOrganizer.setOnClickListener(organizerDescriptionListener)
-                    rootView.eventOrganiserDescription.setOnClickListener(organizerDescriptionListener)
-                }
-            }
-        }
         // About event on-click
         val aboutEventOnClickListener = View.OnClickListener {
             currentEvent?.let {
@@ -337,35 +288,23 @@ class EventDetailsFragment : Fragment() {
             }
         }
 
-        // load location to map
-        val mapClickListener = View.OnClickListener { startMap(event) }
+        // attendee count
+        rootView.attendeeCount.text = "0"
 
-        if (!event.locationName.isNullOrEmpty() && hasCoordinates(event)) {
-            rootView.imageMap.setOnClickListener(mapClickListener)
-            rootView.eventLocationLinearLayout.setOnClickListener(mapClickListener)
-
-            Picasso.get()
-                    .load(eventViewModel.loadMap(event))
-                    .placeholder(R.drawable.ic_map_black)
-                    .error(R.drawable.ic_map_black)
-                    .into(rootView.imageMap)
-        } else {
-            rootView.imageMap.isVisible = false
-        }
+        // event availability
+        rootView.eventDispo.text = "places limitées !"
 
         // Date and Time section
-        rootView.eventDateDetailsFirst.text =
-            EventUtils.getFormattedEventDateTimeRange(startsAt, endsAt)
-        rootView.eventDateDetailsSecond.text =
-            EventUtils.getFormattedEventDateTimeRangeSecond(startsAt, endsAt)
+        rootView.eventDateDetailsFirst.text = EventUtils.getFormattedEventDateTimeRange(startsAt, endsAt)
+        rootView.eventDateDetailsSecond.text = EventUtils.getFormattedEventDateTimeRangeSecond(startsAt, endsAt)
+
+        // Time section
+        rootView.eventTimeDetailsFirst.text = EventUtils.getFormattedEventTimeRange(startsAt, endsAt)
+        rootView.eventTimeDetailsSecond.text = EventUtils.getFormattedEventTimeRangeSecond(startsAt, endsAt)
 
         // Add event to Calendar
         val dateClickListener = View.OnClickListener { startCalendar(event) }
         rootView.eventTimingLinearLayout.setOnClickListener(dateClickListener)
-    }
-
-    private fun hasCoordinates(event: Event): Boolean {
-        return event.longitude != null && event.longitude != 0.00 && event.latitude != null && event.latitude != 0.00
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
