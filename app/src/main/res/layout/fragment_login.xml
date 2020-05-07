@@ -33,14 +33,6 @@
                     android:tint="@color/black"
                     android:visibility="gone"
                     app:srcCompat="@drawable/ic_check_black"/>
-                <ImageView
-                    android:id="@+id/settings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:padding="@dimen/padding_large"
-                    android:tint="@color/white"
-                    app:srcCompat="@drawable/ic_settings"/>
             </androidx.appcompat.widget.Toolbar>
 
             <LinearLayout
@@ -111,7 +103,7 @@
                 <TextView
                     android:id="@+id/forgotPassword"
                     android:layout_width="match_parent"
-                    android:gravity="center"
+                    android:gravity="end"
                     android:background="?selectableItemBackground"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimary"
@@ -120,15 +112,33 @@
                     android:text="@string/forgot_password" />
 
                 <TextView
+                    android:id="@+id/noAccount"
+                    android:layout_width="match_parent"
+                    android:gravity="end"
+                    android:background="?selectableItemBackground"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorSecondary"
+                    android:textStyle="bold"
+                    android:drawableEnd="@drawable/ic_baseline_arrow_forward"
+                    android:layout_marginTop="@dimen/padding_medium"
+                    android:padding="@dimen/padding_medium"
+                    android:text="@string/no_account" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="@dimen/layout_margin_medium"
+                    android:background="@color/grey"/>
+
+                <TextView
                     android:id="@+id/skipTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_gravity="start"
                     android:layout_marginTop="@dimen/layout_margin_medium"
                     android:textStyle="bold"
                     android:background="?selectableItemBackground"
                     android:padding="@dimen/padding_large"
-                    android:textColor="@android:color/holo_blue_light"
+                    android:textColor="@color/red"
                     android:text="@string/skip_for_now"
                     android:layout_marginBottom="@dimen/padding_large"
                     android:textSize="@dimen/text_size_medium"/>

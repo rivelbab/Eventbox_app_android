@@ -13,7 +13,7 @@
 	<!-- Welcome page-->
 	<string name="welcome_message">Welcome to eventbox</string>
 	<string name="welcome_message_interest">Please, define your interests to see what events match better with it</string>
-	<string name="welcome_button_message">Ready ? Let\'s go</string>
+	<string name="welcome_button_message">Prêts ? c\'est parti !</string>
 
 	<!-- message page-->
 	<string name="no_message_yet">You have no message</string>
@@ -88,24 +88,25 @@
 	<!--profile details-->
 	<string name="logout">Log out</string>
 	<string name="settings">Settings</string>
-	<string name="login">Log In</string>
-	<string name="forgot_password">I forgot my password</string>
+	<string name="login">Connexion</string>
+	<string name="forgot_password">Mot de passe oublié</string>
+	<string name="no_account">Nouveau ? créer un compte</string>
 	<string name="email_sent_message">We just sent you an email with a link to reset\nyour password </string>
 	<string name="email_sent_alert">Check your email!</string>
-	<string name="sign_up">Sign Up</string>
-	<string name="password">Password</string>
+	<string name="sign_up">S\'inscrire</string>
+	<string name="password">Mot de passe</string>
 	<string name="manage_events">Manage Events</string>
 	<string name="edit_profile">Edit Profile</string>
 	<string name="ticket_issues">Ticket Issues</string>
 	<string name="ticket_issues_url" translatable="false">https://support.eventbox.com</string>
-	<string name="confirm_password">Confirm Password</string>
-	<string name="first_name_optional">First Name (Optional)</string>
-	<string name="last_name_optional">Last Name (Optional)</string>
-	<string name="details_of_the_user">Details of the user</string>
-	<string name="welcome_back">Welcome back!</string>
-	<string name="update">Update</string>
-	<string name="profile_photo">Profile Photo</string>
-	<string name="verified">Verified</string>
+	<string name="confirm_password">Confirmation mot de passe</string>
+	<string name="first_name_optional">Prénom (Optionel)</string>
+	<string name="last_name_optional">Nom (Optionel)</string>
+	<string name="details_of_the_user">A propos de vous</string>
+	<string name="welcome_back">Bon retour !</string>
+	<string name="update">Mettre à jour</string>
+	<string name="profile_photo">Photo de Profil</string>
+	<string name="verified">Verifié</string>
 	<string name="not_verified">Account not verified. Click to verify</string>
 	<string name="verification_error_message">Error in verifying email</string>
 	<string name="verify_your_profile">Please verify your email to buy free tickets</string>
@@ -334,7 +335,7 @@
 	<string name="auth_title">Let\'s get started</string>
 	<string name="auth_subtitle">Put your email to sign up or login</string>
 	<string name="get_started">Login or register</string>
-	<string name="skip_for_now">Skip for now</string>
+	<string name="skip_for_now">Ignorer pour l\'instant</string>
 
 	<!--sign up fragment-->
 	<string name="invalid_email_message">Your email address is invalid!</string>

@@ -25,6 +25,13 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"/>
 
+        <action android:id="@+id/action_welcome_to_login"
+            app:destination="@id/loginFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
+
     </fragment>
     <fragment
         android:id="@+id/eventsFragment"
@@ -303,7 +310,7 @@
             app:exitAnim="@anim/fade_out"/>
 
         <action
-            android:id="@+id/action_created_to_event_add"
+            android:id="@+id/action_my_event_to_event_add"
             app:destination="@id/eventAddFragment"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
@@ -407,12 +414,12 @@
 
     </fragment>
     <fragment
-        android:id="@+id/createdEventFragment"
-        android:name="com.eventbox.app.android.fragments.event.CreatedEventFragment"
-        android:label="CreatedEventFragment"
-        tools:layout="@layout/fragment_created" >
+        android:id="@+id/MyEventFragment"
+        android:name="com.eventbox.app.android.fragments.event.MyEventFragment"
+        android:label="MyEventFragment"
+        tools:layout="@layout/fragment_my_event" >
         <action
-            android:id="@+id/action_created_to_event_add"
+            android:id="@+id/action_my_event_to_event_add"
             app:destination="@id/eventAddFragment"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
@@ -868,6 +875,13 @@
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
+            android:id="@+id/action_login_to_sign_up"
+            app:destination="@id/signUpFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
+        <action
             android:id="@+id/action_login_to_auth_pop"
             app:destination="@id/authFragment"
             app:popUpTo="@id/authFragment"
@@ -877,18 +891,6 @@
             app:destination="@id/eventsFragment"
             app:popUpTo="@id/eventsFragment"
             app:popUpToInclusive="true"/>
-        <action
-            android:id="@+id/action_login_to_setting"
-            app:destination="@id/settingsFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
-        <argument
-            android:name="email"
-            app:argType="string"
-            app:nullable="false"
-            android:defaultValue="''"/>
         <argument
             android:name="redirectedFrom"
             app:argType="string"
@@ -904,19 +906,15 @@
         android:label="SignUpFragment"
         tools:layout="@layout/fragment_signup">
         <action
-            android:id="@+id/action_signup_to_auth_pop"
-            app:destination="@id/authFragment"
-            app:popUpTo="@id/authFragment"
+            android:id="@+id/action_signup_to_login_pop"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_sign_up_to_events_pop"
             app:destination="@id/eventsFragment"
             app:popUpTo="@id/eventsFragment"
             app:popUpToInclusive="true"/>
-        <argument
-            android:name="email"
-            app:argType="string"
-            app:nullable="false"/>
         <argument
             android:name="redirectedFrom"
             app:argType="string"

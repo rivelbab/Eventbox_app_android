@@ -16,7 +16,6 @@ import kotlinx.android.synthetic.main.fragment_login.email
 import kotlinx.android.synthetic.main.fragment_login.loginButton
 import kotlinx.android.synthetic.main.fragment_login.password
 import kotlinx.android.synthetic.main.fragment_login.view.*
-import kotlinx.android.synthetic.main.fragment_login.view.email
 import kotlinx.android.synthetic.main.fragment_login.view.skipTextView
 import kotlinx.android.synthetic.main.fragment_login.view.toolbar
 import com.eventbox.app.android.BuildConfig
@@ -37,13 +36,14 @@ import com.eventbox.app.android.utils.Utils.setToolbar
 import com.eventbox.app.android.utils.Utils.show
 import com.eventbox.app.android.utils.Utils.showNoInternetDialog
 import com.eventbox.app.android.utils.extensions.nonNull
-import com.eventbox.app.android.utils.extensions.setSharedElementEnterTransition
 import com.eventbox.app.android.fragments.user.PROFILE_FRAGMENT
 import com.eventbox.app.android.ui.auth.LoginViewModel
 import org.jetbrains.anko.design.longSnackbar
 import org.jetbrains.anko.design.snackbar
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
+const val LOGIN_FRAGMENT = "loginFragment"
 
 class LoginFragment : Fragment() {
 
@@ -65,10 +65,6 @@ class LoginFragment : Fragment() {
             activity?.onBackPressed()
         }
 
-        rootView.settings.setOnClickListener {
-            findNavController(rootView).navigate(LoginFragmentDirections.actionLoginToSetting())
-        }
-
         if (loginViewModel.isLoggedIn())
             popBackStack()
 
@@ -84,26 +80,7 @@ class LoginFragment : Fragment() {
             )
         }
 
-        if (safeArgs.email.isNotEmpty()) {
-            setSharedElementEnterTransition()
-            rootView.email.text = SpannableStringBuilder(safeArgs.email)
-            rootView.email.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable) {
-                    if (s.toString() != safeArgs.email) {
-                        findNavController(rootView).navigate(
-                            LoginFragmentDirections.actionLoginToAuthPop(
-                                redirectedFrom = safeArgs.redirectedFrom,
-                                email = s.toString()
-                            )
-                        )
-                        rootView.email.removeTextChangedListener(this)
-                    }
-                }
-
-                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { /*Do Nothing*/ }
-                override fun onTextChanged(email: CharSequence, start: Int, before: Int, count: Int) { /*Do Nothing*/ }
-            })
-        } else if (BuildConfig.FLAVOR == PLAY_STORE_BUILD_FLAVOR) {
+        if (BuildConfig.FLAVOR == PLAY_STORE_BUILD_FLAVOR) {
 
             smartAuthViewModel.requestCredentials(
                 SmartAuthUtil.getCredentialsClient(
@@ -195,21 +172,31 @@ class LoginFragment : Fragment() {
             loginViewModel.sendResetPasswordEmail(email.text.toString())
         }
 
+        rootView.noAccount.setOnClickListener {
+            redirectToSignUp()
+        }
+
         loginViewModel.user
             .nonNull()
             .observe(viewLifecycleOwner, Observer {
-                if (BuildConfig.FLAVOR == PLAY_STORE_BUILD_FLAVOR) {
-                    smartAuthViewModel.saveCredential(
-                        email.text.toString(), password.text.toString(),
-                        SmartAuthUtil.getCredentialsClient(
-                            requireActivity()
-                        )
+                smartAuthViewModel.saveCredential(
+                    email.text.toString(), password.text.toString(),
+                    SmartAuthUtil.getCredentialsClient(
+                        requireActivity()
                     )
-                }
+                )
                 popBackStack()
             })
 
         return rootView
+    }
+
+    private fun redirectToSignUp() {
+        findNavController(rootView).navigate(
+            LoginFragmentDirections.actionLoginToSignUp(
+                redirectedFrom = LOGIN_FRAGMENT
+            )
+        )
     }
 
     private fun popBackStack() {

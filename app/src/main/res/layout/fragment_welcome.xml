@@ -9,18 +9,18 @@
 
 
     <View
-        android:layout_width="394dp"
-        android:layout_height="543dp"
+        android:layout_width="376dp"
+        android:layout_height="492dp"
+        android:layout_marginStart="@dimen/layout_margin_large"
         android:layout_marginTop="@dimen/layout_margin_extra_large"
+        android:layout_marginEnd="@dimen/layout_margin_large"
         android:background="@drawable/welcome_img"
         app:layout_constraintBottom_toTopOf="@+id/welcomeLetsGoBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="@dimen/layout_margin_large"
-        android:layout_marginEnd="@dimen/layout_margin_large"
-        app:layout_constraintVertical_bias="0.417" />
+        app:layout_constraintVertical_bias="0.271" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/welcomeLetsGoBtn"

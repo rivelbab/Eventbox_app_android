@@ -3,7 +3,7 @@ package com.eventbox.app.android.adapters
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.eventbox.app.android.fragments.event.CreatedEventFragment
+import com.eventbox.app.android.fragments.event.MyEventFragment
 import com.eventbox.app.android.fragments.event.FavoriteFragment
 import com.eventbox.app.android.fragments.event.InterestedEventFragment
 
@@ -17,7 +17,7 @@ class EventMainAdapter(fm: FragmentManager): FragmentPagerAdapter(fm) {
         when (position) {
             0 -> fragment = FavoriteFragment()
             1 -> fragment = InterestedEventFragment()
-            2 -> fragment = CreatedEventFragment()
+            2 -> fragment = MyEventFragment()
         }
         return fragment
     }

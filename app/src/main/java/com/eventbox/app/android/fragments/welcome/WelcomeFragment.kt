@@ -34,7 +34,7 @@ class WelcomeFragment : Fragment() {
     }
 
     private fun redirectToAuth() {
-        Navigation.findNavController(rootView).navigate(WelcomeFragmentDirections.actionWelcomeToAuth(
+        Navigation.findNavController(rootView).navigate(WelcomeFragmentDirections.actionWelcomeToLogin(
                 redirectedFrom = WELCOME_FRAGMENT, showSkipButton = true)
         )
     }
