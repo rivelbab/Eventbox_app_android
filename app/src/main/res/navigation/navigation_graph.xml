@@ -303,6 +303,14 @@
             app:exitAnim="@anim/fade_out"/>
 
         <action
+            android:id="@+id/action_created_to_event_add"
+            app:destination="@id/eventAddFragment"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"/>
+
+        <action
             android:id="@+id/action_favourite_to_search"
             app:popUpTo="@id/eventsFragment"
             app:popUpToInclusive="false"
@@ -403,7 +411,13 @@
         android:name="com.eventbox.app.android.fragments.event.CreatedEventFragment"
         android:label="CreatedEventFragment"
         tools:layout="@layout/fragment_created" >
-
+        <action
+            android:id="@+id/action_created_to_event_add"
+            app:destination="@id/eventAddFragment"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"/>
         <action
             android:id="@+id/action_favourite_to_auth"
             app:destination="@id/authFragment"
@@ -435,6 +449,32 @@
             app:exitAnim="@anim/slide_out_left"/>
 
     </fragment>
+
+    <fragment
+        android:id="@+id/eventAddFragment"
+        android:name="com.eventbox.app.android.fragments.event.EventAddFragment"
+        android:label="EventAddFragment"
+        tools:layout="@layout/fragment_event_add" >
+        <action
+            android:id="@+id/action_edit_profile_to_crop_image"
+            app:destination="@id/cropImageFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_event_add_to_crop_image"
+            app:destination="@id/cropImageFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
+        <argument
+            android:name="croppedImage"
+            app:argType="string"
+            android:defaultValue="''"/>
+    </fragment>
+
     <fragment
         android:id="@+id/expiredOrderFragment"
         android:name="com.eventbox.app.android.fragments.payment.ExpiredOrderFragment"

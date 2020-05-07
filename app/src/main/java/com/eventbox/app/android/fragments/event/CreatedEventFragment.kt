@@ -41,6 +41,7 @@ import com.eventbox.app.android.utils.extensions.nonNull
 import com.eventbox.app.android.utils.extensions.setPostponeSharedElementTransition
 import com.eventbox.app.android.utils.extensions.setStartPostponedEnterTransition
 import com.eventbox.app.android.utils.extensions.showWithFading
+import kotlinx.android.synthetic.main.fragment_created.view.*
 import org.jetbrains.anko.design.longSnackbar
 import org.jetbrains.anko.design.snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -60,11 +61,8 @@ class CreatedEventFragment : Fragment(), BottomIconDoubleClick {
             redirectToLogin()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+
         //setPostponeSharedElementTransition()
         rootView = inflater.inflate(R.layout.fragment_created, container, false)
         rootView.favoriteEventsRecycler.layoutManager = LinearLayoutManager(activity)
@@ -97,6 +95,11 @@ class CreatedEventFragment : Fragment(), BottomIconDoubleClick {
             })
 
         favoriteEventViewModel.loadInterestedEvents()
+
+        rootView.fabCreate.setOnClickListener {
+            findNavController(rootView).navigate(CreatedEventFragmentDirections.actionCreatedToEventAdd())
+        }
+
         return rootView
     }
 

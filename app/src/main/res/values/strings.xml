@@ -32,6 +32,8 @@
 
 	<!-- created page-->
 	<string name="no_created_event">No event created yet !</string>
+	<string name="add_event">Add event</string>
+
 
 	<!--event details-->
 	<string name="btn_join">Participer</string>
@@ -119,6 +121,8 @@
 	<string name="event_link">Event Link :&#160;</string>
 	<string name="event_description">Event Description :&#160;</string>
 	<string name="event_name">Event Name :&#160;</string>
+	<string name="event_cat_one">Event Category :&#160;</string>
+	<string name="event_cat_two">Second Category (Optional) :&#160;</string>
 	<string name="event_location">Event Location :&#160;</string>
 	<string name="share">Share</string>
 
