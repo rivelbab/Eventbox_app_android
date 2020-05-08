@@ -24,14 +24,13 @@ import kotlinx.android.synthetic.main.item_card_events.view.*
  * @property shareFabClickListener The callback to be invoked when the share FAB is clicked
  */
 class EventViewHolder(private val binding: ItemCardEventsBinding) : RecyclerView.ViewHolder(binding.root) {
+
     var eventClickListener: EventClickListener? = null
     var favFabClickListener: FavoriteFabClickListener? = null
     var hashTagClickListAdapter: EventHashTagClickListener? = null
 
-    fun bind(
-        event: Event,
-        itemPosition: Int
-    ) {
+    fun bind(event: Event, itemPosition: Int) {
+
         val time = EventUtils.getEventDateTime(
             event.startsAt,
             event.timezone

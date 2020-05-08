@@ -18,24 +18,24 @@ data class Event(
     @PrimaryKey
     val id: Long,
     //== basic details
-    val name: String,
+    var name: String,
     val identifier: String,
-    val description: String? = null,
-    val locationName: String? = null,
-    val startsAt: String,
-    val endsAt: String,
+    var description: String? = null,
+    var locationName: String? = null,
+    var startsAt: String,
+    var endsAt: String,
     val codeOfConduct: String? = null,
     val createdAt: String? = null,
     val deletedAt: String? = null,
     val isComplete: Boolean = false,
-    val privacy: String = "public",
+    var privacy: String = "public",
     //== image url
-    val thumbnailImageUrl: String? = null,
-    val originalImageUrl: String? = null,
-    val largeImageUrl: String? = null,
+    var thumbnailImageUrl: String? = null,
+    var originalImageUrl: String? = null,
+    var largeImageUrl: String? = null,
     //== owner details
     val ownerDescription: String? = null,
-    val ownerName: String? = null,
+    var ownerName: String? = null,
     val hasOwnerInfo: Boolean = false,
     //== geolocation details
     val timezone: String = "UTC",
@@ -63,4 +63,42 @@ data class Event(
     @ColumnInfo(index = true)
     @Relationship("event-topic", resolve = true)
     val eventTopic: EventTopic? = null
-)
+) {
+    constructor(
+        name: String,
+        description: String,
+        locationName: String,
+        startsAt: String,
+        endsAt: String,
+        thumbnailImageUrl: String,
+        originalImageUrl: String,
+        largeImageUrl: String,
+        privacy: String,
+        ownerName: String
+    ) : this(
+        Long.MIN_VALUE,
+        name,
+        "event-" + Long.MIN_VALUE,
+        description,
+        locationName,
+        startsAt,
+        endsAt,
+        null,
+        null,
+        null,
+        false,
+        privacy,
+        thumbnailImageUrl,
+        originalImageUrl,
+        largeImageUrl,
+        null,
+        ownerName,
+        false,
+        "UTC",
+        null,
+        null,
+        false,
+        false,
+        null
+    )
+}

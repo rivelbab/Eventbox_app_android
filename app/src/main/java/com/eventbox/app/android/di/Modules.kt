@@ -176,7 +176,7 @@ val viewModelModule = module {
     viewModel { StartupViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel { ProfileViewModel(get(), get()) }
     viewModel { SignUpViewModel(get(), get(), get()) }
-    viewModel { EventDetailsViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { EventDetailsViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel { SearchViewModel(get(), get()) }
     viewModel { SearchResultsViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel { AttendeeViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }

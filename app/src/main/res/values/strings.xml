@@ -368,6 +368,10 @@
 	<string name="error_adding_favorite_message">Error adding to favorites</string>
 	<string name="error_fetching_tickets_message">Error fetching tickets</string>
 
+	<string name="create_event_success_message">Event created successfully!</string>
+	<string name="create_event_fail_message">Unable to create Event!</string>
+	<string name="creating_event_message">Creating event...</string>
+
 	<!--edit profile fragment-->
 	<string name="select_image">Select Image</string>
 	<string name="changes_not_saved">Your changes have not been saved</string>

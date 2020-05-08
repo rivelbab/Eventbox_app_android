@@ -130,8 +130,8 @@ repositories {
 
 dependencies {
     def lifecycle_version = "2.2.0"
-    def koin_version = "2.0.1"
     def roomVersion = "2.2.5"
+    def koin_version = "2.0.1"
     def ktx_version = '1.2.4'
     def ktx2_version = "2.2.0"
     def nav_version = "2.2.1"

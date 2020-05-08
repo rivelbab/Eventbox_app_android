@@ -29,10 +29,12 @@ class EventService(
     private val favoriteEventApi: FavoriteEventApi
 ) {
 
-    fun createEvent(event: Event): Single<Event> =
-        eventApi.createEvent(event).doOnSuccess {
+    fun createEvent(event: Event): Single<Event> {
+        return  eventApi.createEvent(event).map {
             eventDao.insertEvent(it)
+            it
         }
+    }
 
     fun getEventLocations(): Single<List<EventLocation>> {
         return eventLocationApi.getEventLocation()

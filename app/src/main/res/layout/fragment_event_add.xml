@@ -273,7 +273,7 @@
 
 
             <Button
-                android:id="@+id/addButton"
+                android:id="@+id/addEventButton"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/layout_margin_medium"
                 android:layout_height="wrap_content"
