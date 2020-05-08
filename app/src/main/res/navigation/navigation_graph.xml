@@ -378,9 +378,9 @@
     </fragment>
     <fragment
         android:id="@+id/interestedEventFragment"
-        android:name="com.eventbox.app.android.fragments.event.InterestedEventFragment"
+        android:name="com.eventbox.app.android.fragments.event.EventJoinFragment"
         android:label="InterestedEventFragment"
-        tools:layout="@layout/fragment_interested" >
+        tools:layout="@layout/fragment_event_join" >
 
         <action
             android:id="@+id/action_favourite_to_auth"

@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_margin_large"
                 android:layout_marginTop="@dimen/layout_margin_extra_large"
-                android:text="@string/tab_created"
+                android:text="@string/tab_my_event"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textSize="@dimen/text_size_expanded_title_large"
@@ -103,7 +103,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         app:titleTextColor="@color/white"
-        app:title="@string/tab_created"/>
+        app:title="@string/tab_my_event"/>
 </androidx.cardview.widget.CardView>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabCreate"
@@ -112,6 +112,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         app:srcCompat="@drawable/ic_add"
-        android:contentDescription="@string/tab_created"
+        android:contentDescription="@string/tab_my_event"
         android:layout_margin="16dp" />
 </RelativeLayout>

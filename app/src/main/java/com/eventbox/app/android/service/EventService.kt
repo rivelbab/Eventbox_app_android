@@ -29,6 +29,11 @@ class EventService(
     private val favoriteEventApi: FavoriteEventApi
 ) {
 
+    fun createEvent(event: Event): Single<Event> =
+        eventApi.createEvent(event).doOnSuccess {
+            eventDao.insertEvent(it)
+        }
+
     fun getEventLocations(): Single<List<EventLocation>> {
         return eventLocationApi.getEventLocation()
     }
@@ -85,27 +90,6 @@ class EventService(
             }
     }
 
-    private fun updateInterested(apiList: List<Event>): Flowable<List<Event>> {
-
-        val ids = apiList.map { it.id }.toList()
-        eventTopicsDao.insertEventTopics(getEventTopicList(apiList))
-        return eventDao.getInterestedEventWithinIds(ids)
-            .flatMapPublisher { interestEvents ->
-                val interestEventIdsList = interestEvents.map { it.id }
-                val interestEventInterestIdsList = interestEvents.map { it.interestedEventId }
-                apiList.map {
-                    val index = interestEventIdsList.indexOf(it.id)
-                    if (index != -1) {
-                        it.interested = true
-                        it.interestedEventId = interestEventInterestIdsList[index]
-                    }
-                }
-                eventDao.insertEvents(apiList)
-                val eventIds = apiList.map { it.id }.toList()
-                eventDao.getEventWithIds(eventIds)
-            }
-    }
-
     fun getEvent(id: Long): Flowable<Event> {
         return eventDao.getEvent(id)
     }
@@ -132,8 +116,6 @@ class EventService(
     }
 
     fun loadFavoriteEvent(): Single<List<FavoriteEvent>> = favoriteEventApi.getFavorites()
-
-    fun loadInterestedEvent(): Single<List<FavoriteEvent>> = favoriteEventApi.getFavorites()
 
     fun saveFavoritesEventFromApi(favIdsList: List<FavoriteEvent>): Single<List<Event>> {
         val idsList = favIdsList.filter { it.event != null }.map { it.event!!.id }
@@ -175,12 +157,6 @@ class EventService(
         favoriteEventApi.removeFavorite(event.id).andThen {
             event.favorite = false
             event.favoriteEventId = null
-            eventDao.insertEvent(event)
-        }
-    fun removeInterested(favoriteEvent: FavoriteEvent, event: Event): Completable =
-        favoriteEventApi.removeFavorite(event.id).andThen {
-            event.interested = false
-            event.interestedEventId = null
             eventDao.insertEvent(event)
         }
 

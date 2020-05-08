@@ -38,17 +38,13 @@ import com.eventbox.app.android.ui.event.FavoriteEventsViewModel
 import com.eventbox.app.android.utils.Utils.setToolbar
 import com.eventbox.app.android.utils.extensions.hideWithFading
 import com.eventbox.app.android.utils.extensions.nonNull
-import com.eventbox.app.android.utils.extensions.setPostponeSharedElementTransition
-import com.eventbox.app.android.utils.extensions.setStartPostponedEnterTransition
 import com.eventbox.app.android.utils.extensions.showWithFading
 import org.jetbrains.anko.design.longSnackbar
 import org.jetbrains.anko.design.snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-const val INTERESTED_EVENT_FRAGMENT = "interestedEventFragment"
-
-class InterestedEventFragment : Fragment(), BottomIconDoubleClick {
+class EventJoinFragment : Fragment(), BottomIconDoubleClick {
     private val favoriteEventViewModel by viewModel<FavoriteEventsViewModel>()
     private lateinit var rootView: View
     private val favoriteEventsRecyclerAdapter =
@@ -66,7 +62,7 @@ class InterestedEventFragment : Fragment(), BottomIconDoubleClick {
         savedInstanceState: Bundle?
     ): View {
         //setPostponeSharedElementTransition()
-        rootView = inflater.inflate(R.layout.fragment_interested, container, false)
+        rootView = inflater.inflate(R.layout.fragment_event_join, container, false)
         rootView.favoriteEventsRecycler.layoutManager = LinearLayoutManager(activity)
         rootView.favoriteEventsRecycler.adapter = favoriteEventsRecyclerAdapter
         rootView.favoriteEventsRecycler.isNestedScrollingEnabled = false

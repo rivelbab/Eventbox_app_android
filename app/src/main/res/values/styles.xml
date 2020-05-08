@@ -47,4 +47,20 @@
 		<item name="android:textColor">@android:color/white</item>
 		<item name="android:textSize">@dimen/text_size_large</item>
 	</style>
+
+	<style name="TextInputLayout_filledBox" parent="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+		<item name="android:textSize">@dimen/text_size_small_extra</item>
+		<item name="boxStrokeColor">@color/selector_stroke_color</item>
+	</style>
+
+	<style name="TextInputLayout_filledBox_dropdown" parent="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu">
+		<item name="android:textSize">@dimen/text_size_small_extra</item>
+		<item name="boxStrokeColor">@color/selector_stroke_color</item>
+	</style>
+
+	<style name="TextInput_filledBox" parent="TextAppearance.AppCompat">
+		<item name="android:textSize">@dimen/text_size_small</item>
+		<item name="android:background">@color/colorPrimary10</item>
+	</style>
+
 </resources>

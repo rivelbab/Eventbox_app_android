@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_margin_large"
                 android:layout_marginTop="@dimen/layout_margin_extra_large"
-                android:text="@string/tab_saved"
+                android:text="@string/tab_join"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textSize="@dimen/text_size_expanded_title_large"
@@ -167,6 +167,6 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         app:titleTextColor="@color/white"
-        app:title="@string/tab_saved"/>
+        app:title="@string/tab_join"/>
 </androidx.cardview.widget.CardView>
 </FrameLayout>

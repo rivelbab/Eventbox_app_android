@@ -19,9 +19,9 @@
     <string name="no_message_yet">You have no message</string>
 
     <!-- event tab menu -->
-    <string name="tab_favorite">Favorite</string>
-    <string name="tab_saved">Interested</string>
-    <string name="tab_created">Created</string>
+    <string name="tab_favorite">Favories</string>
+    <string name="tab_join">J\'y vais</string>
+    <string name="tab_my_event">Mes events</string>
 
     <!-- news page-->
     <string name="no_news_yet">There is no news yet</string>
@@ -114,16 +114,17 @@
     <string name="eventbox_logo" translatable="false">eventbox</string>
 
     <!--share details-->
-    <string name="starts_on">Starts On :&#160;</string>
-    <string name="ends_on">Ends On :&#160;</string>
-    <string name="start_time">Start Time :&#160;</string>
-    <string name="end_time">End Time :&#160;</string>
+    <string name="starts_on">Commence le :&#160;</string>
+    <string name="ends_on">Fini le :&#160;</string>
+    <string name="start_time">Commence à :&#160;</string>
+    <string name="end_time">Fini à :&#160;</string>
     <string name="event_link">Event Link :&#160;</string>
-    <string name="event_description">Event Description :&#160;</string>
-    <string name="event_name">Event Name :&#160;</string>
-    <string name="event_cat_one">Event Category :&#160;</string>
-    <string name="event_cat_two">Second Category (Optional) :&#160;</string>
-    <string name="event_location">Event Location :&#160;</string>
+    <string name="event_description">Description :&#160;</string>
+    <string name="event_name">Titre :&#160;</string>
+    <string name="event_cat_one">Category :&#160;</string>
+    <string name="event_cat_two">Category2 (Optional) :&#160;</string>
+    <string name="event_location">Lieu :&#160;</string>
+    <string name="event_privacy">Visibilité :&#160;</string>
     <string name="share">Share</string>
 
     <!--add to calendar-->

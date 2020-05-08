@@ -20,8 +20,8 @@
 
     <!-- event tab menu -->
     <string name="tab_favorite">Favorite</string>
-    <string name="tab_saved">Interested</string>
-    <string name="tab_created">Created</string>
+    <string name="tab_join">Interested</string>
+    <string name="tab_my_event">Created</string>
 
     <!-- news page-->
     <string name="no_news_yet">There is no news yet</string>
@@ -124,6 +124,7 @@
     <string name="event_cat_one">Event Category :&#160;</string>
     <string name="event_cat_two">Second Category (Optional) :&#160;</string>
     <string name="event_location">Event Location :&#160;</string>
+    <string name="event_privacy">Privacy :&#160;</string>
     <string name="share">Share</string>
 
     <!--add to calendar-->

@@ -2,15 +2,21 @@ package com.eventbox.app.android.fragments.event
 
 import android.Manifest
 import android.app.Activity
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.InputFilter
 import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.DatePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -19,18 +25,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.textfield.TextInputEditText
-import com.squareup.picasso.MemoryPolicy
-import com.squareup.picasso.Picasso
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.IOException
-import com.eventbox.app.android.utils.CircleTransform
 import com.eventbox.app.android.ComplexBackPressFragment
 import com.eventbox.app.android.MainActivity
 import com.eventbox.app.android.R
+import com.eventbox.app.android.models.user.User
+import com.eventbox.app.android.ui.user.EditProfileViewModel
+import com.eventbox.app.android.ui.user.ProfileViewModel
+import com.eventbox.app.android.utils.CircleTransform
 import com.eventbox.app.android.utils.RotateBitmap
 import com.eventbox.app.android.utils.Utils.hideSoftKeyboard
 import com.eventbox.app.android.utils.Utils.progressDialog
@@ -40,14 +41,17 @@ import com.eventbox.app.android.utils.Utils.show
 import com.eventbox.app.android.utils.emptyToNull
 import com.eventbox.app.android.utils.extensions.nonNull
 import com.eventbox.app.android.utils.nullToEmpty
-import com.eventbox.app.android.models.user.User
-import com.eventbox.app.android.ui.user.EditProfileViewModel
-import com.eventbox.app.android.ui.user.ProfileViewModel
+import com.google.android.material.textfield.TextInputEditText
+import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.dialog_edit_profile_image.view.*
 import kotlinx.android.synthetic.main.fragment_event_add.view.*
 import org.jetbrains.anko.design.snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
+import java.io.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class EventAddFragment : Fragment(), ComplexBackPressFragment {
 
@@ -59,11 +63,14 @@ class EventAddFragment : Fragment(), ComplexBackPressFragment {
     private val PICK_IMAGE_REQUEST = 100
     private val READ_STORAGE = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
     private val READ_STORAGE_REQUEST_CODE = 1
+    private var calendar = Calendar.getInstance()
 
     private var cameraPermissionGranted = false
     private val TAKE_IMAGE_REQUEST = 101
     private val CAMERA_REQUEST = arrayOf(Manifest.permission.CAMERA)
     private val CAMERA_REQUEST_CODE = 2
+
+    private val MAX_LENGTH_NORMAL = 255
 
     private lateinit var userFirstName: String
     private lateinit var userLastName: String
@@ -71,9 +78,15 @@ class EventAddFragment : Fragment(), ComplexBackPressFragment {
     private lateinit var userPhone: String
 
     private lateinit var eventName: String
-    private lateinit var eventDesc: String
+    private lateinit var eventDescription: String
+    private lateinit var eventLocation: String
     private lateinit var eventCatOne: String
     private lateinit var eventCatTwo: String
+    private lateinit var eventStartOn: String
+    private lateinit var eventEndOn: String
+    private lateinit var eventStartTime: String
+    private lateinit var eventEndTime: String
+    private lateinit var eventPrivacy: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -84,296 +97,147 @@ class EventAddFragment : Fragment(), ComplexBackPressFragment {
             handleBackPress()
         }
 
-        profileViewModel.user
-            .nonNull()
-            .observe(viewLifecycleOwner, Observer {
-                loadUserUI(it)
-            })
+        //=== configure form field
+        disabledKeyListener()
+        setFilterFields()
 
-        val currentUser = editProfileViewModel.user.value
-        if (currentUser == null) profileViewModel.getProfile() else loadUserUI(currentUser)
 
-        val progress = progressDialog(context)
-        editProfileViewModel.progress
-            .nonNull()
-            .observe(viewLifecycleOwner, Observer {
-                progress.show(it)
-            })
+        val items = listOf("Sport", "Education", "Conference", "Culturel")
+        val itemsPrivacy = listOf("Public", "Privé")
 
-        editProfileViewModel.getUpdatedTempFile()
-            .nonNull()
-            .observe(viewLifecycleOwner, Observer { file ->
-                // prevent picasso from storing tempAvatar cache,
-                // if user select another image picasso will display tempAvatar instead of its own cache
-                Picasso.get()
-                    .load(file)
-                    .placeholder(requireDrawable(requireContext(), R.drawable.ic_person_black))
-                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                    .transform(CircleTransform())
-                    .into(rootView.eventImage)
-            })
+        val adapter = ArrayAdapter(requireContext(), R.layout.item_event_dropdown_list, items)
+        val adapterPrivacy = ArrayAdapter(requireContext(), R.layout.item_event_dropdown_list, itemsPrivacy)
 
-        storagePermissionGranted = (ContextCompat.checkSelfPermission(requireContext(),
-            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-        cameraPermissionGranted = (ContextCompat.checkSelfPermission(requireContext(),
-            Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)
+        rootView.categoryTwo.setAdapter(adapter)
+        rootView.categoryOne.setAdapter(adapter)
+        rootView.privacy.setAdapter(adapterPrivacy)
 
-        rootView.addButton.setOnClickListener {
-            hideSoftKeyboard(context, rootView)
-            if (isValidInput()) {
-                updateUser()
-            } else {
-                rootView.snackbar(getString(R.string.fill_required_fields_message))
-            }
+        val startsOnDateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            calendar.set(Calendar.YEAR, year)
+            calendar.set(Calendar.MONTH, month)
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            updateDateInView("STARTS_ON")
+        }
+        val startTimeSetListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+            calendar.set(Calendar.HOUR_OF_DAY, hour)
+            calendar.set(Calendar.MINUTE, minute)
+            updateTimeInView("START_TIME")
         }
 
-        editProfileViewModel.message
-            .nonNull()
-            .observe(viewLifecycleOwner, Observer {
-                rootView.snackbar(it)
-                if (it == getString(R.string.user_update_success_message)) {
-                    val thisActivity = activity
-                    if (thisActivity is MainActivity) thisActivity.onSuperBackPressed()
-                }
-            })
+        val endsOnDateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            calendar.set(Calendar.YEAR, year)
+            calendar.set(Calendar.MONTH, month)
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            updateDateInView("ENDS_ON")
+        }
 
-        rootView.eventImageFab.setOnClickListener {
-            showEditPhotoDialog()
+        val endTimeSetListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+            calendar.set(Calendar.HOUR_OF_DAY, hour)
+            calendar.set(Calendar.MINUTE, minute)
+            updateTimeInView("END_TIME")
+        }
+
+        rootView.startsOn.setOnClickListener {
+            DatePickerDialog(
+                requireContext(),
+                startsOnDateSetListener,
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+            ).show()
+        }
+
+        rootView.startTime.setOnClickListener {
+            TimePickerDialog(
+                requireContext(),
+                startTimeSetListener,
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
+                true
+            ).show()
+        }
+
+        rootView.endsOn.setOnClickListener {
+            DatePickerDialog(
+                requireContext(),
+                endsOnDateSetListener,
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+            ).show()
+        }
+
+        rootView.endTime.setOnClickListener {
+            TimePickerDialog(
+                requireContext(),
+                endTimeSetListener,
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
+                true
+            ).show()
         }
 
         return rootView
     }
 
+    //=== disable key listener on some field ===
+    private fun disabledKeyListener() {
+        rootView.categoryOne.keyListener = null
+        rootView.privacy.keyListener = null
+        rootView.categoryTwo.keyListener = null
+        rootView.startsOn.keyListener = null
+        rootView.endsOn.keyListener = null
+        rootView.startTime.keyListener = null
+        rootView.endTime.keyListener = null
+
+        rootView.startsOn.isFocusable = false
+        rootView.startsOn.isFocusableInTouchMode = false
+        rootView.endsOn.isFocusable = false
+        rootView.endsOn.isFocusableInTouchMode = false
+        rootView.startTime.isFocusable = false
+        rootView.startTime.isFocusableInTouchMode = false
+        rootView.endTime.isFocusable = false
+        rootView.endTime.isFocusableInTouchMode = false
+
+    }
+
+    //=== add some filter to field ===
+    private fun setFilterFields() {
+        rootView.name.filters = arrayOf(InputFilter.LengthFilter(MAX_LENGTH_NORMAL))
+        rootView.location.filters = arrayOf(InputFilter.LengthFilter(MAX_LENGTH_NORMAL))
+    }
+
+    private fun updateDateInView(view : String) {
+        val localFormat = "dd/MM/yyyy"
+        val simpleDateFormat = SimpleDateFormat(localFormat, Locale.FRANCE)
+        when (view) {
+            "STARTS_ON" -> rootView.startsOn.setText(simpleDateFormat.format(calendar.time))
+            "ENDS_ON" -> rootView.endsOn.setText(simpleDateFormat.format(calendar.time))
+        }
+    }
+
+    private fun updateTimeInView(view : String) {
+        val localFormat = "HH:mm"
+        val simpleDateFormat = SimpleDateFormat(localFormat, Locale.FRANCE)
+        when (view) {
+            "START_TIME" -> rootView.startTime.setText(simpleDateFormat.format(calendar.time))
+            "END_TIME" -> rootView.endTime.setText(simpleDateFormat.format(calendar.time))
+        }
+    }
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         super.onActivityResult(requestCode, resultCode, intentData)
-        if (resultCode != Activity.RESULT_OK) return
-
-        if (requestCode == PICK_IMAGE_REQUEST && intentData?.data != null) {
-            val imageUri = intentData.data ?: return
-
-            try {
-                val selectedImage = RotateBitmap()
-                    .handleSamplingAndRotationBitmap(requireContext(), imageUri)
-                editProfileViewModel.encodedImage = selectedImage?.let { encodeImage(it) }
-                editProfileViewModel.avatarUpdated = true
-            } catch (e: FileNotFoundException) {
-                Timber.d(e, "File Not Found Exception")
-            }
-        } else if (requestCode == TAKE_IMAGE_REQUEST) {
-            val imageBitmap = intentData?.extras?.get("data")
-            if (imageBitmap is Bitmap) {
-                editProfileViewModel.encodedImage = imageBitmap.let { encodeImage(it) }
-                editProfileViewModel.avatarUpdated = true
-            }
-        }
     }
 
-    private fun isValidInput(): Boolean {
-        return true
-    }
-
-    private fun loadUserUI(user: User) {
-        userFirstName = user.firstName.nullToEmpty()
-        userLastName = user.lastName.nullToEmpty()
-        userDetails = user.details.nullToEmpty()
-        if (editProfileViewModel.userAvatar == null)
-            editProfileViewModel.userAvatar = user.avatarUrl.nullToEmpty()
-        userPhone = user.phone.nullToEmpty()
-
-        if (safeArgs.croppedImage.isEmpty()) {
-            if (!editProfileViewModel.userAvatar.isNullOrEmpty() && !editProfileViewModel.avatarUpdated) {
-                val drawable = requireDrawable(requireContext(), R.drawable.ic_account_circle_grey)
-                Picasso.get()
-                    .load(editProfileViewModel.userAvatar)
-                    .placeholder(drawable)
-                    .transform(CircleTransform())
-                    .into(rootView.eventImage)
-            }
-        } else {
-            //val croppedImage = decodeBitmap(safeArgs.croppedImage)
-            //editProfileViewModel.encodedImage = encodeImage(croppedImage)
-            //editProfileViewModel.avatarUpdated = true
-        }
-        setTextIfNull(rootView.name, userFirstName)
-        setTextIfNull(rootView.description, userLastName)
-        setTextIfNull(rootView.categoryOne, userDetails)
-        setTextIfNull(rootView.categoryTow, userPhone)
-    }
-
-    private fun setTextIfNull(input: TextInputEditText, text: String) {
-        if (input.text.isNullOrBlank()) input.setText(text)
-    }
-
-    private fun showEditPhotoDialog() {
-        val editImageView = layoutInflater.inflate(R.layout.dialog_edit_profile_image, null)
-
-        val dialog = AlertDialog.Builder(requireContext())
-            .setView(editImageView)
-            .create()
-
-        /*editImageView.editImage.setOnClickListener {
-
-            if (!editProfileViewModel.userAvatar.isNullOrEmpty()) {
-                val currentUserAvatar = editProfileViewModel.userAvatar
-                if (currentUserAvatar != null) {
-                    findNavController(rootView).navigate(
-                        EditProfileFragmentDirections.actionEditProfileToCropImage(
-                            currentUserAvatar
-                        )
-                    )
-                } else {
-                    rootView.snackbar(getString(R.string.error_editting_image_message))
-                }
-            } else {
-                rootView.snackbar(getString(R.string.image_not_found))
-            }
-
-            dialog.cancel()
-        }*/
-
-        editImageView.removeImage.setOnClickListener {
-            dialog.cancel()
-            clearAvatar()
-        }
-
-        editImageView.takeImage.setOnClickListener {
-            dialog.cancel()
-            if (cameraPermissionGranted) {
-                takeImage()
-            } else {
-                requestPermissions(CAMERA_REQUEST, CAMERA_REQUEST_CODE)
-            }
-        }
-
-        editImageView.replaceImage.setOnClickListener {
-            dialog.cancel()
-            if (storagePermissionGranted) {
-                showFileChooser()
-            } else {
-                requestPermissions(READ_STORAGE, READ_STORAGE_REQUEST_CODE)
-            }
-        }
-        dialog.show()
-    }
-
-    private fun clearAvatar() {
-        val drawable = requireDrawable(requireContext(), R.drawable.ic_account_circle_grey)
-        Picasso.get()
-            .load(R.drawable.ic_account_circle_grey)
-            .placeholder(drawable)
-            .transform(CircleTransform())
-            .into(rootView.eventImage)
-        editProfileViewModel.encodedImage = encodeImage(drawable.toBitmap(120, 120))
-        editProfileViewModel.avatarUpdated = true
-    }
-
-    private fun encodeImage(bitmap: Bitmap): String {
-        val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-        val bytes = baos.toByteArray()
-
-        // create temp file
-        try {
-
-            val tempAvatar = File(context?.cacheDir, "tempAvatar")
-            if (tempAvatar.exists()) {
-                tempAvatar.delete()
-            }
-            val fos = FileOutputStream(tempAvatar)
-            fos.write(bytes)
-            fos.flush()
-            fos.close()
-
-            editProfileViewModel.setUpdatedTempFile(tempAvatar)
-            editProfileViewModel.userAvatar = tempAvatar.toURI().toString()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-
-        return "data:image/jpeg;base64," + Base64.encodeToString(bytes, Base64.DEFAULT)
-    }
-
-    private fun takeImage() {
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        startActivityForResult(intent, TAKE_IMAGE_REQUEST)
-    }
-
-    private fun showFileChooser() {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_image)), PICK_IMAGE_REQUEST)
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == READ_STORAGE_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                storagePermissionGranted = true
-                rootView.snackbar(getString(R.string.permission_granted_message, getString(R.string.external_storage)))
-                showFileChooser()
-            } else {
-                rootView.snackbar(getString(R.string.permission_denied_message, getString(R.string.external_storage)))
-            }
-        } else if (requestCode == CAMERA_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                cameraPermissionGranted = true
-                rootView.snackbar(getString(R.string.permission_granted_message, getString(R.string.camera)))
-                takeImage()
-            } else {
-                rootView.snackbar(getString(R.string.permission_denied_message, getString(R.string.camera)))
-            }
-        }
-    }
 
     /**
      * Handles back press when up button or back button is pressed
      */
     override fun handleBackPress() {
-        val thisActivity = activity
-        if (noDataChanged()) {
-            findNavController(rootView).popBackStack()
-        } else {
-            hideSoftKeyboard(context, rootView)
-            val dialog = AlertDialog.Builder(requireContext())
-            dialog.setMessage(getString(R.string.changes_not_saved))
-            dialog.setNegativeButton(getString(R.string.discard)) { _, _ ->
-                if (thisActivity is MainActivity) thisActivity.onSuperBackPressed()
-            }
-            dialog.setPositiveButton(getString(R.string.save)) { _, _ ->
-                if (isValidInput()) {
-                    updateUser()
-                } else {
-                    rootView.snackbar(getString(R.string.fill_required_fields_message))
-                } }
-            dialog.create().show()
-        }
     }
-
-    private fun updateUser() {
-        val newUser = User(
-            id = editProfileViewModel.getId(),
-            firstName = rootView.name.text.toString(),
-            lastName = rootView.description.text.toString(),
-            details = rootView.categoryOne.text.toString(),
-            phone = rootView.categoryTow.text.toString().emptyToNull()
-        )
-        editProfileViewModel.updateProfile(newUser)
-    }
-
-    private fun noDataChanged() = !editProfileViewModel.avatarUpdated &&
-        rootView.name.text.toString() == userLastName &&
-        rootView.description.text.toString() == userFirstName &&
-        rootView.categoryOne.text.toString() == userDetails &&
-        rootView.categoryTow.text.toString() == userPhone
 
     override fun onDestroyView() {
-        val activity = activity as? AppCompatActivity
-        activity?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        setHasOptionsMenu(false)
         super.onDestroyView()
     }
 }

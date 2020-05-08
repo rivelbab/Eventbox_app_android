@@ -42,8 +42,8 @@ class EventMainFragment : Fragment(), BottomIconDoubleClick {
     private fun configureTabLayout(tabLayout: TabLayout?, viewPager: ViewPager?) {
 
         tabLayout!!.addTab(tabLayout.newTab().setText(R.string.tab_favorite))
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_saved))
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_created))
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_join))
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_my_event))
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
         setupTabIcons(tabLayout)
 

@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.eventbox.app.android.fragments.event.MyEventFragment
 import com.eventbox.app.android.fragments.event.FavoriteFragment
-import com.eventbox.app.android.fragments.event.InterestedEventFragment
+import com.eventbox.app.android.fragments.event.EventJoinFragment
 
 class EventMainAdapter(fm: FragmentManager): FragmentPagerAdapter(fm) {
 
@@ -16,7 +16,7 @@ class EventMainAdapter(fm: FragmentManager): FragmentPagerAdapter(fm) {
 
         when (position) {
             0 -> fragment = FavoriteFragment()
-            1 -> fragment = InterestedEventFragment()
+            1 -> fragment = EventJoinFragment()
             2 -> fragment = MyEventFragment()
         }
         return fragment
