@@ -19,6 +19,7 @@ import com.eventbox.app.android.networks.connectivity.MutableConnectionLiveData
 import com.eventbox.app.android.config.Preference
 import com.eventbox.app.android.config.Resource
 import com.eventbox.app.android.models.event.Event
+import com.eventbox.app.android.models.event.EventType
 import com.eventbox.app.android.models.event.EventId
 import com.eventbox.app.android.service.EventService
 import com.eventbox.app.android.utils.EventUtils
@@ -44,9 +45,10 @@ class SearchResultsViewModel(
     val showShimmerResults: MediatorLiveData<Boolean> = mutableShowShimmerResults
     private val mutablePagedEvents = MutableLiveData<PagedList<Event>>()
     val pagedEvents: LiveData<PagedList<Event>> = mutablePagedEvents
-
+    private val mutableEventTypes = MutableLiveData<List<EventType>>()
     private val mutableMessage = SingleLiveEvent<String>()
     val message: SingleLiveEvent<String> = mutableMessage
+    val eventTypes: LiveData<List<EventType>> = mutableEventTypes
     val connection: LiveData<Boolean> = mutableConnectionLiveData
 
     private val savedNextDate = DateTimeUtils.getNextDate()
@@ -62,6 +64,16 @@ class SearchResultsViewModel(
     var savedTime: String? = null
 
     fun isLoggedIn() = authHolder.isLoggedIn()
+
+    fun loadEventTypes() {
+        compositeDisposable += eventService.getEventTypes()
+            .withDefaultSchedulers()
+            .subscribe({
+                mutableEventTypes.value = it
+            }, {
+                Timber.e(it, "Error fetching events types")
+            })
+    }
 
     fun loadEvents(
         location: String,
@@ -315,14 +327,13 @@ class SearchResultsViewModel(
         }
         Timber.e(query)
 
-        sourceFactory =
-            SearchEventsDataSourceFactory(
-                compositeDisposable,
-                eventService,
-                query,
-                sortBy,
-                mutableShowShimmerResults
-            )
+        sourceFactory = SearchEventsDataSourceFactory(
+            compositeDisposable,
+            eventService,
+            query,
+            sortBy,
+            mutableShowShimmerResults
+        )
 
         val eventPagedList = RxPagedListBuilder(sourceFactory, config)
             .setFetchScheduler(Schedulers.io())
@@ -358,10 +369,7 @@ class SearchResultsViewModel(
     }
 
     private fun addFavorite(event: Event) {
-        val favoriteEvent = FavoriteEvent(
-            authHolder.getId(),
-            EventId(event.id)
-        )
+        val favoriteEvent = FavoriteEvent(authHolder.getId(), EventId(event.id))
         compositeDisposable += eventService.addFavorite(favoriteEvent, event)
             .withDefaultSchedulers()
             .subscribe({
@@ -375,10 +383,7 @@ class SearchResultsViewModel(
     private fun removeFavorite(event: Event) {
         val favoriteEventId = event.favoriteEventId ?: return
 
-        val favoriteEvent = FavoriteEvent(
-            favoriteEventId,
-            EventId(event.id)
-        )
+        val favoriteEvent = FavoriteEvent(favoriteEventId, EventId(event.id))
         compositeDisposable += eventService.removeFavorite(favoriteEvent, event)
             .withDefaultSchedulers()
             .subscribe({

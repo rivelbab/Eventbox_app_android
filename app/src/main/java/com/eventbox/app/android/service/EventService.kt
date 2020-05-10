@@ -1,30 +1,20 @@
 package com.eventbox.app.android.service
 
-import com.eventbox.app.android.models.event.Event
-import com.eventbox.app.android.networks.api.EventApi
 import com.eventbox.app.android.data.dao.EventDao
+import com.eventbox.app.android.models.event.*
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 import com.eventbox.app.android.utils.EventUtils
 import java.util.Date
-import com.eventbox.app.android.models.event.EventFAQ
-import com.eventbox.app.android.networks.api.EventFAQApi
-import com.eventbox.app.android.models.event.EventLocation
-import com.eventbox.app.android.networks.api.EventLocationApi
-import com.eventbox.app.android.models.event.EventTopic
-import com.eventbox.app.android.networks.api.EventTopicApi
-import com.eventbox.app.android.data.dao.EventTopicsDao
-import com.eventbox.app.android.models.event.FavoriteEvent
-import com.eventbox.app.android.networks.api.FavoriteEventApi
+import com.eventbox.app.android.networks.api.*
 import org.jetbrains.anko.collections.forEachWithIndex
 
 class EventService(
     private val eventApi: EventApi,
     private val eventDao: EventDao,
-    private val eventTopicApi: EventTopicApi,
-    private val eventTopicsDao: EventTopicsDao,
     private val eventLocationApi: EventLocationApi,
+    private val eventTypesApi: EventTypesApi,
     private val eventFAQApi: EventFAQApi,
     private val favoriteEventApi: FavoriteEventApi
 ) {
@@ -44,11 +34,8 @@ class EventService(
         return eventFAQApi.getEventFAQ(id)
     }
 
-    private fun getEventTopicList(eventsList: List<Event>): List<EventTopic?> {
-        return eventsList
-            .filter { it.eventTopic != null }
-            .map { it.eventTopic }
-            .toList()
+    fun getEventTypes(): Single<List<EventType>> {
+        return eventTypesApi.getEventTypes()
     }
 
     fun getSearchEventsPaged(filter: String, sortBy: String, page: Int): Flowable<List<Event>> {
@@ -64,7 +51,7 @@ class EventService(
         return eventDao.getInterestedEvents()
     }
 
-    fun getEventsByLocationPaged(locationName: String?, page: Int, pageSize: Int = 5): Flowable<List<Event>> {
+    fun getEventsByLocationPaged(page: Int, pageSize: Int = 5): Flowable<List<Event>> {
         val query = "[]"
         return eventApi.searchEventsPaged("name", query, page, pageSize).flatMapPublisher { apiList ->
             updateFavorites(apiList)
@@ -74,7 +61,7 @@ class EventService(
     private fun updateFavorites(apiList: List<Event>): Flowable<List<Event>> {
 
         val ids = apiList.map { it.id }.toList()
-        eventTopicsDao.insertEventTopics(getEventTopicList(apiList))
+
         return eventDao.getFavoriteEventWithinIds(ids)
             .flatMapPublisher { favEvents ->
                 val favEventIdsList = favEvents.map { it.id }
@@ -166,7 +153,7 @@ class EventService(
         val filter = "[{\"name\":\"ends-at\",\"op\":\"ge\",\"val\":\"%${EventUtils.getTimeInISO8601(
             Date()
         )}%\"}]"
-        return eventTopicApi.getEventsUnderTopicIdPaged(id, filter, page, pageSize)
+        return eventApi.getEventsUnderTypeIdPaged(id, filter, page, pageSize)
             .flatMapPublisher {
                 updateFavorites(it)
             }

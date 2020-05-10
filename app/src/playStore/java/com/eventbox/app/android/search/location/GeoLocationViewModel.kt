@@ -7,10 +7,10 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import com.eventbox.app.android.config.exceptions.LocationPermissionException
 import com.eventbox.app.android.config.exceptions.NoLocationSourceException
-import com.eventbox.app.android.service.LocationService
+import com.eventbox.app.android.service.SearchLocationService
 import com.eventbox.app.android.ui.common.SingleLiveEvent
 
-class GeoLocationViewModel(private val locationService: LocationService) : ViewModel() {
+class GeoLocationViewModel(private val locationService: SearchLocationService) : ViewModel() {
     private val mutableLocation = MutableLiveData<String>()
     val location: LiveData<String> = mutableLocation
     private val mutableVisibility = MutableLiveData<Boolean>()

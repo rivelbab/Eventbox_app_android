@@ -1,10 +1,12 @@
 package com.eventbox.app.android.fragments.event.search
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
+import androidx.annotation.RequiresApi
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation.findNavController
@@ -23,9 +25,7 @@ import kotlinx.android.synthetic.main.fragment_search_filter.view.tvSelectCatego
 import kotlinx.android.synthetic.main.fragment_search_filter.view.tvSelectDate
 import kotlinx.android.synthetic.main.fragment_search_filter.view.tvSelectLocation
 import com.eventbox.app.android.R
-import com.eventbox.app.android.ui.event.search.SearchViewModel
 import com.eventbox.app.android.utils.Utils.setToolbar
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val SEARCH_FILTER_FRAGMENT = "SearchFilterFragment"
 
@@ -34,7 +34,6 @@ class SearchFilterFragment : Fragment() {
     private lateinit var selectedTime: String
     private lateinit var selectedLocation: String
     private lateinit var selectedCategory: String
-    private val searchViewModel by viewModel<SearchViewModel>()
     private val safeArgs: SearchFilterFragmentArgs by navArgs()
     private lateinit var sortBy: String
 
@@ -69,6 +68,7 @@ class SearchFilterFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun setupToolbar() {
         setToolbar(activity, show = false)
         rootView.toolbar.setNavigationOnClickListener {
@@ -97,14 +97,9 @@ class SearchFilterFragment : Fragment() {
     }
 
     private fun setFilterParams() {
-        with(searchViewModel) {
-            loadSavedLocation()
-            selectedLocation = savedLocation ?: getString(R.string.anywhere)
-            loadSavedTime()
-            selectedTime = savedTime ?: getString(R.string.anytime)
-            loadSavedType()
-            selectedCategory = savedType ?: getString(R.string.anything)
-        }
+        selectedLocation = getString(R.string.anywhere)
+        selectedTime = getString(R.string.anytime)
+        selectedCategory = getString(R.string.anything)
     }
     private fun setFilters() {
 

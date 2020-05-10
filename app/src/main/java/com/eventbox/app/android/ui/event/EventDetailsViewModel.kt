@@ -24,7 +24,6 @@ import com.eventbox.app.android.data.dataSource.SimilarEventsDataSourceFactory
 import com.eventbox.app.android.models.event.FavoriteEvent
 import com.eventbox.app.android.models.feedback.Feedback
 import com.eventbox.app.android.models.event.EventId
-import com.eventbox.app.android.models.event.EventTopic
 import com.eventbox.app.android.models.payment.Order
 import com.eventbox.app.android.models.payment.TicketPriceRange
 import com.eventbox.app.android.service.*
@@ -171,14 +170,13 @@ class EventDetailsViewModel(
 
 
 
-    fun fetchSimilarEvents(eventId: Long, topicId: Long, location: String?) {
+    fun fetchSimilarEvents(eventId: Long, typeId: Long, location: String?) {
         if (eventId == -1L) return
 
         val sourceFactory =
             SimilarEventsDataSourceFactory(
                 compositeDisposable,
-                topicId,
-                location,
+                typeId,
                 eventId,
                 mutableSimilarEventsProgress,
                 eventService

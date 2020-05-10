@@ -47,7 +47,7 @@
             android:src="@drawable/header" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/interestedFab"
+            android:id="@+id/joinEventFab"
             android:layout_width="@dimen/fab_width"
             android:layout_height="@dimen/fab_height"
             android:layout_marginEnd="132dp"
@@ -60,7 +60,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/eventImage"
             app:fabCustomSize="40dp"
-            app:srcCompat="@drawable/ic_calendar_add" />
+            app:srcCompat="@drawable/ic_baseline_star_white" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/shareFab"
@@ -160,7 +160,7 @@
             app:chipSpacingVertical="4dp"
             app:chipSpacingHorizontal="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/chipJoin"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/locationName">
             <com.google.android.material.chip.Chip
@@ -175,35 +175,10 @@
                 android:id="@+id/cat2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/category"
+                android:text="@string/category_two"
                 android:checkable="false"
                 app:chipStrokeWidth="1dp"
                 app:chipStrokeColor="@color/colorSecondary"/>
-        </com.google.android.material.chip.ChipGroup>
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipJoin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_small"
-            android:layout_marginStart="@dimen/layout_margin_none"
-            android:layout_marginBottom="@dimen/layout_margin_extra_large"
-            app:chipSpacingVertical="4dp"
-            app:chipSpacingHorizontal="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/chipTags"
-            app:layout_constraintTop_toBottomOf="@+id/locationName">
-            <com.google.android.material.chip.Chip
-                android:id="@+id/btn_join"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/btn_join"
-                android:checkable="false"
-                android:textColor="@color/white"
-                app:chipIconEnabled="true"
-                app:chipIcon="@drawable/ic_baseline_star_white"
-                app:chipBackgroundColor="@color/colorPrimary"
-                app:chipStrokeColor="@color/colorPrimaryDark" />
         </com.google.android.material.chip.ChipGroup>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

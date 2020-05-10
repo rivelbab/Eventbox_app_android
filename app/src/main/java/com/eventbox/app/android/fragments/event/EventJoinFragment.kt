@@ -71,7 +71,7 @@ class EventJoinFragment : Fragment(), BottomIconDoubleClick {
         }
 
         rootView.findText.setOnClickListener {
-            findNavController(rootView).navigate(FavoriteFragmentDirections.actionFavouriteToSearch())
+            openSearchResult(rootView.todayChip.text.toString())
         }
 
         rootView.todayChip.setOnClickListener {

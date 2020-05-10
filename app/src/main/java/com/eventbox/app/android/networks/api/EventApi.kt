@@ -28,4 +28,12 @@ interface EventApi {
 
     @GET("events")
     fun eventsByQuery(@Query("filter") filter: String): Single<List<Event>>
+
+    @GET("event-topics/{id}/events?include=event-topic")
+    fun getEventsUnderTypeIdPaged(
+        @Path("id") id: Long,
+        @Query("filter") filter: String,
+        @Query("page[number]") page: Int,
+        @Query("page[size]") pageSize: Int = 5
+    ): Single<List<Event>>
 }

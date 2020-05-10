@@ -142,9 +142,9 @@ class EventDetailsFragment : Fragment() {
                 currentEvent = it
                 loadEvent(it)
                 if (eventViewModel.similarEvents.value == null) {
-                    val eventTopicId = it.eventTopic?.id ?: 0
+                    val eventTypeId = it.eventType?.id ?: 0
                     val eventLocation = it.locationName
-                    eventViewModel.fetchSimilarEvents(it.id, eventTopicId, eventLocation)
+                    eventViewModel.fetchSimilarEvents(it.id, eventTypeId, eventLocation)
                 }
                 if (eventViewModel.eventFeedback.value == null) eventViewModel.fetchEventFeedback(it.id)
 

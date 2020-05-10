@@ -65,7 +65,6 @@ class OrderCompletedViewModel(
             SimilarEventsDataSourceFactory(
                 compositeDisposable,
                 topicId,
-                location,
                 eventId,
                 mutableProgress,
                 eventService

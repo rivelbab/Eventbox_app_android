@@ -156,7 +156,6 @@ class SearchLocationFragment : Fragment() {
 
     private fun redirectToMain() {
         val fragmentId = when (safeArgs.fromFragmentName) {
-            SEARCH_FRAGMENT -> SearchLocationFragmentDirections.actionSearchLocationToSearch()
             SEARCH_FILTER_FRAGMENT -> SearchLocationFragmentDirections.actionSearchLocationToSearchFilter()
             WELCOME_FRAGMENT -> SearchLocationFragmentDirections.actionSearchLocationToAuth(
                 redirectedFrom = SEARCH_LOCATION_FRAGMENT,

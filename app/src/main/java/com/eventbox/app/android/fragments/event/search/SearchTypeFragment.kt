@@ -1,11 +1,9 @@
 package com.eventbox.app.android.fragments.event.search
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -27,14 +25,12 @@ import com.eventbox.app.android.utils.extensions.nonNull
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchTypeFragment : Fragment() {
-    private val typesAdapter: SearchTypeAdapter =
-        SearchTypeAdapter()
+    private val typesAdapter: SearchTypeAdapter = SearchTypeAdapter()
     private val searchTypeViewModel by viewModel<SearchTypeViewModel>()
     private val safeArgs: SearchTypeFragmentArgs by navArgs()
     private lateinit var rootView: View
     private val eventTypesList = ArrayList<String>()
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,7 +41,19 @@ class SearchTypeFragment : Fragment() {
         setToolbar(activity, show = false)
         rootView.eventTypesRecyclerView.layoutManager = LinearLayoutManager(activity)
         rootView.eventTypesRecyclerView.adapter = typesAdapter
+        searchTypeViewModel.loadEventTypes()
         eventTypesList.add(getString(R.string.anything))
+
+        searchTypeViewModel.connection
+            .nonNull()
+            .observe(viewLifecycleOwner, Observer { isConnected ->
+                if (isConnected) {
+                    searchTypeViewModel.loadEventTypes()
+                    showNoInternetError(false)
+                } else {
+                    showNoInternetError(searchTypeViewModel.eventTypes.value == null)
+                }
+            })
 
         searchTypeViewModel.showShimmer
             .nonNull()
@@ -58,16 +66,26 @@ class SearchTypeFragment : Fragment() {
                 rootView.shimmerSearchEventTypes.isVisible = shouldShowShimmer
             })
 
-        val listener: TypeClickListener = object :
-            TypeClickListener {
+        searchTypeViewModel.eventTypes
+            .nonNull()
+            .observe(viewLifecycleOwner, Observer { list ->
+                list.forEach {
+                    eventTypesList.add(it.name)
+                }
+                setCurrentChoice(safeArgs.type)
+                typesAdapter.addAll(eventTypesList)
+                typesAdapter.notifyDataSetChanged()
+            })
+
+        val listener: TypeClickListener = object : TypeClickListener {
             override fun onClick(chosenType: String) {
                 redirectToSearch(chosenType)
             }
         }
         typesAdapter.setListener(listener)
-        //=== here
+
         rootView.retry.setOnClickListener {
-            if (searchTypeViewModel.isConnected()) true
+            if (searchTypeViewModel.isConnected()) searchTypeViewModel.loadEventTypes()
         }
 
         rootView.toolbar.setNavigationOnClickListener {
@@ -79,10 +97,7 @@ class SearchTypeFragment : Fragment() {
 
     private fun redirectToSearch(type: String) {
         searchTypeViewModel.saveType(type)
-        val destFragId = if (safeArgs.fromFragmentName == SEARCH_FILTER_FRAGMENT)
-            R.id.action_search_type_to_search_filter
-        else
-            R.id.action_search_type_to_search
+        val destFragId = R.id.action_search_type_to_search_filter
 
         val navArgs = if (safeArgs.fromFragmentName == SEARCH_FILTER_FRAGMENT) {
             SearchFilterFragmentArgs(

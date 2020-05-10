@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "648b24ee9e61e5ee7b7a64579c95acf8",
+    "identityHash": "b094cbbd1ce4f4699900ff443f84b730",
     "entities": [
       {
         "tableName": "Event",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `identifier` TEXT NOT NULL, `description` TEXT, `locationName` TEXT, `startsAt` TEXT NOT NULL, `endsAt` TEXT NOT NULL, `codeOfConduct` TEXT, `createdAt` TEXT, `deletedAt` TEXT, `isComplete` INTEGER NOT NULL, `privacy` TEXT NOT NULL, `thumbnailImageUrl` TEXT, `originalImageUrl` TEXT, `largeImageUrl` TEXT, `ownerDescription` TEXT, `ownerName` TEXT, `hasOwnerInfo` INTEGER NOT NULL, `timezone` TEXT NOT NULL, `latitude` REAL, `longitude` REAL, `isMapShown` INTEGER NOT NULL, `favorite` INTEGER NOT NULL, `favoriteEventId` INTEGER, `interested` INTEGER NOT NULL, `interestedEventId` INTEGER, `paymentCurrency` TEXT, `paymentCountry` TEXT, `paypalEmail` TEXT, `ticketUrl` TEXT, `refundPolicy` TEXT, `canPayByStripe` INTEGER NOT NULL, `canPayByBank` INTEGER NOT NULL, `canPayByPaypal` INTEGER NOT NULL, `canPayOnsite` INTEGER NOT NULL, `isTicketingEnabled` INTEGER NOT NULL, `isTaxEnabled` INTEGER NOT NULL, `eventTopic` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `identifier` TEXT NOT NULL, `description` TEXT, `locationName` TEXT, `startsAt` TEXT NOT NULL, `endsAt` TEXT NOT NULL, `codeOfConduct` TEXT, `createdAt` TEXT, `deletedAt` TEXT, `isComplete` INTEGER NOT NULL, `privacy` TEXT NOT NULL, `thumbnailImageUrl` TEXT, `originalImageUrl` TEXT, `largeImageUrl` TEXT, `ownerDescription` TEXT, `ownerName` TEXT, `hasOwnerInfo` INTEGER NOT NULL, `timezone` TEXT NOT NULL, `latitude` REAL, `longitude` REAL, `isMapShown` INTEGER NOT NULL, `favorite` INTEGER NOT NULL, `favoriteEventId` INTEGER, `interested` INTEGER NOT NULL, `interestedEventId` INTEGER, `paymentCurrency` TEXT, `paymentCountry` TEXT, `paypalEmail` TEXT, `ticketUrl` TEXT, `refundPolicy` TEXT, `canPayByStripe` INTEGER NOT NULL, `canPayByBank` INTEGER NOT NULL, `canPayByPaypal` INTEGER NOT NULL, `canPayOnsite` INTEGER NOT NULL, `isTicketingEnabled` INTEGER NOT NULL, `isTaxEnabled` INTEGER NOT NULL, `eventType` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -231,8 +231,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "eventTopic",
-            "columnName": "eventTopic",
+            "fieldPath": "eventType",
+            "columnName": "eventType",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -245,12 +245,12 @@
         },
         "indices": [
           {
-            "name": "index_Event_eventTopic",
+            "name": "index_Event_eventType",
             "unique": false,
             "columnNames": [
-              "eventTopic"
+              "eventType"
             ],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_Event_eventTopic` ON `${TABLE_NAME}` (`eventTopic`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Event_eventType` ON `${TABLE_NAME}` (`eventType`)"
           }
         ],
         "foreignKeys": []
@@ -645,65 +645,6 @@
             "onUpdate": "NO ACTION",
             "columns": [
               "ticket"
-            ],
-            "referencedColumns": [
-              "id"
-            ]
-          }
-        ]
-      },
-      {
-        "tableName": "EventTopic",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `slug` TEXT NOT NULL, `event` INTEGER, PRIMARY KEY(`id`), FOREIGN KEY(`event`) REFERENCES `Event`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "name",
-            "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "slug",
-            "columnName": "slug",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "event",
-            "columnName": "event",
-            "affinity": "INTEGER",
-            "notNull": false
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "id"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [
-          {
-            "name": "index_EventTopic_event",
-            "unique": false,
-            "columnNames": [
-              "event"
-            ],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_EventTopic_event` ON `${TABLE_NAME}` (`event`)"
-          }
-        ],
-        "foreignKeys": [
-          {
-            "table": "Event",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "event"
             ],
             "referencedColumns": [
               "id"
@@ -1231,7 +1172,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '648b24ee9e61e5ee7b7a64579c95acf8')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b094cbbd1ce4f4699900ff443f84b730')"
     ]
   }
 }

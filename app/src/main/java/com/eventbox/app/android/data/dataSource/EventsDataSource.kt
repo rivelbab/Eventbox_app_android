@@ -12,7 +12,6 @@ import timber.log.Timber
 class EventsDataSource(
     private val eventService: EventService,
     private val compositeDisposable: CompositeDisposable,
-    private val query: String?,
     private val mutableProgress: MutableLiveData<Boolean>
 
 ) : PageKeyedDataSource<Int, Event>() {
@@ -40,7 +39,7 @@ class EventsDataSource(
         callback: LoadCallback<Int, Event>?
     ) {
         compositeDisposable +=
-            eventService.getEventsByLocationPaged(query, requestedPage)
+            eventService.getEventsByLocationPaged(requestedPage)
                 .withDefaultSchedulers()
                 .subscribe({ response ->
                     if (response.isEmpty()) mutableProgress.value = false

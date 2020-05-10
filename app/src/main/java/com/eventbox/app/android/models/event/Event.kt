@@ -61,8 +61,8 @@ data class Event(
     val isTaxEnabled: Boolean = false,
 
     @ColumnInfo(index = true)
-    @Relationship("event-topic", resolve = true)
-    val eventTopic: EventTopic? = null
+    @Relationship("event-type", resolve = true)
+    val eventType: EventType? = null
 ) {
     constructor(
         name: String,

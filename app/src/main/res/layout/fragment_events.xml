@@ -71,7 +71,7 @@
                         android:layout_margin="1dp"
                         android:background="@drawable/background_edittext"
                         android:ems="10"
-                        tools:text="@string/search_hint"
+                        android:text="@string/search_hint"
                         android:drawableStart="@drawable/ic_search_grey"
                         android:gravity="center"
                         />

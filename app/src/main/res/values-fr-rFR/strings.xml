@@ -416,7 +416,8 @@
     <string name="sort_by_name">name</string>
     <string name="sort_by_date">starts-at</string>
     <string name="sort_by">Sort By</string>
-    <string name="category">Category</string>
+    <string name="category">Category first</string>
+    <string name="category_two">Category onthers</string>
     <string name="sessions_and_speakers">Sessions and speakers</string>
     <string name="rate_eventbox">Rate eventbox</string>
     <string name="no_thanks">No thanks</string>

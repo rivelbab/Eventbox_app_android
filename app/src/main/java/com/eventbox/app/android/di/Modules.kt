@@ -16,10 +16,8 @@ import com.eventbox.app.android.data.db.EventboxDatabase
 import com.eventbox.app.android.ui.StartupViewModel
 import com.eventbox.app.android.ui.event.AboutEventViewModel
 import com.eventbox.app.android.models.attendees.Attendee
-import com.eventbox.app.android.networks.api.AttendeeApi
 import com.eventbox.app.android.ui.attendees.AttendeeViewModel
 import com.eventbox.app.android.models.attendees.CustomForm
-import com.eventbox.app.android.networks.api.AuthApi
 import com.eventbox.app.android.ui.auth.AuthHolder
 import com.eventbox.app.android.ui.auth.AuthViewModel
 import com.eventbox.app.android.ui.user.EditProfileViewModel
@@ -34,46 +32,29 @@ import com.eventbox.app.android.networks.connectivity.MutableConnectionLiveData
 import com.eventbox.app.android.config.Network
 import com.eventbox.app.android.config.Preference
 import com.eventbox.app.android.config.Resource
-import com.eventbox.app.android.networks.api.DiscountApi
+import com.eventbox.app.android.models.event.*
 import com.eventbox.app.android.models.payment.DiscountCode
-import com.eventbox.app.android.models.event.Event
-import com.eventbox.app.android.networks.api.EventApi
 import com.eventbox.app.android.ui.event.EventDetailsViewModel
-import com.eventbox.app.android.models.event.EventId
 import com.eventbox.app.android.ui.event.EventsViewModel
-import com.eventbox.app.android.models.event.EventFAQ
-import com.eventbox.app.android.networks.api.EventFAQApi
 import com.eventbox.app.android.ui.event.faq.EventFAQViewModel
-import com.eventbox.app.android.models.event.EventLocation
-import com.eventbox.app.android.networks.api.EventLocationApi
 import com.eventbox.app.android.models.payment.Tax
-import com.eventbox.app.android.networks.api.TaxApi
-import com.eventbox.app.android.models.event.EventTopic
-import com.eventbox.app.android.networks.api.EventTopicApi
-import com.eventbox.app.android.models.event.FavoriteEvent
-import com.eventbox.app.android.networks.api.FavoriteEventApi
 import com.eventbox.app.android.ui.event.FavoriteEventsViewModel
 import com.eventbox.app.android.models.feedback.Feedback
-import com.eventbox.app.android.networks.api.FeedbackApi
 import com.eventbox.app.android.ui.feedback.FeedbackViewModel
 import com.eventbox.app.android.models.notification.Notification
-import com.eventbox.app.android.networks.api.NotificationApi
 import com.eventbox.app.android.ui.notification.NotificationViewModel
 import com.eventbox.app.android.models.payment.Charge
 import com.eventbox.app.android.models.payment.ConfirmOrder
 import com.eventbox.app.android.models.payment.Order
-import com.eventbox.app.android.networks.api.OrderApi
 import com.eventbox.app.android.ui.payment.OrderCompletedViewModel
 import com.eventbox.app.android.ui.payment.OrderDetailsViewModel
 import com.eventbox.app.android.ui.payment.OrdersUnderUserViewModel
 import com.eventbox.app.android.models.payment.Paypal
-import com.eventbox.app.android.networks.api.PaypalApi
 import com.eventbox.app.android.models.settings.Settings
-import com.eventbox.app.android.networks.api.SettingsApi
 import com.eventbox.app.android.ui.settings.SettingsViewModel
 import com.eventbox.app.android.models.payment.Ticket
-import com.eventbox.app.android.networks.api.TicketApi
 import com.eventbox.app.android.models.payment.TicketId
+import com.eventbox.app.android.networks.api.*
 import com.eventbox.app.android.search.location.GeoLocationViewModel
 import com.eventbox.app.android.search.location.LocationServiceImpl
 import com.eventbox.app.android.service.*
@@ -92,7 +73,7 @@ val commonModule = module {
     single { Network() }
     single { Resource() }
     factory { MutableConnectionLiveData() }
-    factory<LocationService> { LocationServiceImpl(androidContext(), get()) }
+    factory<SearchLocationService> { LocationServiceImpl(androidContext(), get()) }
 }
 
 val apiModule = module {
@@ -114,7 +95,7 @@ val apiModule = module {
     }
     single {
         val retrofit: Retrofit = get()
-        retrofit.create(EventTopicApi::class.java)
+        retrofit.create(EventTypesApi::class.java)
     }
     single {
         val retrofit: Retrofit = get()
@@ -159,7 +140,7 @@ val apiModule = module {
 
     factory { AuthHolder(get()) }
     factory { AuthService(get(), get(), get(), get(), get(), get(), get()) }
-    factory { EventService(get(), get(), get(), get(), get(), get(), get()) }
+    factory { EventService(get(), get(), get(), get(), get(), get()) }
     factory { TicketService(get(), get(), get()) }
     factory { AttendeeService(get(), get(), get()) }
     factory { OrderService(get(), get(), get(), get(), get()) }
@@ -172,12 +153,11 @@ val apiModule = module {
 val viewModelModule = module {
 
     viewModel { LoginViewModel(get(), get(), get(), get()) }
-    viewModel { EventsViewModel(get(), get(), get(), get(), get(), get()) }
+    viewModel { EventsViewModel(get(), get(), get(), get(), get()) }
     viewModel { StartupViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel { ProfileViewModel(get(), get()) }
     viewModel { SignUpViewModel(get(), get(), get()) }
     viewModel { EventDetailsViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
-    viewModel { SearchViewModel(get(), get()) }
     viewModel { SearchResultsViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel { AttendeeViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel { SearchLocationViewModel(get(), get(), get()) }
@@ -245,7 +225,7 @@ val networkModule = module {
         val onlineApiResourceConverter = ResourceConverter(
             objectMapper, Event::class.java, User::class.java,
             SignUp::class.java, Ticket::class.java, EventId::class.java,
-            EventTopic::class.java, Attendee::class.java, TicketId::class.java,
+            EventType::class.java, Attendee::class.java, TicketId::class.java,
             Charge::class.java, Paypal::class.java, ConfirmOrder::class.java,
             CustomForm::class.java, EventLocation::class.java, Feedback::class.java,
             EventFAQ::class.java, Notification::class.java, FavoriteEvent::class.java,
@@ -288,11 +268,6 @@ val databaseModule = module {
     factory {
         val database: EventboxDatabase = get()
         database.attendeeDao()
-    }
-
-    factory {
-        val database: EventboxDatabase = get()
-        database.eventTopicsDao()
     }
 
     factory {
