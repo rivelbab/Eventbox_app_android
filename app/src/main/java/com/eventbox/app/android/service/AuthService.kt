@@ -43,10 +43,10 @@ class AuthService(
                 password
             )
         )
-                .map {
-                    authHolder.token = it.accessToken
-                    it
-                }
+        .map {
+            authHolder.token = it.accessToken
+            it
+        }
     }
 
     fun checkPasswordValid(email: String, password: String): Single<LoginResponse> =

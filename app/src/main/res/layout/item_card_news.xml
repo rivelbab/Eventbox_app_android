@@ -4,8 +4,8 @@
 <data>
     <import type="com.eventbox.app.android.utils.EventUtils" />
     <variable
-        name="event"
-        type="com.eventbox.app.android.models.event.Event" />
+        name="news"
+        type="com.eventbox.app.android.models.news.News" />
     <variable
         name="position"
         type="Integer" />
@@ -45,7 +45,7 @@
         tools:text="Jan 11, 2019" />
 </LinearLayout>
 <androidx.cardview.widget.CardView
-    android:id="@+id/allEventsCard"
+    android:id="@+id/allNewsCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="@android:color/white"
@@ -70,37 +70,6 @@
         app:tint="@color/colorAccent"
         app:srcCompat="@drawable/ic_share_grey" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/interestFab"
-        android:layout_width="@dimen/fab_width"
-        android:layout_height="@dimen/fab_height"
-        android:layout_gravity="end|bottom"
-        android:layout_marginEnd="70dp"
-        android:layout_marginBottom="@dimen/layout_margin_small"
-        android:background="@android:color/white"
-        android:scaleType="center"
-        app:backgroundTint="@android:color/white"
-        app:borderWidth="@dimen/layout_margin_none"
-        app:elevation="@dimen/layout_margin_none"
-        app:srcCompat="@drawable/ic_star_border"
-        app:tint="@color/colorAccent" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/favoriteFab"
-        android:layout_width="@dimen/fab_width"
-        android:layout_height="@dimen/fab_height"
-        app:elevation="@dimen/layout_margin_none"
-        app:borderWidth="@dimen/layout_margin_none"
-        android:layout_gravity="end|bottom"
-        android:layout_marginBottom="@dimen/layout_margin_small"
-        android:layout_marginEnd="@dimen/layout_margin_small"
-        android:background="@android:color/white"
-        android:scaleType="center"
-        app:backgroundTint="@android:color/white"
-        app:tint="@color/colorAccent"
-        app:isFavorite="@{event.favorite}"
-        app:srcCompat="@drawable/ic_baseline_favorite_border" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -110,20 +79,19 @@
         android:layout_marginTop="@dimen/layout_margin_medium">
 
         <ImageView
-            android:id="@+id/eventImage"
+            android:id="@+id/newsImage"
             android:layout_width="@dimen/layout_margin_search_view"
             android:layout_height="@dimen/layout_margin_search_view"
             android:layout_gravity="center"
             android:scaleType="centerCrop"
-            android:src="@drawable/header"
+            android:src="@drawable/news"
             android:background="@drawable/round_image"
             android:layout_marginBottom="@dimen/layout_margin_moderate"
             android:paddingTop="@dimen/padding_medium"
             android:paddingBottom="@dimen/padding_small"
             android:layout_marginStart="@dimen/layout_margin_large"
             android:layout_marginTop="@dimen/layout_margin_moderate"
-            app:eventImage="@{event.originalImageUrl}"
-            android:transitionName="@{`cardItemEventImage` + position}"/>
+            android:transitionName="@{`cardItemNewsImage` + position}"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -143,8 +111,8 @@
                 android:layout_marginBottom="@dimen/details_margin_small"
                 android:textColor="@color/black"
                 android:textSize="@dimen/heading_text_size"
-                android:text="@{event.name}"
-                tools:text="Event Name" />
+                android:text="@{news.title}"
+                tools:text="News title" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -159,19 +127,19 @@
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:text="@{dateTime}"
-                    tools:text="28" />
+                    tools:text="10h:40" />
             </LinearLayout>
 
             <TextView
-                android:id="@+id/locationName"
+                android:id="@+id/author"
                 android:layout_width="@dimen/item_image_view_large"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:layout_marginTop="@dimen/layout_margin_small"
                 android:textSize="@dimen/details_text_size"
-                android:text="@{event.locationName}"
-                tools:text="Location Name" />
+                android:text="@{news.author}"
+                tools:text="News author name" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

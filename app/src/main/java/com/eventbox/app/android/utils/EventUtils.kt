@@ -225,11 +225,12 @@ object EventUtils {
     fun share(event: Event, context: Context) {
         val sendIntent = Intent()
         val resources = Resource()
+        val eventIdentifier = "sha"+event.id+"ev"
         sendIntent.action = Intent.ACTION_SEND
         sendIntent.type = "text/plain"
         sendIntent.putExtra(Intent.EXTRA_SUBJECT, event.name)
         sendIntent.putExtra(Intent.EXTRA_TEXT,
-            "https://${resources.getString(R.string.FRONTEND_HOST)}/e/${event.identifier}")
+            "https://${resources.getString(R.string.FRONTEND_HOST)}/e/${eventIdentifier}")
         context.startActivity(Intent.createChooser(sendIntent, "Share Event Details"))
     }
 

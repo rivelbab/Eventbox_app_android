@@ -40,6 +40,7 @@ import com.eventbox.app.android.ui.event.faq.EventFAQViewModel
 import com.eventbox.app.android.models.payment.Tax
 import com.eventbox.app.android.ui.event.FavoriteEventsViewModel
 import com.eventbox.app.android.models.feedback.Feedback
+import com.eventbox.app.android.models.news.News
 import com.eventbox.app.android.ui.feedback.FeedbackViewModel
 import com.eventbox.app.android.models.notification.Notification
 import com.eventbox.app.android.ui.notification.NotificationViewModel
@@ -59,6 +60,7 @@ import com.eventbox.app.android.search.location.GeoLocationViewModel
 import com.eventbox.app.android.search.location.LocationServiceImpl
 import com.eventbox.app.android.service.*
 import com.eventbox.app.android.ui.event.search.*
+import com.eventbox.app.android.ui.news.NewsViewModel
 import com.eventbox.app.android.ui.payment.TicketsViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
@@ -137,6 +139,10 @@ val apiModule = module {
         val retrofit: Retrofit = get()
         retrofit.create(TaxApi::class.java)
     }
+    single {
+        val retrofit: Retrofit = get()
+        retrofit.create(NewsApi::class.java)
+    }
 
     factory { AuthHolder(get()) }
     factory { AuthService(get(), get(), get(), get(), get(), get(), get()) }
@@ -148,6 +154,7 @@ val apiModule = module {
     factory { FeedbackService(get(), get()) }
     factory { SettingsService(get(), get()) }
     factory { TaxService(get(), get()) }
+    factory { NewsService(get()) }
 }
 
 val viewModelModule = module {
@@ -167,6 +174,7 @@ val viewModelModule = module {
     viewModel { AboutEventViewModel(get(), get()) }
     viewModel { EventFAQViewModel(get(), get()) }
     viewModel { FavoriteEventsViewModel(get(), get(), get()) }
+    viewModel { NewsViewModel(get(), get(), get()) }
     viewModel { SettingsViewModel(get(), get(), get()) }
     viewModel { OrderCompletedViewModel(get(), get(), get(), get()) }
     viewModel { OrdersUnderUserViewModel(get(), get(), get(), get(), get()) }
@@ -223,7 +231,7 @@ val networkModule = module {
         val baseUrl = BuildConfig.DEFAULT_BASE_URL
         val objectMapper: ObjectMapper = get()
         val onlineApiResourceConverter = ResourceConverter(
-            objectMapper, Event::class.java, User::class.java,
+            objectMapper, Event::class.java, User::class.java, News::class.java,
             SignUp::class.java, Ticket::class.java, EventId::class.java,
             EventType::class.java, Attendee::class.java, TicketId::class.java,
             Charge::class.java, Paypal::class.java, ConfirmOrder::class.java,

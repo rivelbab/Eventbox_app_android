@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_favorite.view.favoriteEventsRecycler
 import kotlinx.android.synthetic.main.fragment_favorite.view.favoriteProgressBar
 import kotlinx.android.synthetic.main.fragment_favorite.view.likesNumber
-import kotlinx.android.synthetic.main.fragment_favorite.view.likesTitle
 import kotlinx.android.synthetic.main.fragment_favorite.view.noLikedLL
 import kotlinx.android.synthetic.main.fragment_favorite.view.scrollView
 import kotlinx.android.synthetic.main.fragment_favorite.view.toolbarLayout

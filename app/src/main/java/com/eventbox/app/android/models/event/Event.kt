@@ -19,7 +19,6 @@ data class Event(
     val id: Long,
     //== basic details
     var name: String,
-    val identifier: String,
     var description: String? = null,
     var locationName: String? = null,
     var startsAt: String,
@@ -78,7 +77,6 @@ data class Event(
     ) : this(
         Long.MIN_VALUE,
         name,
-        "event-" + Long.MIN_VALUE,
         description,
         locationName,
         startsAt,
@@ -92,13 +90,6 @@ data class Event(
         originalImageUrl,
         largeImageUrl,
         null,
-        ownerName,
-        false,
-        "UTC",
-        null,
-        null,
-        false,
-        false,
-        null
+        ownerName
     )
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/newsScrollView"
+        android:id="@+id/scrollView"
         android:orientation="vertical"
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/background_fragment"
+                app:srcCompat="@drawable/background_fragment_welcome"
                 android:scaleType="fitXY"/>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -34,7 +34,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
                 <TextView
-                    android:id="@+id/messageNumber"
+                    android:id="@+id/newsNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -42,8 +42,8 @@
                     android:textSize="@dimen/text_size_large"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/newsTitle"
-                    android:textColor="@color/white"
-                    tools:text="0 news" />
+                    android:textColor="@color/greyMore"
+                    tools:text="2 events" />
                 <ProgressBar
                     android:layout_gravity="center"
                     android:id="@+id/newsProgressBar"
@@ -65,7 +65,7 @@
                     android:layout_marginTop="@dimen/layout_margin_extreme_large"
                     android:layout_marginStart="@dimen/layout_margin_medium"
                     android:layout_marginEnd="@dimen/layout_margin_medium"
-                    app:layout_constraintTop_toBottomOf="@id/messageNumber"
+                    app:layout_constraintTop_toBottomOf="@id/newsNumber"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     android:scrollbars="vertical" />
@@ -88,13 +88,6 @@
                         android:text="@string/no_news_yet"
                         android:textColor="@color/black"
                         android:id="@+id/findText"/>
-
-                    <ImageView
-                        android:layout_width="250dp"
-                        android:layout_height="250dp"
-                        android:src="@drawable/under_construction"
-                        android:layout_gravity="center"
-                        android:layout_margin="@dimen/layout_margin_large"/>
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </FrameLayout>

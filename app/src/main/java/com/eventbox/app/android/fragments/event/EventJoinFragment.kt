@@ -13,10 +13,7 @@ import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_favorite.view.favoriteEventsRecycler
-import kotlinx.android.synthetic.main.fragment_favorite.view.favoriteProgressBar
 import kotlinx.android.synthetic.main.fragment_favorite.view.findText
-import kotlinx.android.synthetic.main.fragment_favorite.view.likesNumber
-import kotlinx.android.synthetic.main.fragment_favorite.view.likesTitle
 import kotlinx.android.synthetic.main.fragment_favorite.view.monthChip
 import kotlinx.android.synthetic.main.fragment_favorite.view.noLikedLL
 import kotlinx.android.synthetic.main.fragment_favorite.view.scrollView
@@ -39,6 +36,7 @@ import com.eventbox.app.android.utils.Utils.setToolbar
 import com.eventbox.app.android.utils.extensions.hideWithFading
 import com.eventbox.app.android.utils.extensions.nonNull
 import com.eventbox.app.android.utils.extensions.showWithFading
+import kotlinx.android.synthetic.main.fragment_event_join.view.*
 import org.jetbrains.anko.design.longSnackbar
 import org.jetbrains.anko.design.snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
