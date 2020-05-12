@@ -68,6 +68,10 @@
 		<item quantity="one">%1$s event</item>
 		<item quantity="other">%1$s events</item>
 	</plurals>
+	<plurals name="news_number">
+		<item quantity="zero">No news</item>
+		<item quantity="other">%1$s news</item>
+	</plurals>
 
 	<!--Search event details-->
 	<string name="search">Search</string>

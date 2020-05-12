@@ -23,11 +23,11 @@ class NewsListAdapter : ListAdapter<News, NewsViewHolder>(NewsDiffCallback()) {
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val news = getItem(position)
         holder.apply {
-            val newsDate = getDateFormat(news.publishedOn)
+            val newsDate = getDateFormat(news.publishedOn.toString())
             var showNewsDate = true
             if (position != 0) {
                 val previousNews = getItem(position - 1)
-                if (previousNews != null && newsDate == getDateFormat(previousNews.publishedOn))
+                if (previousNews != null && newsDate == getDateFormat(previousNews.publishedOn.toString()))
                     showNewsDate = false
             }
             bind(news, position, if (showNewsDate) newsDate else "")

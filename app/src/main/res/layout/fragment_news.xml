@@ -43,7 +43,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/newsTitle"
                     android:textColor="@color/greyMore"
-                    tools:text="2 events" />
+                    tools:text="2 news" />
                 <ProgressBar
                     android:layout_gravity="center"
                     android:id="@+id/newsProgressBar"
@@ -86,8 +86,15 @@
                         android:textStyle="bold"
                         android:layout_gravity="center_horizontal"
                         android:text="@string/no_news_yet"
-                        android:textColor="@color/black"
+                        android:textColor="@color/grey"
                         android:id="@+id/findText"/>
+                    <ImageView
+                        android:layout_width="@dimen/avatar_medium"
+                        android:layout_height="@dimen/avatar_medium"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/layout_margin_moderate"
+                        android:src="@drawable/news"
+                        android:contentDescription="@string/news"/>
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </FrameLayout>

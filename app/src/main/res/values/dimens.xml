@@ -23,6 +23,7 @@
     <dimen name="layout_margin_extreme_large">56dp</dimen>
     <dimen name="layout_margin_extreme_larger">75dp</dimen>
     <dimen name="layout_margin_search_view">100dp</dimen>
+    <dimen name="layout_margin_news_icon">85dp</dimen>
     <dimen name="layout_margin_none">0dp</dimen>
 
     <!-- padding specifics -->
