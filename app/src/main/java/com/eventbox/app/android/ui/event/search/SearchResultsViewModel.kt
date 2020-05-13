@@ -19,10 +19,10 @@ import com.eventbox.app.android.networks.connectivity.MutableConnectionLiveData
 import com.eventbox.app.android.config.Preference
 import com.eventbox.app.android.config.Resource
 import com.eventbox.app.android.models.event.Event
+import com.eventbox.app.android.models.event.EventType
 import com.eventbox.app.android.models.event.EventId
 import com.eventbox.app.android.service.EventService
 import com.eventbox.app.android.utils.EventUtils
-import com.eventbox.app.android.models.event.EventType
 import com.eventbox.app.android.models.event.FavoriteEvent
 import com.eventbox.app.android.data.dataSource.SearchEventsDataSourceFactory
 import com.eventbox.app.android.utils.DateTimeUtils
@@ -327,14 +327,13 @@ class SearchResultsViewModel(
         }
         Timber.e(query)
 
-        sourceFactory =
-            SearchEventsDataSourceFactory(
-                compositeDisposable,
-                eventService,
-                query,
-                sortBy,
-                mutableShowShimmerResults
-            )
+        sourceFactory = SearchEventsDataSourceFactory(
+            compositeDisposable,
+            eventService,
+            query,
+            sortBy,
+            mutableShowShimmerResults
+        )
 
         val eventPagedList = RxPagedListBuilder(sourceFactory, config)
             .setFetchScheduler(Schedulers.io())
@@ -370,10 +369,7 @@ class SearchResultsViewModel(
     }
 
     private fun addFavorite(event: Event) {
-        val favoriteEvent = FavoriteEvent(
-            authHolder.getId(),
-            EventId(event.id)
-        )
+        val favoriteEvent = FavoriteEvent(authHolder.getId(), EventId(event.id))
         compositeDisposable += eventService.addFavorite(favoriteEvent, event)
             .withDefaultSchedulers()
             .subscribe({
@@ -387,10 +383,7 @@ class SearchResultsViewModel(
     private fun removeFavorite(event: Event) {
         val favoriteEventId = event.favoriteEventId ?: return
 
-        val favoriteEvent = FavoriteEvent(
-            favoriteEventId,
-            EventId(event.id)
-        )
+        val favoriteEvent = FavoriteEvent(favoriteEventId, EventId(event.id))
         compositeDisposable += eventService.removeFavorite(favoriteEvent, event)
             .withDefaultSchedulers()
             .subscribe({

@@ -14,14 +14,12 @@ import com.eventbox.app.android.R
 import com.eventbox.app.android.ui.auth.AuthHolder
 import com.eventbox.app.android.ui.common.SingleLiveEvent
 import com.eventbox.app.android.networks.connectivity.MutableConnectionLiveData
-import com.eventbox.app.android.config.Preference
 import com.eventbox.app.android.config.Resource
 import com.eventbox.app.android.models.event.Event
 import com.eventbox.app.android.models.event.EventId
 import com.eventbox.app.android.service.EventService
 import com.eventbox.app.android.data.dataSource.EventsDataSourceFactory
 import com.eventbox.app.android.models.event.FavoriteEvent
-import com.eventbox.app.android.ui.event.search.SAVED_LOCATION
 import com.eventbox.app.android.utils.extensions.withDefaultSchedulers
 import timber.log.Timber
 
@@ -29,7 +27,6 @@ const val NEW_NOTIFICATIONS = "newNotifications"
 
 class EventsViewModel(
     private val eventService: EventService,
-    private val preference: Preference,
     private val resource: Resource,
     private val mutableConnectionLiveData: MutableConnectionLiveData,
     private val config: PagedList.Config,
@@ -45,31 +42,15 @@ class EventsViewModel(
     val pagedEvents: LiveData<PagedList<Event>> = mutablePagedEvents
     private val mutableMessage = SingleLiveEvent<String>()
     val message: SingleLiveEvent<String> = mutableMessage
-    var lastSearch = ""
-    private val mutableSavedLocation = MutableLiveData<String>()
-    val savedLocation: LiveData<String> = mutableSavedLocation
     private lateinit var sourceFactory: EventsDataSourceFactory
 
-    fun loadLocation() {
-        mutableSavedLocation.value = preference.getString(SAVED_LOCATION)
-            ?: resource.getString(R.string.enter_location)
-    }
+    fun loadAllEvents() {
 
-    fun loadLocationEvents() {
-        val location = mutableSavedLocation.value
-        if (location == null || location == resource.getString(R.string.enter_location) ||
-            location == resource.getString(R.string.no_location)) {
-            mutableProgress.value = false
-            return
-        }
-
-        sourceFactory =
-            EventsDataSourceFactory(
-                compositeDisposable,
-                eventService,
-                mutableSavedLocation.value,
-                mutableProgress
-            )
+        sourceFactory = EventsDataSourceFactory(
+            compositeDisposable,
+            eventService,
+            mutableProgress
+        )
         val eventPagedList = RxPagedListBuilder(sourceFactory, config)
             .setFetchScheduler(Schedulers.io())
             .buildObservable()
@@ -100,10 +81,6 @@ class EventsViewModel(
         mutablePagedEvents.value = null
     }
 
-    fun clearLastSearch() {
-        lastSearch = ""
-    }
-
     fun isLoggedIn() = authHolder.isLoggedIn()
 
     fun setFavorite(event: Event, favorite: Boolean) {
@@ -115,10 +92,7 @@ class EventsViewModel(
     }
 
     private fun addFavorite(event: Event) {
-        val favoriteEvent = FavoriteEvent(
-            authHolder.getId(),
-            EventId(event.id)
-        )
+        val favoriteEvent = FavoriteEvent(authHolder.getId(), EventId(event.id))
         compositeDisposable += eventService.addFavorite(favoriteEvent, event)
             .withDefaultSchedulers()
             .subscribe({
@@ -132,10 +106,7 @@ class EventsViewModel(
     private fun removeFavorite(event: Event) {
         val favoriteEventId = event.favoriteEventId ?: return
 
-        val favoriteEvent = FavoriteEvent(
-            favoriteEventId,
-            EventId(event.id)
-        )
+        val favoriteEvent = FavoriteEvent(favoriteEventId, EventId(event.id))
         compositeDisposable += eventService.removeFavorite(favoriteEvent, event)
             .withDefaultSchedulers()
             .subscribe({

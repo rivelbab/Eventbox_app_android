@@ -10,7 +10,7 @@ apply plugin: "com.github.b3er.local.properties"
 
 def STRIPE_API_TOKEN = System.getenv('STRIPE_API_TOKEN') ?: "YOUR_API_KEY"
 def MAPBOX_KEY = System.getenv('MAPBOX_KEY') ?: "pk.eyJ1IjoiYW5nbWFzMSIsImEiOiJjanNqZDd0N2YxN2Q5NDNuNTBiaGt6eHZqIn0.BCrxjW6rP_OuOuGtbhVEQg"
-def PAYPAL_CLIENT_ID= System.getenv('PAYPAL_CLIENT_ID') ?: "YOUR_API_KEY"
+def PAYPAL_CLIENT_ID = System.getenv('PAYPAL_CLIENT_ID') ?: "YOUR_API_KEY"
 
 android {
     dataBinding {
@@ -43,16 +43,16 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "DEFAULT_BASE_URL", '"https://eventbox-api-dev.herokuapp.com/v1/"'
-            buildConfigField "String", "MAPBOX_KEY", '"'+MAPBOX_KEY+'"'
-            buildConfigField "String", "STRIPE_API_KEY", '"'+STRIPE_API_TOKEN+'"'
-            buildConfigField "String", "PAYPAL_CLIENT_ID", '"'+PAYPAL_CLIENT_ID+'"'
-            resValue "string",  "FRONTEND_HOST", "eventbox.com"
+            buildConfigField "String", "MAPBOX_KEY", '"' + MAPBOX_KEY + '"'
+            buildConfigField "String", "STRIPE_API_KEY", '"' + STRIPE_API_TOKEN + '"'
+            buildConfigField "String", "PAYPAL_CLIENT_ID", '"' + PAYPAL_CLIENT_ID + '"'
+            resValue "string", "FRONTEND_HOST", "eventbox.com"
         }
         debug {
             buildConfigField "String", "DEFAULT_BASE_URL", '"https://eventbox-api-dev.herokuapp.com/v1/"'
-            buildConfigField "String", "MAPBOX_KEY", '"'+MAPBOX_KEY+'"'
-            buildConfigField "String", "STRIPE_API_KEY", '"'+STRIPE_API_TOKEN+'"'
-            buildConfigField "String", "PAYPAL_CLIENT_ID", '"'+PAYPAL_CLIENT_ID+'"'
+            buildConfigField "String", "MAPBOX_KEY", '"' + MAPBOX_KEY + '"'
+            buildConfigField "String", "STRIPE_API_KEY", '"' + STRIPE_API_TOKEN + '"'
+            buildConfigField "String", "PAYPAL_CLIENT_ID", '"' + PAYPAL_CLIENT_ID + '"'
             resValue "string", "FRONTEND_HOST", "eventbox.com"
         }
     }
@@ -60,10 +60,6 @@ android {
     flavorDimensions "default"
 
     productFlavors {
-        fdroid {
-            dimension "default"
-        }
-
         playStore {
             dimension "default"
         }
@@ -73,7 +69,7 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
-    
+
     testOptions {
         unitTests.returnDefaultValues = true
     }
@@ -121,7 +117,7 @@ android {
 
 spotless {
     kotlin {
-        ktlint().userData(['android': 'true', 'color': 'true',
+        ktlint().userData(['android'        : 'true', 'color': 'true',
                            'max_line_length': '120', 'reporter': 'checkstyle'])
         target '**/*.kt'
     }
@@ -134,8 +130,8 @@ repositories {
 
 dependencies {
     def lifecycle_version = "2.2.0"
-    def koin_version = "2.0.1"
     def roomVersion = "2.2.5"
+    def koin_version = "2.0.1"
     def ktx_version = '1.2.4'
     def ktx2_version = "2.2.0"
     def nav_version = "2.2.1"
@@ -190,8 +186,10 @@ dependencies {
     // QR Code
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
     //Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version" // For Kotlin use navigation-fragment-ktx
-    implementation "androidx.navigation:navigation-ui-ktx:$nav_version" // For Kotlin use navigation-ui-ktx
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    // For Kotlin use navigation-fragment-ktx
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    // For Kotlin use navigation-ui-ktx
     //Anko
     implementation "org.jetbrains.anko:anko-commons:$anko_version"
     implementation "org.jetbrains.anko:anko-design:$anko_version"
@@ -214,6 +212,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
 
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt "androidx.room:room-compiler:${roomVersion}"
 
     // == test implementation

@@ -25,8 +25,7 @@ import com.eventbox.app.android.utils.extensions.nonNull
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchTypeFragment : Fragment() {
-    private val typesAdapter: SearchTypeAdapter =
-        SearchTypeAdapter()
+    private val typesAdapter: SearchTypeAdapter = SearchTypeAdapter()
     private val searchTypeViewModel by viewModel<SearchTypeViewModel>()
     private val safeArgs: SearchTypeFragmentArgs by navArgs()
     private lateinit var rootView: View
@@ -78,8 +77,7 @@ class SearchTypeFragment : Fragment() {
                 typesAdapter.notifyDataSetChanged()
             })
 
-        val listener: TypeClickListener = object :
-            TypeClickListener {
+        val listener: TypeClickListener = object : TypeClickListener {
             override fun onClick(chosenType: String) {
                 redirectToSearch(chosenType)
             }
@@ -99,10 +97,7 @@ class SearchTypeFragment : Fragment() {
 
     private fun redirectToSearch(type: String) {
         searchTypeViewModel.saveType(type)
-        val destFragId = if (safeArgs.fromFragmentName == SEARCH_FILTER_FRAGMENT)
-            R.id.action_search_type_to_search_filter
-        else
-            R.id.action_search_type_to_search
+        val destFragId = R.id.action_search_type_to_search_filter
 
         val navArgs = if (safeArgs.fromFragmentName == SEARCH_FILTER_FRAGMENT) {
             SearchFilterFragmentArgs(

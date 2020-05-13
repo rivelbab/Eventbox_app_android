@@ -7,8 +7,8 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import com.eventbox.app.android.networks.connectivity.MutableConnectionLiveData
 import com.eventbox.app.android.config.Preference
-import com.eventbox.app.android.service.EventService
 import com.eventbox.app.android.models.event.EventType
+import com.eventbox.app.android.service.EventService
 import com.eventbox.app.android.utils.extensions.withDefaultSchedulers
 import timber.log.Timber
 

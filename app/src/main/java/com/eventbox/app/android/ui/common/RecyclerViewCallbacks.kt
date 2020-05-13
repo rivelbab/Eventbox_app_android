@@ -17,6 +17,19 @@ interface EventClickListener {
 }
 
 /**
+ * The callback interface for News item clicks
+ */
+interface NewsClickListener {
+    /**
+     * The function to be invoked when an news item is clicked
+     *
+     * @param newsID The ID of the clicked news
+     * @param imageView The Image View of event object in the adapter
+     */
+    fun onClick(newsID: String, imageView: ImageView)
+}
+
+/**
  * The callback interface for Favorite FAB clicks
  */
 interface FavoriteFabClickListener {
@@ -30,25 +43,14 @@ interface FavoriteFabClickListener {
 }
 
 /**
- * The callback interface for Speaker item clicks
+ * The callback interface for Participate FAB clicks
  */
-interface SpeakerClickListener {
+interface InterestedFabClickListener {
     /**
-     * The function to be invoked when a speaker item is clicked
+     * The function to be invoked when the fab is clicked
      *
-     * @param speakerId The ID of the clicked speaker
+     * @param event The event object for which the fab was clicked
+     * @param itemPosition The position of the event object in the adapter
      */
-    fun onClick(speakerId: Long)
-}
-
-/**
- * The callback interface for Speaker item clicks
- */
-interface SessionClickListener {
-    /**
-     * The function to be invoked when a speaker item is clicked
-     *
-     * @param sessionId The ID of the clicked session
-     */
-    fun onClick(sessionId: Long)
+    fun onClick(event: Event, itemPosition: Int)
 }

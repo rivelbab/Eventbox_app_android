@@ -10,14 +10,13 @@ import com.eventbox.app.android.service.EventService
 class SimilarEventsDataSourceFactory(
     private val compositeDisposable: CompositeDisposable,
     private val topicId: Long,
-    private val location: String?,
     private val eventId: Long,
     private val mutableProgress: MutableLiveData<Boolean>,
     private val eventService: EventService
 ) : DataSource.Factory<Int, Event>() {
     override fun create(): DataSource<Int, Event> {
         return SimilarEventsDataSource(
-            compositeDisposable, topicId, location, eventId, mutableProgress, eventService
+            compositeDisposable, topicId, eventId, mutableProgress, eventService
         )
     }
 }

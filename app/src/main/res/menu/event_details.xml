@@ -9,14 +9,8 @@
             android:id="@+id/report_event"
             android:title="@string/report_event" />
         <item
-            android:id="@+id/open_external_event_url"
-            android:title="@string/open_external_event_url"/>
-        <item
             android:id="@+id/open_faqs"
             android:title="@string/frequently_asked_questions"/>
-        <item
-            android:id="@+id/call_for_speakers"
-            android:title="@string/call_for_speakers"/>
         <item
             android:id="@+id/code_of_conduct"
             android:title="@string/code_of_conduct"/>

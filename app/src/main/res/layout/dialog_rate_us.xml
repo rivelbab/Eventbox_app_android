@@ -7,7 +7,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/rate_eventyay"
+        android:text="@string/rate_eventbox"
         android:textSize="@dimen/text_size_extra_large"
         android:textColor="@android:color/black"
         android:layout_marginTop="@dimen/layout_margin_large"/>
@@ -15,19 +15,19 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/rate_eventyay_dialog_message"
+        android:text="@string/rate_eventbox_dialog_message"
         android:layout_margin="@dimen/layout_margin_medium"
         android:textColor="@android:color/black"
         android:textSize="@dimen/text_size_large"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/rateEventyayButton"
+        android:id="@+id/rateEventboxButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/layout_margin_medium"
         android:layout_marginStart="@dimen/layout_margin_large"
         android:layout_marginEnd="@dimen/layout_margin_large"
-        android:text="@string/rate_eventyay"
+        android:text="@string/rate_eventbox"
         android:textAllCaps="false"/>
 
 </LinearLayout>

@@ -1,4 +1,6 @@
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 <data>
     <import type="com.eventbox.app.android.utils.EventUtils" />
     <variable
@@ -14,9 +16,7 @@
         name="headerDate"
         type="String" />
 </data>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -69,6 +69,21 @@
         app:backgroundTint="@android:color/white"
         app:tint="@color/colorAccent"
         app:srcCompat="@drawable/ic_share_grey" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/interestFab"
+        android:layout_width="@dimen/fab_width"
+        android:layout_height="@dimen/fab_height"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="@dimen/layout_margin_small"
+        android:background="@android:color/white"
+        android:scaleType="center"
+        app:backgroundTint="@android:color/white"
+        app:borderWidth="@dimen/layout_margin_none"
+        app:elevation="@dimen/layout_margin_none"
+        app:srcCompat="@drawable/ic_star_border"
+        app:tint="@color/colorAccent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/favoriteFab"

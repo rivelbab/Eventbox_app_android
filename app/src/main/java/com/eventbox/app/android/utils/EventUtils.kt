@@ -73,7 +73,7 @@ object EventUtils {
     }
 
     fun getFormattedDateShort(date: ZonedDateTime): String {
-        val dateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("EEE, MMM d")
+        val dateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("EEE MMM d")
         return try {
             dateFormat.format(date)
         } catch (e: IllegalArgumentException) {
@@ -83,7 +83,7 @@ object EventUtils {
     }
 
     fun getFormattedDateWithoutYear(date: ZonedDateTime): String {
-        val dateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("EEEE, MMM d")
+        val dateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("EEEE MMM d")
         return try {
             dateFormat.format(date)
         } catch (e: IllegalArgumentException) {
@@ -113,21 +113,13 @@ object EventUtils {
     }
 
     fun getFormattedEventDateTimeRange(startsAt: ZonedDateTime, endsAt: ZonedDateTime): String {
-        val startingDate =
-            getFormattedDate(startsAt)
-        val endingDate =
-            getFormattedDate(endsAt)
+        val startingDate = getFormattedDate(startsAt)
+        val endingDate = getFormattedDate(endsAt)
         return try {
             if (startingDate != endingDate)
-                "${getFormattedDateShort(
-                    startsAt
-                )}, ${getFormattedTime(
-                    startsAt
-                )}"
+                getFormattedDateShort(startsAt)
             else
-                "${getFormattedDateWithoutYear(
-                    startsAt
-                )}"
+                getFormattedDateWithoutYear(startsAt)
         } catch (e: IllegalArgumentException) {
             Timber.e(e, "Error formatting time")
             ""
@@ -135,27 +127,34 @@ object EventUtils {
     }
 
     fun getFormattedEventDateTimeRangeSecond(startsAt: ZonedDateTime, endsAt: ZonedDateTime): String {
-        val startingDate =
-            getFormattedDate(startsAt)
-        val endingDate =
-            getFormattedDate(endsAt)
+        val startingDate = getFormattedDate(startsAt)
+        val endingDate = getFormattedDate(endsAt)
         return try {
-            if (startingDate != endingDate)
-                "- ${getFormattedDateShort(
-                    endsAt
-                )}, ${getFormattedTime(
-                    endsAt
-                )} ${getFormattedTimeZone(
-                    endsAt
-                )}"
+            if (startingDate != endingDate) "  -  ${getFormattedDateShort(endsAt)}"
             else
-                "${getFormattedTime(
-                    startsAt
-                )} - ${getFormattedTime(
-                    endsAt
-                )} ${getFormattedTimeZone(
-                    endsAt
-                )}"
+                ""
+        } catch (e: IllegalArgumentException) {
+            Timber.e(e, "Error formatting time")
+            ""
+        }
+    }
+
+    fun getFormattedEventTimeRange(startsAt: ZonedDateTime, endsAt: ZonedDateTime): String {
+        return try {
+            getFormattedTime(startsAt)
+        } catch (e: IllegalArgumentException) {
+            Timber.e(e, "Error formatting time")
+            ""
+        }
+    }
+
+    fun getFormattedEventTimeRangeSecond(startsAt: ZonedDateTime, endsAt: ZonedDateTime): String {
+        val startingTime = getFormattedTime(startsAt)
+        val endingTime = getFormattedTime(endsAt)
+        return try {
+            if (startingTime != endingTime) "  -  ${getFormattedTime(endsAt)}"
+            else
+                ""
         } catch (e: IllegalArgumentException) {
             Timber.e(e, "Error formatting time")
             ""
@@ -163,29 +162,13 @@ object EventUtils {
     }
 
     fun getFormattedDateTimeRangeDetailed(startsAt: ZonedDateTime, endsAt: ZonedDateTime): String {
-        val startingDate =
-            getFormattedDate(startsAt)
-        val endingDate =
-            getFormattedDate(endsAt)
+        val startingDate = getFormattedDate(startsAt)
+        val endingDate = getFormattedDate(endsAt)
         return try {
             if (startingDate != endingDate)
-                "$startingDate at ${getFormattedTime(
-                    startsAt
-                )} - $endingDate" +
-                        " at ${getFormattedTime(
-                            endsAt
-                        )} (${getFormattedTimeZone(
-                            endsAt
-                        )})"
+                "$startingDate at ${getFormattedTime(startsAt)} - $endingDate" + " at ${getFormattedTime(endsAt)} (${getFormattedTimeZone(endsAt)})"
             else
-                "$startingDate from ${getFormattedTime(
-                    startsAt
-                )}" +
-                        " to ${getFormattedTime(
-                            endsAt
-                        )} (${getFormattedTimeZone(
-                            endsAt
-                        )})"
+                "$startingDate from ${getFormattedTime(startsAt)}" + " to ${getFormattedTime(endsAt)} (${getFormattedTimeZone(endsAt)})"
         } catch (e: IllegalArgumentException) {
             Timber.e(e, "Error formatting time")
             ""
@@ -193,27 +176,13 @@ object EventUtils {
     }
 
     fun getFormattedDateTimeRangeBulleted(startsAt: ZonedDateTime, endsAt: ZonedDateTime): String {
-        val startingDate =
-            getFormattedDateShort(
-                startsAt
-            )
-        val endingDate =
-            getFormattedDateShort(
-                endsAt
-            )
+        val startingDate = getFormattedDateShort(startsAt)
+        val endingDate = getFormattedDateShort(endsAt)
         return try {
             if (startingDate != endingDate)
-                "$startingDate - $endingDate • ${getFormattedTime(
-                    startsAt
-                )} ${getFormattedTimeZone(
-                    startsAt
-                )}"
+                "$startingDate - $endingDate • ${getFormattedTime(startsAt)} ${getFormattedTimeZone(startsAt)}"
             else
-                "$startingDate • ${getFormattedTime(
-                    startsAt
-                )} ${getFormattedTimeZone(
-                    startsAt
-                )}"
+                "$startingDate • ${getFormattedTime(startsAt)} ${getFormattedTimeZone(startsAt)}"
         } catch (e: IllegalArgumentException) {
             Timber.e(e, "Error formatting time")
             ""
@@ -256,11 +225,12 @@ object EventUtils {
     fun share(event: Event, context: Context) {
         val sendIntent = Intent()
         val resources = Resource()
+        val eventIdentifier = "sha"+event.id+"ev"
         sendIntent.action = Intent.ACTION_SEND
         sendIntent.type = "text/plain"
         sendIntent.putExtra(Intent.EXTRA_SUBJECT, event.name)
         sendIntent.putExtra(Intent.EXTRA_TEXT,
-            "https://${resources.getString(R.string.FRONTEND_HOST)}/e/${event.identifier}")
+            "https://${resources.getString(R.string.FRONTEND_HOST)}/e/${eventIdentifier}")
         context.startActivity(Intent.createChooser(sendIntent, "Share Event Details"))
     }
 

@@ -15,22 +15,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation.findNavController
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_profile.view.accountAvatar
-import kotlinx.android.synthetic.main.fragment_profile.view.accountEmail
-import kotlinx.android.synthetic.main.fragment_profile.view.accountInfoContainer
-import kotlinx.android.synthetic.main.fragment_profile.view.accountName
-import kotlinx.android.synthetic.main.fragment_profile.view.accountNotVerified
-import kotlinx.android.synthetic.main.fragment_profile.view.accountVerified
-import kotlinx.android.synthetic.main.fragment_profile.view.changePassword
-import kotlinx.android.synthetic.main.fragment_profile.view.deleteAccount
-import kotlinx.android.synthetic.main.fragment_profile.view.editProfile
-import kotlinx.android.synthetic.main.fragment_profile.view.login
-import kotlinx.android.synthetic.main.fragment_profile.view.logout
-import kotlinx.android.synthetic.main.fragment_profile.view.manageEvents
-import kotlinx.android.synthetic.main.fragment_profile.view.profileScrollView
-import kotlinx.android.synthetic.main.fragment_profile.view.profileSettingContainer
-import kotlinx.android.synthetic.main.fragment_profile.view.settings
-import kotlinx.android.synthetic.main.fragment_profile.view.ticketIssues
 import com.eventbox.app.android.BottomIconDoubleClick
 import com.eventbox.app.android.BuildConfig
 import com.eventbox.app.android.utils.CircleTransform
@@ -53,6 +37,7 @@ import com.eventbox.app.android.ui.user.ProfileViewModel
 import kotlinx.android.synthetic.main.dialog_delete_account.view.*
 import kotlinx.android.synthetic.main.dialog_change_password.view.*
 import kotlinx.android.synthetic.main.dialog_confirm_delete_account.view.*
+import kotlinx.android.synthetic.main.fragment_profile.view.*
 import org.jetbrains.anko.design.snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -90,6 +75,7 @@ class ProfileFragment : Fragment(), BottomIconDoubleClick {
         rootView.logout.isVisible = isLoggedIn
         rootView.profileSettingContainer.isVisible = isLoggedIn
         rootView.accountInfoContainer.isVisible = isLoggedIn
+        rootView.fabEditProfile.isVisible = isLoggedIn
     }
 
     override fun onCreateView(
@@ -162,6 +148,10 @@ class ProfileFragment : Fragment(), BottomIconDoubleClick {
         rootView.editProfile.setOnClickListener {
             findNavController(rootView).navigate(ProfileFragmentDirections.actionProfileToEditProfile())
         }
+
+        rootView.fabEditProfile.setOnClickListener {
+            findNavController(rootView).navigate(ProfileFragmentDirections.actionProfileToEditProfile())
+        }
         return rootView
     }
 
@@ -183,9 +173,9 @@ class ProfileFragment : Fragment(), BottomIconDoubleClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        rootView.manageEvents.setOnClickListener { startOrgaApp("com.eventyay.organizer") }
+        rootView.manageEvents.setOnClickListener { startOrgaApp("com.eventbox.organizer") }
 
-        rootView.settings.setOnClickListener {
+        rootView.settingToolbar.setOnClickListener {
             findNavController(rootView).navigate(
                 ProfileFragmentDirections.actionProfileToSettings(
                     emailSettings

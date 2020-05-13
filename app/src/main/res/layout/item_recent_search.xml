@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_large"
-            tools:text="Fossasia"/>
+            tools:text="Eventbox"/>
         <TextView
             android:id="@+id/recentSearchLocation"
             android:layout_width="match_parent"

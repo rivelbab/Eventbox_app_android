@@ -4,6 +4,7 @@
     android:id="@+id/signupNestedScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_fragment_welcome"
     android:fitsSystemWindows="true">
 
     <LinearLayout
@@ -15,7 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:navigationIcon="@drawable/ic_arrow_back_black"/>
+            app:navigationIcon="@drawable/ic_arrow_back_white_cct"/>
 
     <LinearLayout
         android:id="@+id/mainView"
@@ -31,8 +32,9 @@
             android:layout_height="wrap_content"
             android:gravity="center|bottom"
             android:layout_marginBottom="@dimen/layout_margin_large"
-            android:text="@string/eventyay_logo"
-            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/layout_margin_large"
+            android:text="@string/app_name"
+            android:textColor="@color/greyMore"
             android:textSize="@dimen/text_size_very_large" />
 
         <!-- Email Label -->

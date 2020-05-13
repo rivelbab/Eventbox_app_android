@@ -11,12 +11,14 @@ import android.graphics.drawable.ColorDrawable
 import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.net.Uri
+import android.os.Build
 import android.provider.Settings
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.DrawableRes
 import androidx.annotation.NonNull
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.browser.customtabs.CustomTabsIntent
@@ -99,6 +101,7 @@ object Utils {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun setNewHeaderColor(activity: Activity?, color: Int) {
         if (activity is AppCompatActivity) {
             activity.supportActionBar?.setBackgroundDrawable(ColorDrawable(color))
@@ -106,6 +109,7 @@ object Utils {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun setNewHeaderColor(activity: Activity?, statusColor: Int, actionBarColor: Int) {
         if (activity is AppCompatActivity) {
             activity.supportActionBar?.setBackgroundDrawable(ColorDrawable(actionBarColor))

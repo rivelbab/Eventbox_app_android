@@ -85,10 +85,8 @@ class SearchTimeFragment : Fragment() {
 
     private fun redirectToCaller(time: String) {
         searchTimeViewModel.saveTime(time)
-        val destFragId = if (safeArgs.fromFragmentName == SEARCH_FILTER_FRAGMENT)
-            R.id.action_search_time_to_search_filter
-        else
-            R.id.action_search_time_to_search
+        val destFragId = R.id.action_search_time_to_search_filter
+
 
         val navArgs = if (safeArgs.fromFragmentName == SEARCH_FILTER_FRAGMENT) {
             SearchFilterFragmentArgs(

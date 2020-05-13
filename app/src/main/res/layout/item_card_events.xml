@@ -47,6 +47,22 @@
             android:src="@drawable/header" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/joinEventFab"
+            android:layout_width="@dimen/fab_width"
+            android:layout_height="@dimen/fab_height"
+            android:layout_marginEnd="132dp"
+            android:background="@android:color/white"
+            android:scaleType="center"
+            app:backgroundTint="@android:color/white"
+            app:tint="@color/colorAccent"
+            app:elevation="@dimen/fab_elevation"
+            app:layout_constraintBottom_toBottomOf="@+id/eventImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/eventImage"
+            app:fabCustomSize="40dp"
+            app:srcCompat="@drawable/ic_baseline_star_white" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/shareFab"
             android:layout_width="@dimen/fab_width"
             android:layout_height="@dimen/fab_height"
@@ -59,6 +75,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/eventImage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/eventImage"
+            app:fabCustomSize="40dp"
             app:srcCompat="@drawable/ic_share_grey" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -75,6 +92,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/eventImage"
             app:layout_constraintEnd_toEndOf="@+id/eventImage"
             app:layout_constraintTop_toBottomOf="@+id/eventImage"
+            app:fabCustomSize="40dp"
             app:srcCompat="@drawable/ic_baseline_favorite_border" />
 
         <TextView
@@ -85,7 +103,7 @@
             android:layout_marginTop="@dimen/layout_margin_extra_small"
             android:textAlignment="center"
             android:textAllCaps="true"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/red"
             android:text="@{monthTime}"
             app:layout_constraintStart_toStartOf="@+id/eventImage"
             app:layout_constraintTop_toTopOf="@+id/eventName"
@@ -95,7 +113,7 @@
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
+            android:textColor="@color/red"
             android:text="@{dateTime}"
             app:layout_constraintEnd_toEndOf="@+id/month"
             app:layout_constraintStart_toStartOf="@+id/month"
@@ -110,7 +128,7 @@
             android:layout_marginLeft="@dimen/layout_margin_medium"
             android:layout_marginEnd="@dimen/layout_margin_medium"
             android:layout_marginRight="@dimen/layout_margin_medium"
-            android:textColor="@color/black"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/heading_text_size"
             android:text="@{event.name}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -124,26 +142,43 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_margin_small"
             android:layout_marginEnd="@dimen/layout_margin_medium"
-            android:textSize="@dimen/text_size_small"
+            android:textSize="@dimen/text_size_medium"
             android:text="@{event.locationName}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/eventName"
             app:layout_constraintTop_toBottomOf="@+id/eventName"
-            tools:text="Jaipur, Rajasthan, India" />
+            android:drawableStart="@drawable/ic_location_on_black"
+            tools:text="Paris, France" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipTags"
-            android:layout_width="@dimen/layout_margin_none"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_margin_small"
-            android:layout_marginEnd="@dimen/layout_margin_medium"
+            android:layout_marginStart="@dimen/layout_margin_none"
             android:layout_marginBottom="@dimen/layout_margin_extra_large"
             app:chipSpacingVertical="4dp"
             app:chipSpacingHorizontal="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/eventName"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/locationName">
+            <com.google.android.material.chip.Chip
+                android:id="@+id/cat1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category"
+                android:checkable="false"
+                app:chipStrokeColor="@color/colorSecondary"
+                app:chipStrokeWidth="1dp"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/cat2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category_two"
+                android:checkable="false"
+                app:chipStrokeWidth="1dp"
+                app:chipStrokeColor="@color/colorSecondary"/>
         </com.google.android.material.chip.ChipGroup>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

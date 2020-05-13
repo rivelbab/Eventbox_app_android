@@ -5,9 +5,9 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import com.eventbox.app.android.models.event.Event
+import com.eventbox.app.android.models.event.EventType
 import io.reactivex.Flowable
 import io.reactivex.Single
-import com.eventbox.app.android.models.event.EventTopic
 
 @Dao
 interface EventDao {
@@ -44,11 +44,17 @@ interface EventDao {
     @Query("SELECT * from Event WHERE favorite = 1 AND id in (:ids)")
     fun getFavoriteEventWithinIds(ids: List<Long>): Single<List<Event>>
 
-    @Query("SELECT * from Event WHERE eventTopic = :eventTopic")
-    fun getAllSimilarEvents(eventTopic: EventTopic): Flowable<List<Event>>
+    @Query("UPDATE Event SET interested = :interested WHERE id = :eventId")
+    fun setInterested(eventId: Long, interested: Boolean)
 
-    @Query("SELECT * FROM EventTopic WHERE id=:topicId")
-    fun getEventTopic(topicId: Long): Single<EventTopic>
+    @Query("SELECT * from Event WHERE interested = 1")
+    fun getInterestedEvents(): Flowable<List<Event>>
+
+    @Query("SELECT * from Event WHERE interested = 1 AND id in (:ids)")
+    fun getInterestedEventWithinIds(ids: List<Long>): Single<List<Event>>
+
+    @Query("SELECT * from Event WHERE eventType = :eventType")
+    fun getAllSimilarEvents(eventType: EventType): Flowable<List<Event>>
 
     @Query("UPDATE Event SET favorite = :favorite AND favoriteEventId = NULL")
     fun clearFavoriteEvents(favorite: Boolean = false)

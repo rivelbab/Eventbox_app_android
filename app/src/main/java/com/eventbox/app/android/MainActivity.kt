@@ -20,7 +20,6 @@ import org.jetbrains.anko.design.snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val PLAY_STORE_BUILD_FLAVOR = "playStore"
-const val FDROID_BUILD_FLAVOR = "fdroid"
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
@@ -63,10 +62,10 @@ class MainActivity : AppCompatActivity() {
     private fun handleNavigationVisibility(id: Int) {
         when (id) {
             R.id.eventsFragment,
-            R.id.searchFragment,
+            R.id.messageFragment,
             R.id.profileFragment,
-            R.id.orderUnderUserFragment,
-            R.id.favoriteFragment -> navAnimVisible(navigation, this@MainActivity)
+            R.id.newsFragment,
+            R.id.eventMainFragment -> navAnimVisible(navigation, this@MainActivity)
             else -> navAnimGone(navigation, this@MainActivity)
         }
     }

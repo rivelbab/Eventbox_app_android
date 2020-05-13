@@ -34,7 +34,7 @@
                 android:layout_gravity="center"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                tools:text="FOSSASIA summit" />
+                tools:text="Eventbox summit" />
 
             <View
                 android:layout_width="match_parent"

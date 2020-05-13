@@ -23,7 +23,7 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import timber.log.Timber
 
-const val SAVED_LOCATION = "LOCATION"
+const val SAVED_LOCATION = "Rechercher..."
 const val SAVED_LOCATION_LIST = "LOCATION_LIST"
 const val SAVED_LOCATION_LIST_SIZE = 7
 const val SEARCH_INTERVAL = 250L

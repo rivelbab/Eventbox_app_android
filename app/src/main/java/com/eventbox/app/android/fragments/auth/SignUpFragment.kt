@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import kotlinx.android.synthetic.main.fragment_signup.view.*
@@ -18,13 +19,14 @@ import com.eventbox.app.android.R
 import com.eventbox.app.android.fragments.user.PROFILE_FRAGMENT
 import com.eventbox.app.android.models.auth.SignUp
 import com.eventbox.app.android.fragments.event.EVENT_DETAIL_FRAGMENT
-import com.eventbox.app.android.fragments.event.FAVORITE_FRAGMENT
+import com.eventbox.app.android.fragments.message.MESSAGE_FRAGMENT
 import com.eventbox.app.android.fragments.notification.NOTIFICATION_FRAGMENT
 import com.eventbox.app.android.fragments.payment.ORDERS_FRAGMENT
 import com.eventbox.app.android.ui.event.search.ORDER_COMPLETED_FRAGMENT
 import com.eventbox.app.android.fragments.event.search.SEARCH_RESULTS_FRAGMENT
-import com.eventbox.app.android.fragments.speakers.SPEAKERS_CALL_FRAGMENT
 import com.eventbox.app.android.fragments.payment.TICKETS_FRAGMENT
+import com.eventbox.app.android.fragments.welcome.WELCOME_FRAGMENT
+import com.eventbox.app.android.fragments.welcome.WelcomeFragmentDirections
 import com.eventbox.app.android.utils.StringUtils.getTermsAndPolicyText
 import com.eventbox.app.android.utils.Utils.hideSoftKeyboard
 import com.eventbox.app.android.utils.Utils.progressDialog
@@ -39,6 +41,7 @@ import org.jetbrains.anko.design.snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val MINIMUM_PASSWORD_LENGTH = 8
+const val SIGNUP_FRAGMENT = "signupFragment"
 
 class SignUpFragment : Fragment() {
 
@@ -57,7 +60,8 @@ class SignUpFragment : Fragment() {
         val progressDialog = progressDialog(context)
         setToolbar(activity, show = false)
         rootView.toolbar.setNavigationOnClickListener {
-            activity?.onBackPressed()
+            //activity?.onBackPressed()
+            redirectToLogin()
         }
 
         rootView.mainView.setOnClickListener {
@@ -66,7 +70,6 @@ class SignUpFragment : Fragment() {
 
         rootView.signUpText.text = getTermsAndPolicyText(requireContext(), resources)
         rootView.signUpText.movementMethod = LinkMovementMethod.getInstance()
-        rootView.emailSignUp.text = SpannableStringBuilder(safeArgs.email)
 
         rootView.lastNameText.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
@@ -119,21 +122,6 @@ class SignUpFragment : Fragment() {
             .observe(viewLifecycleOwner, Observer {
                 redirectToMain()
             })
-
-        rootView.emailSignUp.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(text: Editable?) {
-                if (text.toString() != safeArgs.email)
-                    findNavController(rootView).navigate(
-                        SignUpFragmentDirections.actionSignupToAuthPop(
-                            redirectedFrom = safeArgs.redirectedFrom,
-                            email = text.toString()
-                        )
-                    )
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { /*Implement here*/ }
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { /*Do Nothing*/ }
-        })
 
         rootView.confirmPasswords.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
@@ -194,6 +182,14 @@ class SignUpFragment : Fragment() {
         return rootView
     }
 
+    private fun redirectToLogin() {
+        findNavController(rootView).navigate(
+            SignUpFragmentDirections.actionSignupToLoginPop(
+                redirectedFrom = SIGNUP_FRAGMENT, showSkipButton = true
+            )
+        )
+    }
+
     private fun redirectToMain() {
         val destinationId =
             when (safeArgs.redirectedFrom) {
@@ -202,8 +198,7 @@ class SignUpFragment : Fragment() {
                 ORDERS_FRAGMENT -> R.id.orderUnderUserFragment
                 TICKETS_FRAGMENT -> R.id.ticketsFragment
                 NOTIFICATION_FRAGMENT -> R.id.notificationFragment
-                SPEAKERS_CALL_FRAGMENT -> R.id.speakersCallFragment
-                FAVORITE_FRAGMENT -> R.id.favoriteFragment
+                MESSAGE_FRAGMENT -> R.id.favoriteFragment
                 SEARCH_RESULTS_FRAGMENT -> R.id.searchResultsFragment
                 ORDER_COMPLETED_FRAGMENT -> R.id.orderCompletedFragment
                 else -> R.id.eventsFragment

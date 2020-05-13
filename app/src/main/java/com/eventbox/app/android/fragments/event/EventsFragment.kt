@@ -18,7 +18,6 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.content_no_internet.view.noInternetCard
 import kotlinx.android.synthetic.main.content_no_internet.view.retry
-import kotlinx.android.synthetic.main.fragment_events.view.emptyEventsText
 import kotlinx.android.synthetic.main.fragment_events.view.eventsEmptyView
 import kotlinx.android.synthetic.main.fragment_events.view.eventsRecycler
 import kotlinx.android.synthetic.main.fragment_events.view.locationTextView
@@ -51,8 +50,6 @@ import com.eventbox.app.android.utils.Utils.setToolbar
 import com.eventbox.app.android.utils.Utils.show
 import com.eventbox.app.android.utils.extensions.hideWithFading
 import com.eventbox.app.android.utils.extensions.nonNull
-import com.eventbox.app.android.utils.extensions.setPostponeSharedElementTransition
-import com.eventbox.app.android.utils.extensions.setStartPostponedEnterTransition
 import com.eventbox.app.android.utils.extensions.showWithFading
 import kotlinx.android.synthetic.main.dialog_change_password.view.*
 import org.jetbrains.anko.design.longSnackbar
@@ -66,18 +63,14 @@ class EventsFragment : Fragment(), BottomIconDoubleClick {
     private val startupViewModel by viewModel<StartupViewModel>()
     private lateinit var rootView: View
     private val preference = Preference()
-    private val eventsListAdapter =
-        EventsListAdapter()
+    private val eventsListAdapter = EventsListAdapter()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        setPostponeSharedElementTransition()
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         rootView = inflater.inflate(R.layout.fragment_events, container, false)
-        if (preference.getString(SAVED_LOCATION).isNullOrEmpty() &&
-            !preference.getBoolean(BEEN_TO_WELCOME_SCREEN, false)) {
+
+        //== first visit ? redirect to welcome page ==
+        if (!preference.getBoolean(BEEN_TO_WELCOME_SCREEN, false)) {
             preference.putBoolean(BEEN_TO_WELCOME_SCREEN, true)
             findNavController(requireActivity(), R.id.frameContainer).navigate(R.id.welcomeFragment)
         }
@@ -93,9 +86,9 @@ class EventsFragment : Fragment(), BottomIconDoubleClick {
             .nonNull()
             .observe(viewLifecycleOwner, Observer {
                 findNavController(rootView).navigate(
-                    EventsFragmentDirections.actionEventsToAuth(
-                        email = it,
-                        redirectedFrom = EVENTS_FRAGMENT
+                    EventsFragmentDirections.actionEventsToLogin(
+                        redirectedFrom = EVENTS_FRAGMENT,
+                        showSkipButton = false
                     )
                 )
             })
@@ -106,16 +99,16 @@ class EventsFragment : Fragment(), BottomIconDoubleClick {
                 progressDialog.show(it)
             })
 
-        rootView.eventsRecycler.layoutManager =
-            GridLayoutManager(activity, resources.getInteger(R.integer.events_column_count))
+        rootView.eventsRecycler.layoutManager = GridLayoutManager(activity, resources.getInteger(R.integer.events_column_count))
 
         rootView.eventsRecycler.adapter = eventsListAdapter
         rootView.eventsRecycler.isNestedScrollingEnabled = false
 
         startupViewModel.syncNotifications()
         startupViewModel.fetchSettings()
-        handleNotificationDotVisibility(
-            preference.getBoolean(NEW_NOTIFICATIONS, false))
+
+        handleNotificationDotVisibility(preference.getBoolean(NEW_NOTIFICATIONS, false))
+
         startupViewModel.newNotifications
             .nonNull()
             .observe(viewLifecycleOwner, Observer {
@@ -153,23 +146,7 @@ class EventsFragment : Fragment(), BottomIconDoubleClick {
         rootView.notification.isVisible = eventsViewModel.isLoggedIn()
         rootView.notificationToolbar.isVisible = eventsViewModel.isLoggedIn()
 
-        eventsViewModel.loadLocation()
-        if (rootView.locationTextView.text == getString(R.string.enter_location)) {
-            rootView.emptyEventsText.text = getString(R.string.choose_preferred_location_message)
-        } else {
-            rootView.emptyEventsText.text = getString(R.string.no_events_message)
-        }
-        rootView.locationTextView.text = eventsViewModel.savedLocation.value
-        rootView.toolbar.title = rootView.locationTextView.text
-
-        eventsViewModel.savedLocation
-            .nonNull()
-            .observe(viewLifecycleOwner, Observer {
-                if (eventsViewModel.lastSearch != it) {
-                    eventsViewModel.lastSearch = it
-                    eventsViewModel.clearEvents()
-                }
-            })
+        rootView.toolbar.title = getString(R.string.app_name)
 
         eventsViewModel.connection
             .nonNull()
@@ -180,7 +157,7 @@ class EventsFragment : Fragment(), BottomIconDoubleClick {
                     eventsListAdapter.submitList(currentPagedEvents)
                 } else {
                     if (isConnected) {
-                        eventsViewModel.loadLocationEvents()
+                        eventsViewModel.loadAllEvents()
                     } else {
                         showNoInternetScreen(true)
                     }
@@ -188,12 +165,12 @@ class EventsFragment : Fragment(), BottomIconDoubleClick {
             })
 
         rootView.locationTextView.setOnClickListener {
-            findNavController(rootView).navigate(EventsFragmentDirections.actionEventsToSearchLocation())
+            openSearch("Anything")
         }
 
         rootView.retry.setOnClickListener {
-            if (eventsViewModel.savedLocation.value != null && eventsViewModel.isConnected()) {
-                eventsViewModel.loadLocationEvents()
+            if (eventsViewModel.isConnected()) {
+                eventsViewModel.loadAllEvents()
             }
             showNoInternetScreen(!eventsViewModel.isConnected())
         }
@@ -202,11 +179,10 @@ class EventsFragment : Fragment(), BottomIconDoubleClick {
         rootView.swiperefresh.setOnRefreshListener {
             showNoInternetScreen(!eventsViewModel.isConnected())
             eventsViewModel.clearEvents()
-            eventsViewModel.clearLastSearch()
             if (!eventsViewModel.isConnected()) {
                 rootView.swiperefresh.isRefreshing = false
             } else {
-                eventsViewModel.loadLocationEvents()
+                eventsViewModel.loadAllEvents()
             }
         }
 
@@ -220,7 +196,7 @@ class EventsFragment : Fragment(), BottomIconDoubleClick {
     }
 
     private fun refreshData() {
-        eventsViewModel.loadLocationEvents()
+        eventsViewModel.loadAllEvents()
         startupViewModel.fetchSettings()
         startupViewModel.syncNotifications()
     }
@@ -232,8 +208,9 @@ class EventsFragment : Fragment(), BottomIconDoubleClick {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         rootView.eventsRecycler.viewTreeObserver.addOnGlobalLayoutListener {
-            setStartPostponedEnterTransition()
+            //setStartPostponedEnterTransition()
         }
         rootView.notification.setOnClickListener {
             moveToNotification()
@@ -252,13 +229,12 @@ class EventsFragment : Fragment(), BottomIconDoubleClick {
             }
         }
 
-        val redirectToLogin = object :
-            RedirectToLogin {
+        val redirectToLogin = object : RedirectToLogin {
             override fun goBackToLogin() {
                 findNavController(rootView)
                     .navigate(
-                        EventsFragmentDirections.actionEventsToAuth(
-                            redirectedFrom = EVENTS_FRAGMENT
+                        EventsFragmentDirections.actionEventsToLogin(
+                            redirectedFrom = EVENTS_FRAGMENT, showSkipButton = false
                         )
                     )
             }

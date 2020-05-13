@@ -23,32 +23,19 @@ import com.eventbox.app.android.models.event.Event
 import com.eventbox.app.android.data.dataSource.SimilarEventsDataSourceFactory
 import com.eventbox.app.android.models.event.FavoriteEvent
 import com.eventbox.app.android.models.feedback.Feedback
-import com.eventbox.app.android.service.FeedbackService
 import com.eventbox.app.android.models.event.EventId
 import com.eventbox.app.android.models.payment.Order
-import com.eventbox.app.android.service.OrderService
-import com.eventbox.app.android.service.EventService
-import com.eventbox.app.android.models.session.Session
-import com.eventbox.app.android.service.SessionService
-import com.eventbox.app.android.models.event.SocialLink
-import com.eventbox.app.android.service.SocialLinksService
-import com.eventbox.app.android.models.speakers.Speaker
-import com.eventbox.app.android.service.SpeakerService
-import com.eventbox.app.android.models.sponsor.Sponsor
-import com.eventbox.app.android.service.SponsorService
 import com.eventbox.app.android.models.payment.TicketPriceRange
-import com.eventbox.app.android.service.TicketService
+import com.eventbox.app.android.service.*
 import com.eventbox.app.android.utils.extensions.withDefaultSchedulers
 import timber.log.Timber
+import java.io.File
 
 class EventDetailsViewModel(
     private val eventService: EventService,
     private val ticketService: TicketService,
     private val authHolder: AuthHolder,
-    private val speakerService: SpeakerService,
-    private val sponsorService: SponsorService,
-    private val sessionService: SessionService,
-    private val socialLinksService: SocialLinksService,
+    private val authService: AuthService,
     private val feedbackService: FeedbackService,
     private val resource: Resource,
     private val orderService: OrderService,
@@ -59,40 +46,64 @@ class EventDetailsViewModel(
     private val compositeDisposable = CompositeDisposable()
 
     val connection: LiveData<Boolean> = mutableConnectionLiveData
+
     private val mutableProgress = MutableLiveData<Boolean>()
     val progress: LiveData<Boolean> = mutableProgress
+
     private val mutableUser = MutableLiveData<User>()
     val user: LiveData<User> = mutableUser
+
     private val mutablePopMessage = SingleLiveEvent<String>()
     val popMessage: SingleLiveEvent<String> = mutablePopMessage
+
     private val mutableEvent = MutableLiveData<Event>()
     val event: LiveData<Event> = mutableEvent
+    private val mutableCreatedEvent = MutableLiveData<Event>()
+    val createdEvent: LiveData<Event> = mutableCreatedEvent
+
     private val mutableEventFeedback = MutableLiveData<List<Feedback>>()
     val eventFeedback: LiveData<List<Feedback>> = mutableEventFeedback
     private val mutableFeedbackProgress = MutableLiveData<Boolean>()
     val feedbackProgress: LiveData<Boolean> = mutableFeedbackProgress
     private val mutableSubmittedFeedback = MutableLiveData<Feedback>()
     val submittedFeedback: LiveData<Feedback> = mutableSubmittedFeedback
-    private val mutableEventSessions = MutableLiveData<List<Session>>()
-    val eventSessions: LiveData<List<Session>> = mutableEventSessions
-    private val mutableEventSpeakers = MutableLiveData<List<Speaker>>()
-    val eventSpeakers: LiveData<List<Speaker>> = mutableEventSpeakers
-    private val mutableEventSponsors = MutableLiveData<List<Sponsor>>()
-    val eventSponsors: LiveData<List<Sponsor>> = mutableEventSponsors
-    private val mutableSocialLinks = MutableLiveData<List<SocialLink>>()
-    val socialLinks: LiveData<List<SocialLink>> = mutableSocialLinks
+
     private val mutableSimilarEvents = MutableLiveData<PagedList<Event>>()
     val similarEvents: LiveData<PagedList<Event>> = mutableSimilarEvents
     private val mutableSimilarEventsProgress = MediatorLiveData<Boolean>()
     val similarEventsProgress: MediatorLiveData<Boolean> = mutableSimilarEventsProgress
+
     private val mutableOrders = MutableLiveData<List<Order>>()
     val orders: LiveData<List<Order>> = mutableOrders
+
     private val mutablePriceRange = MutableLiveData<String>()
     val priceRange: LiveData<String> = mutablePriceRange
+
+    private var eventImageTemp = MutableLiveData<File>()
+    var avatarUpdated = false
+    var encodedImage: String? = null
+    var eventAvatar: String? = null
 
     fun isLoggedIn() = authHolder.isLoggedIn()
 
     fun getId() = authHolder.getId()
+
+    fun getLoggedInUserName(): String {
+        var username: String = resource.getString(R.string.app_name).toString()
+        compositeDisposable += authService.getProfile()
+            .withDefaultSchedulers()
+            .doOnSubscribe {
+                mutableProgress.value = true
+            }.doFinally {
+                mutableProgress.value = false
+            }.subscribe({ user ->
+                username = user.firstName.toString() + " " + user.lastName.toString()
+            }) {
+                Timber.e(it, "Failure")
+                mutablePopMessage.value = resource.getString(R.string.failure)
+            }
+        return username
+    }
 
     fun fetchEventFeedback(id: Long) {
         if (id == -1L) return
@@ -113,6 +124,33 @@ class EventDetailsViewModel(
             })
     }
 
+    fun createEvent(
+        name: String, description: String, location: String,
+        startAt: String, endAt: String, privacy: String
+    ) {
+
+        val event = Event(
+            name = name, description = description,
+            locationName = location, startsAt = startAt,
+            endsAt = endAt, privacy = privacy, ownerName = getLoggedInUserName(),
+            thumbnailImageUrl = eventAvatar.toString(),
+            originalImageUrl = eventAvatar.toString(),
+            largeImageUrl = eventAvatar.toString()
+        )
+
+        compositeDisposable += eventService.createEvent(event)
+            .withDefaultSchedulers()
+            .doOnSubscribe {
+                mutableProgress.value = true
+            }.subscribe({
+                mutablePopMessage.value = resource.getString(R.string.create_event_success_message)
+                mutableCreatedEvent.value = it
+            }, {
+                mutableProgress.value = false
+                mutablePopMessage.value = resource.getString(R.string.create_event_fail_message)
+            })
+    }
+
     fun submitFeedback(comment: String, rating: Float?, eventId: Long) {
         val feedback = Feedback(
             rating = rating.toString(), comment = comment,
@@ -129,50 +167,16 @@ class EventDetailsViewModel(
                 mutablePopMessage.value = resource.getString(R.string.error_submitting_feedback)
             })
     }
-    fun fetchEventSpeakers(id: Long) {
-        if (id == -1L) return
 
-        val query = """[{
-                |   'and':[{
-                |       'name':'is-featured',
-                |       'op':'eq',
-                |       'val':'true'
-                |    }]
-                |}]""".trimMargin().replace("'", "\"")
 
-        compositeDisposable += speakerService.fetchSpeakersForEvent(id, query)
-            .withDefaultSchedulers()
-            .subscribe({
-                mutableEventSpeakers.value = it
-            }, {
-                Timber.e(it, "Error fetching speaker for event id %d", id)
-                mutablePopMessage.value = resource.getString(R.string.error_fetching_event_section_message,
-                    resource.getString(R.string.speakers))
-            })
-    }
 
-    fun fetchSocialLink(id: Long) {
-        if (id == -1L) return
-
-        compositeDisposable += socialLinksService.getSocialLinks(id)
-            .withDefaultSchedulers()
-            .subscribe({
-                mutableSocialLinks.value = it
-            }, {
-                Timber.e(it, "Error fetching social link for event id $id")
-                mutablePopMessage.value = resource.getString(R.string.error_fetching_event_section_message,
-                    resource.getString(R.string.social_links))
-            })
-    }
-
-    fun fetchSimilarEvents(eventId: Long, topicId: Long, location: String?) {
+    fun fetchSimilarEvents(eventId: Long, typeId: Long, location: String?) {
         if (eventId == -1L) return
 
         val sourceFactory =
             SimilarEventsDataSourceFactory(
                 compositeDisposable,
-                topicId,
-                location,
+                typeId,
                 eventId,
                 mutableSimilarEventsProgress,
                 eventService
@@ -201,20 +205,6 @@ class EventDetailsViewModel(
                 Timber.e(it, "Error fetching similar events")
                 mutablePopMessage.value = resource.getString(R.string.error_fetching_event_section_message,
                     resource.getString(R.string.similar_events))
-            })
-    }
-
-    fun fetchEventSponsors(id: Long) {
-        if (id == -1L) return
-
-        compositeDisposable += sponsorService.fetchSponsorsWithEvent(id)
-            .withDefaultSchedulers()
-            .subscribe({
-                mutableEventSponsors.value = it
-            }, {
-                Timber.e(it, "Error fetching sponsor for event id %d", id)
-                mutablePopMessage.value = resource.getString(R.string.error_fetching_event_section_message,
-                    resource.getString(R.string.sponsors))
             })
     }
 
@@ -254,20 +244,6 @@ class EventDetailsViewModel(
             }, {
                 Timber.e(it, "Error fetching event")
                 mutablePopMessage.value = resource.getString(R.string.error_fetching_event_message)
-            })
-    }
-
-    fun fetchEventSessions(id: Long) {
-        if (id == -1L) return
-
-        compositeDisposable += sessionService.fetchSessionForEvent(id)
-            .withDefaultSchedulers()
-            .subscribe({
-                mutableEventSessions.value = it
-            }, {
-                mutablePopMessage.value = resource.getString(R.string.error_fetching_event_section_message,
-                    resource.getString(R.string.sessions))
-                Timber.e(it, "Error fetching events sessions")
             })
     }
 
@@ -377,6 +353,14 @@ class EventDetailsViewModel(
                 mutablePopMessage.value = resource.getString(R.string.out_bad_try_again)
                 Timber.d(it, "Fail on removing like for event ID ${event.id}")
             })
+    }
+
+    fun setEventTempFile(file: File) {
+        eventImageTemp.value = file
+    }
+
+    fun getEventTempFile(): MutableLiveData<File> {
+        return eventImageTemp
     }
 
     override fun onCleared() {

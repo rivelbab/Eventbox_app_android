@@ -31,7 +31,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/heading_text_size"
                 android:textStyle="bold"
-                tools:text="FOSSASIA summit" />
+                tools:text="Eventbox summit" />
 
             <TextView
                 android:id="@+id/organizerName"

@@ -1,6 +1,7 @@
 package com.eventbox.app.android.fragments.event.search
 
 import android.content.res.ColorStateList
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.CompoundButton
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -44,8 +46,8 @@ import com.eventbox.app.android.ui.common.FavoriteFabClickListener
 import com.eventbox.app.android.models.event.Event
 import com.eventbox.app.android.utils.EventUtils
 import com.eventbox.app.android.utils.RedirectToLogin
-import com.eventbox.app.android.models.event.EventType
 import com.eventbox.app.android.adapters.SearchPagedListAdapter
+import com.eventbox.app.android.models.event.EventType
 import com.eventbox.app.android.ui.event.search.SearchResultsViewModel
 import com.eventbox.app.android.utils.Utils.hideSoftKeyboard
 import com.eventbox.app.android.utils.Utils.setToolbar
@@ -64,8 +66,7 @@ class SearchResultsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
     private lateinit var rootView: View
     private val searchResultsViewModel by viewModel<SearchResultsViewModel>()
     private val safeArgs: SearchResultsFragmentArgs by navArgs()
-    private val searchPagedListAdapter =
-        SearchPagedListAdapter()
+    private val searchPagedListAdapter = SearchPagedListAdapter()
 
     private lateinit var days: Array<String>
     private lateinit var eventDate: String
@@ -167,7 +168,7 @@ class SearchResultsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
         if (rootView.chipGroup.childCount> 0) {
             rootView.chipGroup.removeAllViews()
         }
-            when {
+        when {
             date != getString(R.string.anytime) && type != getString(R.string.anything) -> {
                 addChips(date, true)
                 addChips(type, true)
@@ -203,18 +204,15 @@ class SearchResultsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
         }
         rootView.filter.setOnClickListener {
             findNavController(rootView)
-                .navigate(
-                    SearchResultsFragmentDirections.actionSearchResultsToSearchFilter(
-                        date = safeArgs.date,
-                        freeEvents = safeArgs.freeEvents,
-                        location = safeArgs.location,
-                        type = safeArgs.type,
-                        query = safeArgs.query,
-                        sort = safeArgs.sort,
-                        sessionsAndSpeakers = safeArgs.sessionsAndSpeakers,
-                        callForSpeakers = safeArgs.callForSpeakers
-                    )
-                )
+                .navigate(SearchResultsFragmentDirections.actionSearchResultsToSearchFilter(
+                    date = safeArgs.date,
+                    freeEvents = safeArgs.freeEvents,
+                    location = safeArgs.location,
+                    type = safeArgs.type,
+                    query = safeArgs.query,
+                    sort = safeArgs.sort,
+                    sessionsAndSpeakers = safeArgs.sessionsAndSpeakers,
+                    callForSpeakers = safeArgs.callForSpeakers))
         }
 
         rootView.clearSearchText.setOnClickListener {
@@ -239,27 +237,21 @@ class SearchResultsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
         rootView.chipGroup.addView(chip)
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val eventClickListener: EventClickListener = object : EventClickListener {
             override fun onClick(eventID: Long, imageView: ImageView) {
                 findNavController(rootView)
-                    .navigate(
-                        SearchResultsFragmentDirections.actionSearchResultsToEventDetail(
-                            eventID
-                        ),
+                    .navigate(SearchResultsFragmentDirections.actionSearchResultsToEventDetail(eventID),
                         FragmentNavigatorExtras(imageView to "eventDetailImage"))
             }
         }
 
-        val redirectToLogin = object :
-            RedirectToLogin {
+        val redirectToLogin = object : RedirectToLogin {
             override fun goBackToLogin() {
-                findNavController(rootView).navigate(
-                    SearchResultsFragmentDirections.actionSearchResultsToAuth(
-                        redirectedFrom = SEARCH_RESULTS_FRAGMENT
-                    )
-                )
+                findNavController(rootView).navigate(SearchResultsFragmentDirections
+                    .actionSearchResultsToAuth(redirectedFrom = SEARCH_RESULTS_FRAGMENT))
             }
         }
 

@@ -12,16 +12,17 @@ import java.io.IOException
 import java.lang.Exception
 import java.util.Locale
 import com.eventbox.app.android.R
-import com.eventbox.app.android.data.Resource
-import com.eventbox.app.android.location.LocationPermissionException
-import com.eventbox.app.android.location.NoLocationSourceException
+import com.eventbox.app.android.config.Resource
+import com.eventbox.app.android.config.exceptions.LocationPermissionException
+import com.eventbox.app.android.config.exceptions.NoLocationSourceException
+import com.eventbox.app.android.service.SearchLocationService
 import com.eventbox.app.android.utils.nullToEmpty
 import timber.log.Timber
 
 class LocationServiceImpl(
     private val context: Context,
     private val resource: Resource
-) : LocationService {
+) : SearchLocationService {
 
     override fun getAdministrativeArea(): Single<String> {
         val locationManager = context.getSystemService(Context.LOCATION_SERVICE)

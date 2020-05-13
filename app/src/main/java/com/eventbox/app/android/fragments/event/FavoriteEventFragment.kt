@@ -12,24 +12,13 @@ import androidx.lifecycle.Observer
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_favorite.view.favoriteEventsRecycler
-import kotlinx.android.synthetic.main.fragment_favorite.view.favoriteProgressBar
-import kotlinx.android.synthetic.main.fragment_favorite.view.findText
-import kotlinx.android.synthetic.main.fragment_favorite.view.likesNumber
-import kotlinx.android.synthetic.main.fragment_favorite.view.likesTitle
-import kotlinx.android.synthetic.main.fragment_favorite.view.monthChip
-import kotlinx.android.synthetic.main.fragment_favorite.view.noLikedLL
-import kotlinx.android.synthetic.main.fragment_favorite.view.scrollView
-import kotlinx.android.synthetic.main.fragment_favorite.view.todayChip
-import kotlinx.android.synthetic.main.fragment_favorite.view.tomorrowChip
-import kotlinx.android.synthetic.main.fragment_favorite.view.toolbarLayout
-import kotlinx.android.synthetic.main.fragment_favorite.view.weekendChip
 import com.eventbox.app.android.BottomIconDoubleClick
 import com.eventbox.app.android.R
 import com.eventbox.app.android.adapters.FavoriteEventsListAdapter
 import com.eventbox.app.android.ui.common.EventClickListener
 import com.eventbox.app.android.ui.common.FavoriteFabClickListener
 import com.eventbox.app.android.config.Preference
+import com.eventbox.app.android.fragments.message.MESSAGE_FRAGMENT
 import com.eventbox.app.android.models.event.Event
 import com.eventbox.app.android.utils.EventUtils.getEventDateTime
 import com.eventbox.app.android.ui.event.search.SAVED_LOCATION
@@ -37,9 +26,8 @@ import com.eventbox.app.android.ui.event.FavoriteEventsViewModel
 import com.eventbox.app.android.utils.Utils.setToolbar
 import com.eventbox.app.android.utils.extensions.hideWithFading
 import com.eventbox.app.android.utils.extensions.nonNull
-import com.eventbox.app.android.utils.extensions.setPostponeSharedElementTransition
-import com.eventbox.app.android.utils.extensions.setStartPostponedEnterTransition
 import com.eventbox.app.android.utils.extensions.showWithFading
+import kotlinx.android.synthetic.main.fragment_favorite.view.*
 import org.jetbrains.anko.design.longSnackbar
 import org.jetbrains.anko.design.snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -64,17 +52,17 @@ class FavoriteFragment : Fragment(), BottomIconDoubleClick {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        setPostponeSharedElementTransition()
+        //setPostponeSharedElementTransition()
         rootView = inflater.inflate(R.layout.fragment_favorite, container, false)
         rootView.favoriteEventsRecycler.layoutManager = LinearLayoutManager(activity)
         rootView.favoriteEventsRecycler.adapter = favoriteEventsRecyclerAdapter
         rootView.favoriteEventsRecycler.isNestedScrollingEnabled = false
         rootView.viewTreeObserver.addOnDrawListener {
-            setStartPostponedEnterTransition()
+            //setStartPostponedEnterTransition()
         }
 
         rootView.findText.setOnClickListener {
-            findNavController(rootView).navigate(FavoriteFragmentDirections.actionFavouriteToSearch())
+            openSearchResult(rootView.todayChip.text.toString())
         }
 
         rootView.todayChip.setOnClickListener {
@@ -94,7 +82,7 @@ class FavoriteFragment : Fragment(), BottomIconDoubleClick {
             .nonNull()
             .observe(viewLifecycleOwner, Observer { list ->
                 favoriteEventsRecyclerAdapter.submitList(list.sortedBy { getEventDateTime(it.startsAt, it.timezone) })
-                rootView.likesNumber.text = resources.getQuantityString(R.plurals.likes_number, list.size, list.size)
+                rootView.likesNumber.text= resources.getQuantityString(R.plurals.events_number, list.size, list.size)
                 showEmptyMessage(list.size)
                 Timber.d("Fetched events of size %s", list.size)
             })
@@ -177,7 +165,7 @@ class FavoriteFragment : Fragment(), BottomIconDoubleClick {
         findNavController(rootView).navigate(
             FavoriteFragmentDirections.actionFavouriteToAuth(
                 getString(R.string.log_in_first),
-                FAVORITE_FRAGMENT
+                MESSAGE_FRAGMENT
             )
         )
     }
