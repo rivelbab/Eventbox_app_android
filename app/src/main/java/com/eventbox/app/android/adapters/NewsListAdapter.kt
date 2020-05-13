@@ -22,21 +22,30 @@ class NewsListAdapter : ListAdapter<News, NewsViewHolder>(NewsDiffCallback()) {
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val news = getItem(position)
-        holder.apply {
-            val newsDate = getDateFormat(news.publishedOn.toString())
-            var showNewsDate = true
-            if (position != 0) {
-                val previousNews = getItem(position - 1)
-                if (previousNews != null && newsDate == getDateFormat(previousNews.publishedOn.toString()))
-                    showNewsDate = false
+        if (news != null){
+            holder.apply {
+                val newsDate = getDateFormat(news.publishedOn.toString())
+                var showNewsDate = true
+                if (position != 0) {
+                    val previousNews = getItem(position - 1)
+                    if (previousNews != null && newsDate == getDateFormat(previousNews.publishedOn.toString()))
+                        showNewsDate = false
+                }
+                bind(news, position, if (showNewsDate) newsDate else "")
+                newsClickListener = onNewsClick
             }
-            bind(news, position, if (showNewsDate) newsDate else "")
-            newsClickListener = onNewsClick
         }
     }
 
     private fun getDateFormat(newsDate: String, timeZone: String = "UTC"): String {
         val date = getEventDateTime(newsDate, timeZone)
         return getFormattedDate(date)
+    }
+
+    /**
+     * The function to call when the adapter has to be cleared of items
+     */
+    fun clear() {
+        this.submitList(null)
     }
 }

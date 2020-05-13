@@ -84,13 +84,14 @@
             android:layout_height="@dimen/layout_margin_news_icon"
             android:layout_gravity="center"
             android:scaleType="centerCrop"
-            android:src="@drawable/news_icon"
+            tools:src="@drawable/news_icon"
             android:background="@drawable/round_image"
             android:layout_marginBottom="@dimen/layout_margin_moderate"
             android:paddingTop="@dimen/padding_medium"
             android:paddingBottom="@dimen/padding_small"
             android:layout_marginStart="@dimen/layout_margin_large"
             android:layout_marginTop="@dimen/layout_margin_moderate"
+            android:src="@{news.isNanterreNews ? @drawable/nanterre_presse : @drawable/news_icon}"
             android:transitionName="@{`cardItemNewsImage` + position}"/>
 
         <LinearLayout
@@ -125,6 +126,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/details_text_size"
                     android:maxLines="1"
+                    android:textColor="@color/colorSecondary"
                     android:ellipsize="end"
                     android:text="@{dateTime}"
                     tools:text="10h:40" />

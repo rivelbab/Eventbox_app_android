@@ -27,6 +27,7 @@
 	<string name="no_news_yet">There is no news yet</string>
 	<string name="fetch_news_error_message">Error fetching news !</string>
 	<string name="error_fetching_news">We\'re having difficulty fetching news. Try again later.</string>
+	<string name="news_type_nanterre_presse">NANTERRE PRESSE</string>
 
 	<!-- interested page-->
 	<string name="no_interested_event">Find an event to join !</string>

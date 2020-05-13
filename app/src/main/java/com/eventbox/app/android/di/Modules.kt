@@ -60,6 +60,7 @@ import com.eventbox.app.android.search.location.GeoLocationViewModel
 import com.eventbox.app.android.search.location.LocationServiceImpl
 import com.eventbox.app.android.service.*
 import com.eventbox.app.android.ui.event.search.*
+import com.eventbox.app.android.ui.news.NewsDetailViewModel
 import com.eventbox.app.android.ui.news.NewsViewModel
 import com.eventbox.app.android.ui.payment.TicketsViewModel
 import org.koin.android.ext.koin.androidApplication
@@ -174,7 +175,8 @@ val viewModelModule = module {
     viewModel { AboutEventViewModel(get(), get()) }
     viewModel { EventFAQViewModel(get(), get()) }
     viewModel { FavoriteEventsViewModel(get(), get(), get()) }
-    viewModel { NewsViewModel(get(), get(), get()) }
+    viewModel { NewsViewModel(get(), get(), get(), get()) }
+    viewModel { NewsDetailViewModel(get(), get(), get(), get(), get()) }
     viewModel { SettingsViewModel(get(), get(), get()) }
     viewModel { OrderCompletedViewModel(get(), get(), get(), get()) }
     viewModel { OrdersUnderUserViewModel(get(), get(), get(), get(), get()) }

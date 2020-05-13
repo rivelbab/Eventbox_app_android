@@ -59,6 +59,20 @@
         android:name="com.eventbox.app.android.fragments.news.NewsFragment"
         android:label="NewsFragment"
         tools:layout="@layout/fragment_news">
+        <action
+            android:id="@+id/action_news_to_news_detail"
+            app:destination="@id/newsDetailFragment"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"/>
+        <action
+            android:id="@+id/action_news_to_login"
+            app:destination="@id/loginFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
 
     <fragment
@@ -510,6 +524,24 @@
             android:name="eventId"
             app:argType="long"
             android:defaultValue="-1L"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/newsDetailFragment"
+        android:name="com.eventbox.app.android.fragments.news.NewsDetailFragment"
+        android:label="NewsDetailFragment"
+        tools:layout="@layout/fragment_news_detail">
+        <action
+            android:id="@+id/action_news_detail_to_auth"
+            app:destination="@id/authFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
+        <argument
+            android:name="newsId"
+            app:argType="string"
+            android:defaultValue=" "/>
     </fragment>
 
     <fragment

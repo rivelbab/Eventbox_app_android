@@ -13,5 +13,5 @@ data class News (
     val publishedOn: String? = null,
     val createdAt: String? = null,
     val visible: Boolean = false,
-    val type: String? = null
+    val isNanterreNews: Boolean = false
 )

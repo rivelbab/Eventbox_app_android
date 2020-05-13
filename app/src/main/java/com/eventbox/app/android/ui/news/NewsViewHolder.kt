@@ -30,7 +30,7 @@ class NewsViewHolder (private val binding: ItemCardNewsBinding): RecyclerView.Vi
         itemView.shareFab.scaleType = ImageView.ScaleType.CENTER
         itemView.newsImage.clipToOutline = true
         itemView.setOnClickListener {
-            newsClickListener?.onClick(news.id.toString(), itemView.newsImage)
+            newsClickListener?.onClick(news.id.toString())
         }
         itemView.shareFab.setOnClickListener {
             NewsUtils.share(news, itemView.context)
