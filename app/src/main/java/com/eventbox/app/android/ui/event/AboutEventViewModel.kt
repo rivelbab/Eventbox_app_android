@@ -24,8 +24,8 @@ class AboutEventViewModel(private val eventService: EventService, private val re
     private val mutableError = SingleLiveEvent<String>()
     val error: SingleLiveEvent<String> = mutableError
 
-    fun loadEvent(id: Long) {
-        if (id == -1L) {
+    fun loadEvent(id: String) {
+        if (id == "") {
             mutableError.value = resource.getString(R.string.error_fetching_event_message)
             return
         }

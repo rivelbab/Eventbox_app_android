@@ -25,8 +25,8 @@ class FeedbackViewModel(
     private val mutableProgress = MutableLiveData<Boolean>(false)
     val progress: LiveData<Boolean> = mutableProgress
 
-    fun getAllFeedback(eventId: Long) {
-        if (eventId == -1L) {
+    fun getAllFeedback(eventId: String) {
+        if (eventId == "") {
             mutableMessage.value = resource.getString(R.string.error_fetching_feedback_message)
             return
         }

@@ -48,7 +48,6 @@ class NewsFragment : Fragment(), BottomIconDoubleClick {
         rootView = inflater.inflate(R.layout.fragment_news, container, false)
 
         setToolbar(activity, show = false)
-        val progressDialog = progressDialog(context, getString(R.string.loading_message))
 
         rootView.newsRecycler.layoutManager = LinearLayoutManager(activity)
         rootView.newsRecycler.adapter = newsListAdapter
@@ -60,7 +59,7 @@ class NewsFragment : Fragment(), BottomIconDoubleClick {
                 newsListAdapter.submitList(list.sortedBy { getEventDateTime(it.publishedOn.toString(), "UTC") })
                 rootView.newsNumber.text = resources.getQuantityString(R.plurals.news_number, list.size, list.size)
                 if (!rootView.shimmerNews.isVisible)
-                    showEmptyMessage(newsListAdapter.currentList?.isEmpty() ?: true)
+                    showEmptyMessage(newsListAdapter.currentList.isEmpty() ?: true)
                 Timber.d("Fetched news of size %s", list.size)
             })
 

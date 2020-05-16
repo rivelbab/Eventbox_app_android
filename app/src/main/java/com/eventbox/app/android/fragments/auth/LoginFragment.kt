@@ -26,10 +26,7 @@ import com.eventbox.app.android.auth.SmartAuthViewModel
 import com.eventbox.app.android.fragments.event.EVENT_DETAIL_FRAGMENT
 import com.eventbox.app.android.fragments.message.MESSAGE_FRAGMENT
 import com.eventbox.app.android.fragments.notification.NOTIFICATION_FRAGMENT
-import com.eventbox.app.android.fragments.payment.ORDERS_FRAGMENT
-import com.eventbox.app.android.ui.event.search.ORDER_COMPLETED_FRAGMENT
 import com.eventbox.app.android.fragments.event.search.SEARCH_RESULTS_FRAGMENT
-import com.eventbox.app.android.fragments.payment.TICKETS_FRAGMENT
 import com.eventbox.app.android.utils.Utils.hideSoftKeyboard
 import com.eventbox.app.android.utils.Utils.progressDialog
 import com.eventbox.app.android.utils.Utils.setToolbar
@@ -204,12 +201,9 @@ class LoginFragment : Fragment() {
         when (safeArgs.redirectedFrom) {
             PROFILE_FRAGMENT -> R.id.profileFragment
             EVENT_DETAIL_FRAGMENT -> R.id.eventDetailsFragment
-            ORDERS_FRAGMENT -> R.id.orderUnderUserFragment
-            TICKETS_FRAGMENT -> R.id.ticketsFragment
             NOTIFICATION_FRAGMENT -> R.id.notificationFragment
             MESSAGE_FRAGMENT -> R.id.favoriteFragment
             SEARCH_RESULTS_FRAGMENT -> R.id.searchResultsFragment
-            ORDER_COMPLETED_FRAGMENT -> R.id.orderCompletedFragment
             else -> R.id.eventsFragment
         }
         if (destinationId == R.id.eventsFragment) {

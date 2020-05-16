@@ -1,5 +1,6 @@
 package com.eventbox.app.android.models.event
 
+import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.PrimaryKey
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
@@ -13,9 +14,10 @@ import com.eventbox.app.android.models.event.EventId
 @Type("user-favourite-event")
 @JsonNaming(PropertyNamingStrategy.KebabCaseStrategy::class)
 data class FavoriteEvent(
-    @Id(LongIdHandler::class)
+    @Id
     @PrimaryKey
-    val id: Long,
+    @NonNull
+    val id: String,
     @ColumnInfo(index = true)
     @Relationship("event", resolve = true)
     val event: EventId? = null

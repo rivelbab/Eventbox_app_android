@@ -10,8 +10,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.schedulers.Schedulers
-import java.lang.StringBuilder
-import com.eventbox.app.android.BuildConfig.MAPBOX_KEY
 import com.eventbox.app.android.R
 import com.eventbox.app.android.ui.auth.AuthHolder
 import com.eventbox.app.android.models.user.User
@@ -24,8 +22,6 @@ import com.eventbox.app.android.data.dataSource.SimilarEventsDataSourceFactory
 import com.eventbox.app.android.models.event.FavoriteEvent
 import com.eventbox.app.android.models.feedback.Feedback
 import com.eventbox.app.android.models.event.EventId
-import com.eventbox.app.android.models.payment.Order
-import com.eventbox.app.android.models.payment.TicketPriceRange
 import com.eventbox.app.android.service.*
 import com.eventbox.app.android.utils.extensions.withDefaultSchedulers
 import timber.log.Timber
@@ -33,12 +29,10 @@ import java.io.File
 
 class EventDetailsViewModel(
     private val eventService: EventService,
-    private val ticketService: TicketService,
     private val authHolder: AuthHolder,
     private val authService: AuthService,
     private val feedbackService: FeedbackService,
     private val resource: Resource,
-    private val orderService: OrderService,
     private val mutableConnectionLiveData: MutableConnectionLiveData,
     private val config: PagedList.Config
 ) : ViewModel() {
@@ -73,12 +67,6 @@ class EventDetailsViewModel(
     private val mutableSimilarEventsProgress = MediatorLiveData<Boolean>()
     val similarEventsProgress: MediatorLiveData<Boolean> = mutableSimilarEventsProgress
 
-    private val mutableOrders = MutableLiveData<List<Order>>()
-    val orders: LiveData<List<Order>> = mutableOrders
-
-    private val mutablePriceRange = MutableLiveData<String>()
-    val priceRange: LiveData<String> = mutablePriceRange
-
     private var eventImageTemp = MutableLiveData<File>()
     var avatarUpdated = false
     var encodedImage: String? = null
@@ -105,8 +93,8 @@ class EventDetailsViewModel(
         return username
     }
 
-    fun fetchEventFeedback(id: Long) {
-        if (id == -1L) return
+    fun fetchEventFeedback(id: String) {
+        if (id == "") return
 
         compositeDisposable += feedbackService.getEventFeedback(id)
             .withDefaultSchedulers()
@@ -133,9 +121,7 @@ class EventDetailsViewModel(
             name = name, description = description,
             locationName = location, startsAt = startAt,
             endsAt = endAt, privacy = privacy, ownerName = getLoggedInUserName(),
-            thumbnailImageUrl = eventAvatar.toString(),
-            originalImageUrl = eventAvatar.toString(),
-            largeImageUrl = eventAvatar.toString()
+            originalImageUrl = eventAvatar.toString()
         )
 
         compositeDisposable += eventService.createEvent(event)
@@ -151,7 +137,7 @@ class EventDetailsViewModel(
             })
     }
 
-    fun submitFeedback(comment: String, rating: Float?, eventId: Long) {
+    fun submitFeedback(comment: String, rating: Float?, eventId: String) {
         val feedback = Feedback(
             rating = rating.toString(), comment = comment,
             event = EventId(eventId), user = UserId(
@@ -170,8 +156,8 @@ class EventDetailsViewModel(
 
 
 
-    fun fetchSimilarEvents(eventId: Long, typeId: Long, location: String?) {
-        if (eventId == -1L) return
+    fun fetchSimilarEvents(eventId: String, typeId: String, location: String?) {
+        if (eventId == "") return
 
         val sourceFactory =
             SimilarEventsDataSourceFactory(
@@ -208,8 +194,8 @@ class EventDetailsViewModel(
             })
     }
 
-    fun loadEvent(id: Long) {
-        if (id == -1L) {
+    fun loadEvent(id: String) {
+        if (id == "") {
             mutablePopMessage.value = resource.getString(R.string.error_fetching_event_message)
             return
         }
@@ -223,7 +209,7 @@ class EventDetailsViewModel(
                 mutableEvent.value = it
             }, {
                 mutableProgress.value = false
-                Timber.e(it, "Error fetching event %d", id)
+                Timber.e(it, "Error fetching event %s", id)
                 mutablePopMessage.value = resource.getString(R.string.error_fetching_event_message)
             })
     }
@@ -245,74 +231,6 @@ class EventDetailsViewModel(
                 Timber.e(it, "Error fetching event")
                 mutablePopMessage.value = resource.getString(R.string.error_fetching_event_message)
             })
-    }
-
-    fun loadOrders() {
-        if (!isLoggedIn())
-            return
-        compositeDisposable += orderService.getOrdersOfUser(getId())
-            .withDefaultSchedulers()
-            .subscribe({
-                mutableOrders.value = it
-            }, {
-                Timber.e(it, "Error fetching orders")
-            })
-    }
-
-    fun syncTickets(event: Event) {
-        compositeDisposable += ticketService.syncTickets(event.id)
-            .withDefaultSchedulers()
-            .subscribe({
-                if (!it.isNullOrEmpty())
-                    loadPriceRange(event)
-            }, {
-                Timber.e(it, "Error fetching tickets")
-            })
-    }
-
-    private fun loadPriceRange(event: Event) {
-        compositeDisposable += ticketService.getTicketPriceRange(event.id)
-            .withDefaultSchedulers()
-            .subscribe({
-                setRange(it, event.paymentCurrency.toString())
-            }, {
-                Timber.e(it, "Error fetching ticket price range")
-            })
-    }
-
-    private fun setRange(priceRange: TicketPriceRange, paymentCurrency: String) {
-        val maxPrice = priceRange.maxValue
-        val minPrice = priceRange.minValue
-        val range = StringBuilder()
-        if (maxPrice == minPrice) {
-            if (maxPrice == 0f)
-                range.append(resource.getString(R.string.free))
-            else {
-                range.append(paymentCurrency)
-                range.append(" ")
-                range.append("%.2f".format(minPrice))
-            }
-        } else {
-            if (minPrice == 0f)
-                range.append(resource.getString(R.string.free))
-            else {
-                range.append(paymentCurrency)
-                range.append(" ")
-                range.append("%.2f".format(minPrice))
-            }
-            range.append(" - ")
-            range.append(paymentCurrency)
-            range.append(" ")
-            range.append("%.2f".format(maxPrice))
-        }
-        mutablePriceRange.value = range.toString()
-    }
-
-    fun loadMap(event: Event): String {
-        // location handling
-        val BASE_URL = "https://api.mapbox.com/v4/mapbox.emerald/pin-l-marker+673ab7"
-        val LOCATION = "(${event.longitude},${event.latitude})/${event.longitude},${event.latitude}"
-        return "$BASE_URL$LOCATION,15/900x500.png?access_token=$MAPBOX_KEY"
     }
 
     fun setFavorite(event: Event, favorite: Boolean) {

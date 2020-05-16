@@ -7,12 +7,12 @@ import retrofit2.http.*
 interface EventApi {
 
     @GET
-    fun getEvent(id: Long): Single<Event>
+    fun getEvent(id: String): Single<Event>
 
-    @GET("/v1/events/{eventIdentifier}")
+    @GET("/events/{eventIdentifier}")
     fun getEventFromApi(@Path("eventIdentifier") eventIdentifier: String): Single<Event>
 
-    @POST("events")
+    @POST("/createevent")
     fun createEvent(@Body event: Event): Single<Event>
 
     @GET("events")
@@ -26,12 +26,15 @@ interface EventApi {
         @Query("page[size]") pageSize: Int = 5
     ): Single<List<Event>>
 
+    @GET("/retrieveallevents")
+    fun getAllEvents(): Single<List<Event>>
+
     @GET("events")
     fun eventsByQuery(@Query("filter") filter: String): Single<List<Event>>
 
     @GET("event-topics/{id}/events?include=event-topic")
     fun getEventsUnderTypeIdPaged(
-        @Path("id") id: Long,
+        @Path("id") id: String,
         @Query("filter") filter: String,
         @Query("page[number]") page: Int,
         @Query("page[size]") pageSize: Int = 5

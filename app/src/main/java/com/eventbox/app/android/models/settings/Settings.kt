@@ -12,9 +12,9 @@ import com.github.jasminb.jsonapi.annotations.Type
 @JsonNaming(PropertyNamingStrategy.KebabCaseStrategy::class)
 @Entity
 data class Settings(
-    @Id(IntegerIdHandler::class)
+    @Id
     @PrimaryKey
-    val id: Int? = null,
+    val id: String = "",
     val appName: String? = null,
     val tagline: String? = null,
     val isPaypalActivated: Boolean = false,

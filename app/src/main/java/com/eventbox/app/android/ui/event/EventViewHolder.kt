@@ -33,7 +33,7 @@ class EventViewHolder(private val binding: ItemCardEventsBinding) : RecyclerView
 
         val time = EventUtils.getEventDateTime(
             event.startsAt,
-            event.timezone
+            "UTC"
         )
 
         with(binding) {

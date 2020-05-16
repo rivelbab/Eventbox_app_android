@@ -12,7 +12,7 @@ interface FeedbackApi {
 
     @GET("events/{eventId}/feedbacks?include=event")
     fun getEventFeedback(
-        @Path("eventId") eventId: Long,
+        @Path("eventId") eventId: String,
         @Query("sort") sort: String = "rating",
         @Query("filter") eventName: String = "[]"
     ): Single<List<Feedback>>

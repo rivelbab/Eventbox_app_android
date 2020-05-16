@@ -88,7 +88,7 @@
         android:label="SearchLocationFragment"
         tools:layout="@layout/fragment_search_location">
         <action android:id="@+id/action_search_location_to_auth"
-            app:destination="@id/authFragment"
+            app:destination="@id/loginFragment"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
             app:enterAnim="@anim/fade_in"
@@ -171,7 +171,7 @@
         tools:layout="@layout/fragment_search_results">
         <action
             android:id="@+id/action_search_results_to_auth"
-            app:destination="@id/authFragment"
+            app:destination="@id/loginFragment"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
             app:enterAnim="@anim/fade_in"
@@ -231,7 +231,7 @@
         tools:layout="@layout/fragment_event_main">
         <action
             android:id="@+id/action_favourite_to_auth"
-            app:destination="@id/authFragment"
+            app:destination="@id/loginFragment"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
             app:enterAnim="@anim/fade_in"
@@ -266,7 +266,7 @@
         tools:layout="@layout/fragment_favorite" >
         <action
             android:id="@+id/action_favourite_to_auth"
-            app:destination="@id/authFragment"
+            app:destination="@id/loginFragment"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
             app:enterAnim="@anim/fade_in"
@@ -294,7 +294,7 @@
         tools:layout="@layout/fragment_event_join" >
         <action
             android:id="@+id/action_favourite_to_auth"
-            app:destination="@id/authFragment"
+            app:destination="@id/loginFragment"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
             app:enterAnim="@anim/fade_in"
@@ -329,7 +329,7 @@
             app:exitAnim="@anim/fade_out"/>
         <action
             android:id="@+id/action_favourite_to_auth"
-            app:destination="@id/authFragment"
+            app:destination="@id/loginFragment"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
             app:enterAnim="@anim/fade_in"
@@ -369,88 +369,13 @@
     </fragment>
 
     <fragment
-        android:id="@+id/expiredOrderFragment"
-        android:name="com.eventbox.app.android.fragments.payment.ExpiredOrderFragment"
-        android:label="expiredOrderFragment"
-        tools:layout="@layout/fragment_expired_order">
-        <action
-            android:id="@+id/action_order_expired_to_order_details"
-            app:destination="@id/orderDetailsFragment"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"
-            app:enterAnim="@anim/fade_in"
-            app:exitAnim="@anim/fade_out"/>
-    </fragment>
-
-    <fragment
-        android:id="@+id/orderUnderUserFragment"
-        android:name="com.eventbox.app.android.fragments.payment.OrdersUnderUserFragment"
-        android:label="OrdersUnderUserFragment"
-        tools:layout="@layout/fragment_orders_under_user">
-        <action
-            android:id="@+id/action_order_user_to_order_expired"
-            app:destination="@id/expiredOrderFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
-        <action
-            android:id="@+id/action_order_user_to_order_details"
-            app:destination="@id/orderDetailsFragment"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"
-            app:enterAnim="@anim/fade_in"
-            app:exitAnim="@anim/fade_out"/>
-        <action
-            android:id="@+id/action_order_user_to_order_user_expire"
-            app:destination="@id/orderUnderUserFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
-        <action
-            android:id="@+id/action_order_user_to_auth"
-            app:destination="@id/authFragment"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"
-            app:enterAnim="@anim/fade_in"
-            app:exitAnim="@anim/fade_out"/>
-    </fragment>
-
-    <fragment
-        android:id="@+id/orderDetailsFragment"
-        android:name="com.eventbox.app.android.fragments.payment.OrderDetailsFragment"
-        android:label="OrderDetailsFragment"
-        tools:layout="@layout/fragment_order_details">
-        <action
-            android:id="@+id/action_order_details_to_event_details"
-            app:destination="@id/eventDetailsFragment"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"
-            app:enterAnim="@anim/fade_in"
-            app:exitAnim="@anim/fade_out"/>
-        <argument
-            android:name="eventId"
-            app:argType="long"
-            android:defaultValue="-1L"/>
-        <argument
-            android:name="orderIdentifier"
-            app:argType="string"
-            android:defaultValue="''"/>
-        <argument
-            android:name="orderId"
-            app:argType="long"
-            android:defaultValue="-1L"/>
-    </fragment>
-
-    <fragment
         android:id="@+id/profileFragment"
         android:name="com.eventbox.app.android.fragments.user.ProfileFragment"
         android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile" >
         <action
             android:id="@+id/action_profile_to_auth"
-            app:destination="@id/authFragment"
+            app:destination="@id/loginFragment"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
             app:enterAnim="@anim/fade_in"
@@ -522,8 +447,8 @@
         android:label="CodeOfConductFragment">
         <argument
             android:name="eventId"
-            app:argType="long"
-            android:defaultValue="-1L"/>
+            app:argType="string"
+            android:defaultValue="''"/>
     </fragment>
 
     <fragment
@@ -533,7 +458,7 @@
         tools:layout="@layout/fragment_news_detail">
         <action
             android:id="@+id/action_news_detail_to_auth"
-            app:destination="@id/authFragment"
+            app:destination="@id/loginFragment"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
@@ -541,7 +466,7 @@
         <argument
             android:name="newsId"
             app:argType="string"
-            android:defaultValue=" "/>
+            android:defaultValue="''"/>
     </fragment>
 
     <fragment
@@ -573,14 +498,7 @@
 
         <action
             android:id="@+id/action_event_details_to_auth"
-            app:destination="@id/authFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
-        <action
-            android:id="@+id/action_event_details_to_tickets"
-            app:destination="@id/ticketsFragment"
+            app:destination="@id/loginFragment"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
@@ -599,17 +517,10 @@
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"/>
-        <action
-            android:id="@+id/action_event_details_to_order_detail"
-            app:destination="@id/orderDetailsFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
         <argument
             android:name="eventId"
-            app:argType="long"
-            android:defaultValue="-1L"/>
+            app:argType="string"
+            android:defaultValue="''"/>
     </fragment>
 
     <fragment
@@ -619,8 +530,8 @@
         tools:layout="@layout/fragment_about_event">
         <argument
             android:name="eventId"
-            app:argType="long"
-            android:defaultValue="-1L"/>
+            app:argType="string"
+            android:defaultValue="''"/>
     </fragment>
 
     <fragment
@@ -630,128 +541,8 @@
         tools:layout="@layout/fragment_event_faq">
         <argument
             android:name="eventId"
-            app:argType="long"
-            android:defaultValue="-1L"/>
-    </fragment>
-
-    <fragment
-        android:id="@+id/ticketsFragment"
-        android:name="com.eventbox.app.android.fragments.payment.TicketsFragment"
-        android:label="TicketsFragment"
-        tools:layout="@layout/fragment_tickets">
-        <action
-            android:id="@+id/action_tickets_to_attendee"
-            app:destination="@id/attendeeFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
-        <action
-            android:id="@+id/action_tickets_to_auth"
-            app:destination="@id/authFragment"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"
-            app:enterAnim="@anim/fade_in"
-            app:exitAnim="@anim/fade_out"/>
-        <argument
-            android:name="eventId"
-            app:argType="long"
-            android:defaultValue="-1L"/>
-        <argument
-            android:name="currency"
             app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null"/>
-        <argument
-            android:name="timeout"
-            app:argType="boolean"
-            android:defaultValue="false"/>
-    </fragment>
-
-    <fragment
-        android:id="@+id/attendeeFragment"
-        android:name="com.eventbox.app.android.fragments.attendees.AttendeeFragment"
-        android:label="AttendeeFragment"
-        tools:layout="@layout/fragment_attendee">
-        <action
-            android:id="@+id/action_attendee_to_order_completed"
-            app:destination="@id/orderCompletedFragment"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"
-            app:enterAnim="@anim/fade_in"
-            app:exitAnim="@anim/fade_out"/>
-        <action
-            android:id="@+id/action_tickets_to_profile"
-            app:destination="@id/profileFragment"
-            app:popUpTo="@id/eventDetailsFragment"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"
-            app:enterAnim="@anim/fade_in"
-            app:exitAnim="@anim/fade_out"/>
-        <action
-            android:id="@+id/action_attendee_to_ticket_pop"
-            app:popUpToInclusive="true"
-            app:popUpTo="@id/ticketsFragment"
-            app:destination="@+id/ticketsFragment"/>
-        <argument
-            android:name="eventId"
-            app:argType="long"
-            android:defaultValue="-1L"/>
-        <argument
-            android:name="ticketIdAndQty"
-            app:argType="com.eventbox.app.android.models.payment.TicketIdAndQtyWrapper"
-            app:nullable="true"
-            android:defaultValue="@null"/>
-        <argument
-            android:name="currency"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null"/>
-        <argument
-            android:name="amount"
-            app:argType="float"
-            app:nullable="false"
-            android:defaultValue="0.0"/>
-        <argument
-            android:name="taxAmount"
-            app:argType="float"
-            app:nullable="false"
-            android:defaultValue="0.0"/>
-    </fragment>
-
-    <fragment
-        android:id="@+id/orderCompletedFragment"
-        android:name="com.eventbox.app.android.fragments.payment.OrderCompletedFragment"
-        android:label="OrderCompletedFragment"
-        tools:layout="@layout/fragment_order_completed">
-        <action
-            android:id="@+id/action_order_completed_to_auth"
-            app:destination="@id/authFragment"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"
-            app:enterAnim="@anim/fade_in"
-            app:exitAnim="@anim/fade_out"/>
-        <action
-            android:id="@+id/action_order_completed_to_order_user"
-            app:destination="@id/orderUnderUserFragment"
-            app:popUpTo="@id/eventsFragment"
-            app:popUpToInclusive="false" />
-        <action
-            android:id="@+id/action_order_completed_to_event_detail"
-            app:destination="@id/eventDetailsFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
-        <action
-            android:id="@+id/action_order_completed_to_events"
-            app:destination="@id/eventsFragment"
-            app:popUpTo="@id/eventsFragment"
-            app:popUpToInclusive="true" />
-        <argument
-            android:name="eventId"
-            app:argType="long"
-            android:defaultValue="-1L"/>
+            android:defaultValue="''"/>
     </fragment>
 
     <fragment
@@ -766,11 +557,6 @@
             app:popExitAnim="@anim/slide_down"
             app:enterAnim="@anim/slide_up"
             app:exitAnim="@anim/slide_down"/>
-        <action
-            android:id="@+id/action_login_to_auth_pop"
-            app:destination="@id/authFragment"
-            app:popUpTo="@id/authFragment"
-            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_login_to_events_pop"
             app:destination="@id/eventsFragment"
@@ -879,7 +665,7 @@
         tools:layout="@layout/fragment_notification">
         <action
             android:id="@+id/action_notification_to_auth"
-            app:destination="@id/authFragment"
+            app:destination="@id/loginFragment"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
@@ -893,58 +679,7 @@
         tools:layout="@layout/fragment_feedback">
         <argument
             android:name="eventId"
-            app:argType="long"
-            android:defaultValue="-1L"/>
-    </fragment>
-
-    <fragment
-        android:id="@+id/authFragment"
-        android:name="com.eventbox.app.android.fragments.auth.AuthFragment"
-        android:label="AuthFragment"
-        tools:layout="@layout/fragment_auth">
-        <action
-            android:id="@+id/action_auth_to_setting"
-            app:destination="@id/settingsFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
-        <action
-            android:id="@+id/action_auth_to_events_pop"
-            app:destination="@id/eventsFragment"
-            app:popUpTo="@id/eventsFragment"
-            app:popUpToInclusive="true"/>
-        <action
-            android:id="@+id/action_auth_to_log_in"
-            app:destination="@id/loginFragment"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"
-            app:enterAnim="@anim/fade_in"
-            app:exitAnim="@anim/fade_out"/>
-        <action
-            android:id="@+id/action_auth_to_sign_up"
-            app:destination="@id/signUpFragment"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"
-            app:enterAnim="@anim/fade_in"
-            app:exitAnim="@anim/fade_out"/>
-        <argument
-            android:name="snackbarMessage"
             app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null"/>
-        <argument
-            android:name="redirectedFrom"
-            app:argType="string"
-            app:nullable="false"/>
-        <argument
-            android:name="email"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null"/>
-        <argument
-            android:name="showSkipButton"
-            app:argType="boolean"
-            android:defaultValue="false"/>
+            android:defaultValue="''"/>
     </fragment>
 </navigation>

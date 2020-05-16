@@ -6,12 +6,12 @@ import com.eventbox.app.android.models.event.EventId
 class EventIdConverter {
 
     @TypeConverter
-    fun fromEventId(eventId: EventId?): Long? {
+    fun fromEventId(eventId: EventId?): String? {
         return eventId?.id
     }
 
     @TypeConverter
-    fun toEventId(id: Long?): EventId? {
+    fun toEventId(id: String?): EventId? {
         return id?.let {
             EventId(it)
         }

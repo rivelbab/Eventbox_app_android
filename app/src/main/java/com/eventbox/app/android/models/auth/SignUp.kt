@@ -10,8 +10,6 @@ import com.github.jasminb.jsonapi.annotations.Type
 @JsonNaming(PropertyNamingStrategy.KebabCaseStrategy::class)
 data class SignUp(
     @Id(IntegerIdHandler::class)
-    val firstName: String? = null,
-    val lastName: String? = null,
     val email: String? = null,
     val password: String? = null
 )

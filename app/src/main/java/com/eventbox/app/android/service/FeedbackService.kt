@@ -9,10 +9,10 @@ class FeedbackService(
     private val feedbackDao: FeedbackDao,
     private val feedbackApi: FeedbackApi
 ) {
-    fun getFeedbackUnderEventFromDb(eventId: Long): Single<List<Feedback>> =
+    fun getFeedbackUnderEventFromDb(eventId: String): Single<List<Feedback>> =
         feedbackDao.getAllFeedbackUnderEvent(eventId)
 
-    fun getEventFeedback(id: Long): Single<List<Feedback>> =
+    fun getEventFeedback(id: String): Single<List<Feedback>> =
         feedbackApi.getEventFeedback(id).doOnSuccess {
             feedbackDao.insertFeedback(it)
         }

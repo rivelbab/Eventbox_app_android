@@ -13,8 +13,8 @@ interface UserDao {
     fun insertUser(user: User)
 
     @Query("DELETE FROM User WHERE id = :id")
-    fun deleteUser(id: Long)
+    fun deleteUser(id: String)
 
     @Query("SELECT * from User WHERE id = :id")
-    fun getUser(id: Long): Single<User>
+    fun getUser(id: String): Single<User>
 }

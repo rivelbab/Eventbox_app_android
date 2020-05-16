@@ -22,13 +22,13 @@ import retrofit2.http.Path
 
 interface AuthApi {
 
-    @POST("../auth/session")
+    @POST("login")
     fun login(@Body login: Login): Single<LoginResponse>
 
     @GET("users/{id}")
-    fun getProfile(@Path("id") id: Long): Single<User>
+    fun getProfile(@Path("id") id: String): Single<User>
 
-    @POST("users")
+    @POST("signup")
     fun signUp(@Body signUp: SignUp): Single<User>
 
     @POST("auth/reset-password")
@@ -38,7 +38,7 @@ interface AuthApi {
     fun changeRequestToken(@Body changeRequestToken: ChangeRequestToken): Single<ChangeRequestTokenResponse>
 
     @PATCH("users/{id}")
-    fun updateUser(@Body user: User, @Path("id") id: Long): Single<User>
+    fun updateUser(@Body user: User, @Path("id") id: String): Single<User>
 
     @POST("upload/image")
     fun uploadImage(@Body uploadImage: UploadImage): Single<ImageResponse>
@@ -56,5 +56,5 @@ interface AuthApi {
     fun resetPassword(@Body requestPasswordReset: RequestPasswordReset): Single<ResetPasswordResponse>
 
     @DELETE("users/{id}")
-    fun deleteAccount(@Path("id") userId: Long): Completable
+    fun deleteAccount(@Path("id") userId: String): Completable
 }

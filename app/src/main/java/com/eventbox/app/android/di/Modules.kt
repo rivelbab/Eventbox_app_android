@@ -15,9 +15,6 @@ import com.eventbox.app.android.BuildConfig
 import com.eventbox.app.android.data.db.EventboxDatabase
 import com.eventbox.app.android.ui.StartupViewModel
 import com.eventbox.app.android.ui.event.AboutEventViewModel
-import com.eventbox.app.android.models.attendees.Attendee
-import com.eventbox.app.android.ui.attendees.AttendeeViewModel
-import com.eventbox.app.android.models.attendees.CustomForm
 import com.eventbox.app.android.ui.auth.AuthHolder
 import com.eventbox.app.android.ui.auth.AuthViewModel
 import com.eventbox.app.android.ui.user.EditProfileViewModel
@@ -33,28 +30,17 @@ import com.eventbox.app.android.config.Network
 import com.eventbox.app.android.config.Preference
 import com.eventbox.app.android.config.Resource
 import com.eventbox.app.android.models.event.*
-import com.eventbox.app.android.models.payment.DiscountCode
 import com.eventbox.app.android.ui.event.EventDetailsViewModel
 import com.eventbox.app.android.ui.event.EventsViewModel
 import com.eventbox.app.android.ui.event.faq.EventFAQViewModel
-import com.eventbox.app.android.models.payment.Tax
 import com.eventbox.app.android.ui.event.FavoriteEventsViewModel
 import com.eventbox.app.android.models.feedback.Feedback
 import com.eventbox.app.android.models.news.News
 import com.eventbox.app.android.ui.feedback.FeedbackViewModel
 import com.eventbox.app.android.models.notification.Notification
 import com.eventbox.app.android.ui.notification.NotificationViewModel
-import com.eventbox.app.android.models.payment.Charge
-import com.eventbox.app.android.models.payment.ConfirmOrder
-import com.eventbox.app.android.models.payment.Order
-import com.eventbox.app.android.ui.payment.OrderCompletedViewModel
-import com.eventbox.app.android.ui.payment.OrderDetailsViewModel
-import com.eventbox.app.android.ui.payment.OrdersUnderUserViewModel
-import com.eventbox.app.android.models.payment.Paypal
 import com.eventbox.app.android.models.settings.Settings
 import com.eventbox.app.android.ui.settings.SettingsViewModel
-import com.eventbox.app.android.models.payment.Ticket
-import com.eventbox.app.android.models.payment.TicketId
 import com.eventbox.app.android.networks.api.*
 import com.eventbox.app.android.search.location.GeoLocationViewModel
 import com.eventbox.app.android.search.location.LocationServiceImpl
@@ -62,7 +48,6 @@ import com.eventbox.app.android.service.*
 import com.eventbox.app.android.ui.event.search.*
 import com.eventbox.app.android.ui.news.NewsDetailViewModel
 import com.eventbox.app.android.ui.news.NewsViewModel
-import com.eventbox.app.android.ui.payment.TicketsViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -90,27 +75,11 @@ val apiModule = module {
     }
     single {
         val retrofit: Retrofit = get()
-        retrofit.create(TicketApi::class.java)
-    }
-    single {
-        val retrofit: Retrofit = get()
         retrofit.create(FavoriteEventApi::class.java)
     }
     single {
         val retrofit: Retrofit = get()
         retrofit.create(EventTypesApi::class.java)
-    }
-    single {
-        val retrofit: Retrofit = get()
-        retrofit.create(AttendeeApi::class.java)
-    }
-    single {
-        val retrofit: Retrofit = get()
-        retrofit.create(OrderApi::class.java)
-    }
-    single {
-        val retrofit: Retrofit = get()
-        retrofit.create(PaypalApi::class.java)
     }
     single {
         val retrofit: Retrofit = get()
@@ -130,15 +99,7 @@ val apiModule = module {
     }
     single {
         val retrofit: Retrofit = get()
-        retrofit.create(DiscountApi::class.java)
-    }
-    single {
-        val retrofit: Retrofit = get()
         retrofit.create(SettingsApi::class.java)
-    }
-    single {
-        val retrofit: Retrofit = get()
-        retrofit.create(TaxApi::class.java)
     }
     single {
         val retrofit: Retrofit = get()
@@ -146,15 +107,11 @@ val apiModule = module {
     }
 
     factory { AuthHolder(get()) }
-    factory { AuthService(get(), get(), get(), get(), get(), get(), get()) }
+    factory { AuthService(get(), get(), get(), get()) }
     factory { EventService(get(), get(), get(), get(), get(), get()) }
-    factory { TicketService(get(), get(), get()) }
-    factory { AttendeeService(get(), get(), get()) }
-    factory { OrderService(get(), get(), get(), get(), get()) }
     factory { NotificationService(get(), get()) }
     factory { FeedbackService(get(), get()) }
     factory { SettingsService(get(), get()) }
-    factory { TaxService(get(), get()) }
     factory { NewsService(get()) }
 }
 
@@ -165,22 +122,17 @@ val viewModelModule = module {
     viewModel { StartupViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel { ProfileViewModel(get(), get()) }
     viewModel { SignUpViewModel(get(), get(), get()) }
-    viewModel { EventDetailsViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { EventDetailsViewModel(get(), get(), get(), get(), get(), get(), get()) }
     viewModel { SearchResultsViewModel(get(), get(), get(), get(), get(), get()) }
-    viewModel { AttendeeViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel { SearchLocationViewModel(get(), get(), get()) }
     viewModel { SearchTimeViewModel(get()) }
     viewModel { SearchTypeViewModel(get(), get(), get()) }
-    viewModel { TicketsViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel { AboutEventViewModel(get(), get()) }
     viewModel { EventFAQViewModel(get(), get()) }
     viewModel { FavoriteEventsViewModel(get(), get(), get()) }
     viewModel { NewsViewModel(get(), get(), get(), get()) }
     viewModel { NewsDetailViewModel(get(), get(), get(), get(), get()) }
     viewModel { SettingsViewModel(get(), get(), get()) }
-    viewModel { OrderCompletedViewModel(get(), get(), get(), get()) }
-    viewModel { OrdersUnderUserViewModel(get(), get(), get(), get(), get()) }
-    viewModel { OrderDetailsViewModel(get(), get(), get(), get()) }
     viewModel { EditProfileViewModel(get(), get(), get()) }
     viewModel { GeoLocationViewModel(get()) }
     viewModel { SmartAuthViewModel() }
@@ -234,12 +186,9 @@ val networkModule = module {
         val objectMapper: ObjectMapper = get()
         val onlineApiResourceConverter = ResourceConverter(
             objectMapper, Event::class.java, User::class.java, News::class.java,
-            SignUp::class.java, Ticket::class.java, EventId::class.java,
-            EventType::class.java, Attendee::class.java, TicketId::class.java,
-            Charge::class.java, Paypal::class.java, ConfirmOrder::class.java,
-            CustomForm::class.java, EventLocation::class.java, Feedback::class.java,
-            EventFAQ::class.java, Notification::class.java, FavoriteEvent::class.java,
-            DiscountCode::class.java, Settings::class.java, Tax::class.java, Order::class.java)
+            SignUp::class.java, EventId::class.java, EventType::class.java,
+            EventLocation::class.java, Feedback::class.java, Settings::class.java,
+            EventFAQ::class.java, Notification::class.java, FavoriteEvent::class.java)
 
         Retrofit.Builder()
             .client(get())
@@ -272,21 +221,6 @@ val databaseModule = module {
 
     factory {
         val database: EventboxDatabase = get()
-        database.ticketDao()
-    }
-
-    factory {
-        val database: EventboxDatabase = get()
-        database.attendeeDao()
-    }
-
-    factory {
-        val database: EventboxDatabase = get()
-        database.orderDao()
-    }
-
-    factory {
-        val database: EventboxDatabase = get()
         database.feedbackDao()
     }
 
@@ -298,10 +232,5 @@ val databaseModule = module {
     factory {
         val database: EventboxDatabase = get()
         database.settingsDao()
-    }
-
-    factory {
-        val database: EventboxDatabase = get()
-        database.taxDao()
     }
 }

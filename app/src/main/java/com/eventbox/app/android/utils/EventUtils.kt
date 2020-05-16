@@ -23,9 +23,6 @@ import timber.log.Timber
 
 object EventUtils {
 
-    fun loadMapUrl(event: Event) = "geo:<${event.latitude}>,<${event.longitude}>" +
-            "?q=<${event.latitude}>,<${event.longitude}>"
-
     fun getEventDateTime(dateString: String, timeZone: String? = null): ZonedDateTime {
         try {
             return when (PreferenceManager.getDefaultSharedPreferences(EventboxEntryPoint.appContext)
@@ -139,7 +136,7 @@ object EventUtils {
         }
     }
 
-    fun getFormattedEventTimeRange(startsAt: ZonedDateTime, endsAt: ZonedDateTime): String {
+    fun getFormattedEventTimeRange(startsAt: ZonedDateTime): String {
         return try {
             getFormattedTime(startsAt)
         } catch (e: IllegalArgumentException) {

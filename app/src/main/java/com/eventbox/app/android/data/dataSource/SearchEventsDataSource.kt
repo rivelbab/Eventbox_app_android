@@ -18,7 +18,7 @@ class SearchEventsDataSource(
 ) : PageKeyedDataSource<Int, Event>() {
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Event>) {
-        compositeDisposable += eventService.getSearchEventsPaged(query, sortBy, 1)
+        compositeDisposable += eventService.getAllEvents(query, sortBy, 1)
             .take(1)
             .withDefaultSchedulers()
             .subscribe({ response ->
@@ -31,7 +31,7 @@ class SearchEventsDataSource(
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Event>) {
-        compositeDisposable += eventService.getSearchEventsPaged(query, sortBy, params.key)
+        compositeDisposable += eventService.getAllEvents(query, sortBy, params.key)
             .take(1)
             .withDefaultSchedulers()
             .subscribe({ response ->

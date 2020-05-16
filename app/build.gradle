@@ -8,9 +8,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: "com.github.b3er.local.properties"
 
-def STRIPE_API_TOKEN = System.getenv('STRIPE_API_TOKEN') ?: "YOUR_API_KEY"
 def MAPBOX_KEY = System.getenv('MAPBOX_KEY') ?: "pk.eyJ1IjoiYW5nbWFzMSIsImEiOiJjanNqZDd0N2YxN2Q5NDNuNTBiaGt6eHZqIn0.BCrxjW6rP_OuOuGtbhVEQg"
-def PAYPAL_CLIENT_ID = System.getenv('PAYPAL_CLIENT_ID') ?: "YOUR_API_KEY"
 
 android {
     dataBinding {
@@ -42,17 +40,13 @@ android {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "DEFAULT_BASE_URL", '"https://eventbox-api-dev.herokuapp.com/v1/"'
-            buildConfigField "String", "MAPBOX_KEY", '"' + MAPBOX_KEY + '"'
-            buildConfigField "String", "STRIPE_API_KEY", '"' + STRIPE_API_TOKEN + '"'
-            buildConfigField "String", "PAYPAL_CLIENT_ID", '"' + PAYPAL_CLIENT_ID + '"'
+            buildConfigField "String", "DEFAULT_BASE_URL", '"https://us-central1-eventboxapi.cloudfunctions.net/webApi/eventbox/api/v1/"'
+            buildConfigField "String", "MAPBOX_KEY", '"'+MAPBOX_KEY+'"'
             resValue "string", "FRONTEND_HOST", "eventbox.com"
         }
         debug {
-            buildConfigField "String", "DEFAULT_BASE_URL", '"https://eventbox-api-dev.herokuapp.com/v1/"'
-            buildConfigField "String", "MAPBOX_KEY", '"' + MAPBOX_KEY + '"'
-            buildConfigField "String", "STRIPE_API_KEY", '"' + STRIPE_API_TOKEN + '"'
-            buildConfigField "String", "PAYPAL_CLIENT_ID", '"' + PAYPAL_CLIENT_ID + '"'
+            buildConfigField "String", "DEFAULT_BASE_URL", '"https://us-central1-eventboxapi.cloudfunctions.net/webApi/eventbox/api/v1/"'
+            buildConfigField "String", "MAPBOX_KEY", '"'+MAPBOX_KEY+'"'
             resValue "string", "FRONTEND_HOST", "eventbox.com"
         }
     }
@@ -73,32 +67,7 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
-    // Exclusions added for Paypal SDK
-    packagingOptions {
-        pickFirst 'kotlin/**'
-        exclude 'lib/arm64-v8a/libcardioDecider.so'
-        exclude 'lib/arm64-v8a/libcardioRecognizer.so'
-        exclude 'lib/arm64-v8a/libcardioRecognizer_tegra2.so'
-        exclude 'lib/arm64-v8a/libopencv_core.so'
-        exclude 'lib/arm64-v8a/libopencv_imgproc.so'
-        exclude 'lib/armeabi/libcardioDecider.so'
-        exclude 'lib/armeabi-v7a/libcardioDecider.so'
-        exclude 'lib/armeabi-v7a/libcardioRecognizer.so'
-        exclude 'lib/armeabi-v7a/libcardioRecognizer_tegra2.so'
-        exclude 'lib/armeabi-v7a/libopencv_core.so'
-        exclude 'lib/armeabi-v7a/libopencv_imgproc.so'
-        exclude 'lib/mips/libcardioDecider.so'
-        exclude 'lib/x86/libcardioDecider.so'
-        exclude 'lib/x86/libcardioRecognizer.so'
-        exclude 'lib/x86/libcardioRecognizer_tegra2.so'
-        exclude 'lib/x86/libopencv_core.so'
-        exclude 'lib/x86/libopencv_imgproc.so'
-        exclude 'lib/x86_64/libcardioDecider.so'
-        exclude 'lib/x86_64/libcardioRecognizer.so'
-        exclude 'lib/x86_64/libcardioRecognizer_tegra2.so'
-        exclude 'lib/x86_64/libopencv_core.so'
-        exclude 'lib/x86_64/libopencv_imgproc.so'
-    }
+
     lintOptions {
         disable 'MissingTranslation'
         warning 'InvalidPackage'
@@ -181,10 +150,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.8.1'
     // Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
-    // Stripe
-    implementation 'com.stripe:stripe-android:14.2.1'
-    // QR Code
-    implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
     //Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     // For Kotlin use navigation-fragment-ktx
@@ -206,8 +171,6 @@ dependencies {
     implementation 'at.blogc:expandabletextview:1.0.5'
     //ExpandableView
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
-    //PayPal
-    implementation 'com.paypal.sdk:paypal-android-sdk:2.16.0'
     // Location and Smart Auth Play Service
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'com.google.android.gms:play-services-auth:18.0.0'

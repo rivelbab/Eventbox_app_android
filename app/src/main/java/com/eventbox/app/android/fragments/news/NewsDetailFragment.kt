@@ -24,6 +24,8 @@ import org.jetbrains.anko.design.snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
+const val NEWS_DETAILS_FRAGMENT = "NewsDetailsFragment"
+
 class NewsDetailFragment : Fragment() {
 
     private val newsDetailViewModel by viewModel<NewsDetailViewModel>()

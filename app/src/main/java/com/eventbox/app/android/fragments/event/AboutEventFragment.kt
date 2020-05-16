@@ -68,8 +68,8 @@ class AboutEventFragment : Fragment() {
         eventExtra = event
         rootView.aboutEventContent.movementMethod = LinkMovementMethod.getInstance()
         rootView.aboutEventContent.text = event.description?.stripHtml()
-        val startsAt = EventUtils.getEventDateTime(event.startsAt, event.timezone)
-        val endsAt = EventUtils.getEventDateTime(event.endsAt, event.timezone)
+        val startsAt = EventUtils.getEventDateTime(event.startsAt, "UTC")
+        val endsAt = EventUtils.getEventDateTime(event.endsAt, "UTC")
 
         rootView.aboutEventDetails.text = EventUtils.getFormattedDateTimeRangeBulleted(startsAt, endsAt)
         rootView.eventName.text = event.name

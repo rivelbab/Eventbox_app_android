@@ -22,8 +22,8 @@ class FavoriteEventViewHolder(
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun bind(event: Event, itemPosition: Int, headerDate: String) {
-        val startsAt = EventUtils.getEventDateTime(event.startsAt, event.timezone)
-        val endsAt = EventUtils.getEventDateTime(event.endsAt, event.timezone)
+        val startsAt = EventUtils.getEventDateTime(event.startsAt, "UTC")
+        val endsAt = EventUtils.getEventDateTime(event.endsAt, "UTC")
 
         with(binding) {
             this.event = event

@@ -4,8 +4,8 @@ import com.github.jasminb.jsonapi.LongIdHandler
 import com.github.jasminb.jsonapi.annotations.Id
 
 class ResetPasswordResponse(
-    @Id(LongIdHandler::class)
-    val id: Long? = null,
+    @Id
+    val id: String = "",
     val email: String? = null,
     val name: String? = null
 )

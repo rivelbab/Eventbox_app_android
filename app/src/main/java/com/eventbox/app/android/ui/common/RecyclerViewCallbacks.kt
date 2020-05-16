@@ -13,7 +13,7 @@ interface EventClickListener {
      * @param eventID The ID of the clicked event
      * @param imageView The Image View of event object in the adapter
      */
-    fun onClick(eventID: Long, imageView: ImageView)
+    fun onClick(eventID: String, imageView: ImageView)
 }
 
 /**

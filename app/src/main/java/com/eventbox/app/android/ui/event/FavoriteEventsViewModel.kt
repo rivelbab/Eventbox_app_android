@@ -86,59 +86,6 @@ class FavoriteEventsViewModel(
             })
     }
 
-    fun loadInterestedEvents() {
-        compositeDisposable +=
-            eventService.getInterestedEvents()
-                .withDefaultSchedulers()
-                .subscribe({
-                    mutableEvents.value = it
-                    mutableProgress.value = false
-                }, {
-                    Timber.e(it, "Error fetching interested events")
-                    mutableMessage.value = resource.getString(R.string.fetch_favorite_events_error_message)
-                })
-    }
-
-    fun setInterested(event: Event, interested: Boolean) {
-        if (interested) {
-            addInterested(event)
-        } else {
-            removeInterested(event)
-        }
-    }
-
-    private fun addInterested(event: Event) {
-        val interestedEvent = FavoriteEvent(
-            authHolder.getId(),
-            EventId(event.id)
-        )
-        compositeDisposable += eventService.addInterested(interestedEvent, event)
-            .withDefaultSchedulers()
-            .subscribe({
-                mutableMessage.value = resource.getString(R.string.add_event_to_shortlist_message)
-            }, {
-                mutableMessage.value = resource.getString(R.string.out_bad_try_again)
-                Timber.d(it, "Fail on adding like for event ID ${event.id}")
-            })
-    }
-
-    private fun removeInterested(event: Event) {
-        val interestedEventId = event.interestedEventId ?: return
-
-        val favoriteEvent = FavoriteEvent(
-            interestedEventId,
-            EventId(event.id)
-        )
-        compositeDisposable += eventService.removeFavorite(favoriteEvent, event)
-            .withDefaultSchedulers()
-            .subscribe({
-                mutableMessage.value = resource.getString(R.string.remove_event_from_shortlist_message)
-            }, {
-                mutableMessage.value = resource.getString(R.string.out_bad_try_again)
-                Timber.d(it, "Fail on removing like for event ID ${event.id}")
-            })
-    }
-
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.clear()
