@@ -26,7 +26,7 @@ interface EventApi {
         @Query("page[size]") pageSize: Int = 5
     ): Single<List<Event>>
 
-    @GET("/retrieveallevents")
+    @GET("events")
     fun getAllEvents(): Single<List<Event>>
 
     @GET("events")

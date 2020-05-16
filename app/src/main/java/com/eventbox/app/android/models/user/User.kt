@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
 import com.fasterxml.jackson.databind.annotation.JsonNaming
 import com.github.jasminb.jsonapi.IntegerIdHandler
+import com.github.jasminb.jsonapi.LongIdHandler
 import com.github.jasminb.jsonapi.annotations.Id
 import com.github.jasminb.jsonapi.annotations.Type
 
@@ -15,10 +16,9 @@ import com.github.jasminb.jsonapi.annotations.Type
 data class User(
     @Id
     @PrimaryKey
-    val id: String,
+    val id: String = "",
     val email: String? = null,
-    val firstName: String? = null,
-    val lastName: String? = null,
+    val name: String? = null,
     val details: String? = null,
     val phone: String? = null,
     //== image details

@@ -155,7 +155,7 @@ class ProfileFragment : Fragment(), BottomIconDoubleClick {
     }
 
     private fun updateProfile(it: User) {
-        rootView.accountName.text = it.firstName.nullToEmpty() + " " + it.lastName.nullToEmpty()
+        rootView.accountName.text =  it.name
         rootView.accountEmail.text = it.email
         emailSettings = it.email.nullToEmpty()
         rootView.accountNotVerified.isVisible = !it.emailVerified

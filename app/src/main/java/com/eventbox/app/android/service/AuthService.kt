@@ -52,17 +52,11 @@ class AuthService(
         if (email.isNullOrEmpty() || password.isNullOrEmpty())
             throw IllegalArgumentException("Username or password cannot be empty")
 
-        return authApi.signUp(signUp).map {
-            userDao.insertUser(it)
-            it
-        }
+        return authApi.signUp(signUp)
     }
 
     fun updateUser(user: User): Single<User> {
-        return authApi.updateUser(user, user.id).map {
-            userDao.insertUser(it)
-            it
-        }
+        return authApi.updateUser(user, user.id)
     }
 
     fun uploadImage(uploadImage: UploadImage): Single<ImageResponse> {
@@ -76,7 +70,6 @@ class AuthService(
     fun logout(): Completable {
         return Completable.fromAction {
             authHolder.token = null
-            userDao.deleteUser(authHolder.getId())
             eventDao.clearFavoriteEvents()
         }
     }
@@ -85,23 +78,11 @@ class AuthService(
         authApi.deleteAccount(userId)
 
     fun getProfile(id: String = authHolder.getId()): Single<User> {
-        return userDao.getUser(id)
-                .onErrorResumeNext {
-                    Timber.d(it, "User not found in Database %s", id)
-                    authApi.getProfile(id)
-                            .map {
-                                userDao.insertUser(it)
-                                it
-                            }
-                }
+        return authApi.getProfile(id)
     }
 
     fun syncProfile(id: String = authHolder.getId()): Single<User> {
         return authApi.getProfile(id)
-            .map {
-                userDao.insertUser(it)
-                it
-            }
     }
 
     fun sendResetPasswordEmail(email: String): Single<RequestTokenResponse> {

@@ -46,7 +46,7 @@ class NewsDetailViewModel(
             }.doFinally {
                 mutableProgress.value = false
             }.subscribe({ user ->
-                username = user.firstName.toString() + " " + user.lastName.toString()
+                username = user.name.toString()
             }) {
                 Timber.e(it, "Failure")
                 mutablePopMessage.value = resource.getString(R.string.failure)

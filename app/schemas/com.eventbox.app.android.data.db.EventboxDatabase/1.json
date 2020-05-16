@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "bb1cc4ce27e247bac76fc187b0debf14",
+    "identityHash": "f467b65c5589c4d4b26d782be9e9dcad",
     "entities": [
       {
         "tableName": "Event",
@@ -104,7 +104,7 @@
       },
       {
         "tableName": "User",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `email` TEXT, `firstName` TEXT, `lastName` TEXT, `details` TEXT, `phone` TEXT, `avatarUrl` TEXT, `emailVerified` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `email` TEXT, `name` TEXT, `details` TEXT, `phone` TEXT, `avatarUrl` TEXT, `emailVerified` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -119,14 +119,8 @@
             "notNull": false
           },
           {
-            "fieldPath": "firstName",
-            "columnName": "firstName",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "lastName",
-            "columnName": "lastName",
+            "fieldPath": "name",
+            "columnName": "name",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -336,7 +330,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bb1cc4ce27e247bac76fc187b0debf14')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f467b65c5589c4d4b26d782be9e9dcad')"
     ]
   }
 }
