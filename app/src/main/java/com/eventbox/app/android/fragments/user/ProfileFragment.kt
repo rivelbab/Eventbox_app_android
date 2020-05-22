@@ -93,12 +93,12 @@ class ProfileFragment : Fragment(), BottomIconDoubleClick {
         if (token != null)
             profileViewModel.verifyProfile(token)
 
-        val progressDialog = progressDialog(context, getString(R.string.loading_message))
+        /*val progressDialog = progressDialog(context, getString(R.string.loading_message))
         profileViewModel.progress
             .nonNull()
             .observe(viewLifecycleOwner, Observer {
                 progressDialog.show(it)
-            })
+            })*/
 
         profileViewModel.message
             .nonNull()

@@ -14,7 +14,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import com.eventbox.app.android.BuildConfig
 import com.eventbox.app.android.data.db.EventboxDatabase
 import com.eventbox.app.android.ui.StartupViewModel
-import com.eventbox.app.android.ui.event.AboutEventViewModel
 import com.eventbox.app.android.ui.auth.AuthHolder
 import com.eventbox.app.android.ui.auth.AuthViewModel
 import com.eventbox.app.android.ui.user.EditProfileViewModel
@@ -30,10 +29,7 @@ import com.eventbox.app.android.config.Network
 import com.eventbox.app.android.config.Preference
 import com.eventbox.app.android.config.Resource
 import com.eventbox.app.android.models.event.*
-import com.eventbox.app.android.ui.event.EventDetailsViewModel
-import com.eventbox.app.android.ui.event.EventsViewModel
 import com.eventbox.app.android.ui.event.faq.EventFAQViewModel
-import com.eventbox.app.android.ui.event.FavoriteEventsViewModel
 import com.eventbox.app.android.models.feedback.Feedback
 import com.eventbox.app.android.models.news.News
 import com.eventbox.app.android.ui.feedback.FeedbackViewModel
@@ -45,9 +41,11 @@ import com.eventbox.app.android.networks.api.*
 import com.eventbox.app.android.search.location.GeoLocationViewModel
 import com.eventbox.app.android.search.location.LocationServiceImpl
 import com.eventbox.app.android.service.*
+import com.eventbox.app.android.ui.event.*
 import com.eventbox.app.android.ui.event.search.*
 import com.eventbox.app.android.ui.news.NewsDetailViewModel
 import com.eventbox.app.android.ui.news.NewsViewModel
+import com.fasterxml.jackson.core.JsonParser
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -123,6 +121,7 @@ val viewModelModule = module {
     viewModel { ProfileViewModel(get(), get()) }
     viewModel { SignUpViewModel(get(), get(), get()) }
     viewModel { EventDetailsViewModel(get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { EventAddViewModel(get(), get(), get(), get()) }
     viewModel { SearchResultsViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel { SearchLocationViewModel(get(), get(), get()) }
     viewModel { SearchTimeViewModel(get()) }
@@ -146,6 +145,7 @@ val networkModule = module {
     single {
         val objectMapper = jacksonObjectMapper()
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true)
         objectMapper
     }
 

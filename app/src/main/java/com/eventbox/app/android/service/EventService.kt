@@ -38,14 +38,21 @@ class EventService(
         return eventTypesApi.getEventTypes()
     }
 
-    fun getAllEvents(filter: String, sortBy: String, page: Int): Flowable<List<Event>> {
-        return eventApi.getAllEvents().flatMapPublisher { eventsList ->
+    fun getAllEvents(): Single<List<Event>> {
+        return eventApi.getAllEvents().map{ eventsList ->
             updateFavorites(eventsList)
+            eventsList
         }
     }
 
     fun getFavoriteEvents(): Flowable<List<Event>> {
         return eventDao.getFavoriteEvents()
+    }
+
+    fun getSearchEventsPaged(filter: String, sortBy: String, page: Int): Flowable<List<Event>> {
+        return eventApi.searchEventsPaged(sortBy, filter, page).flatMapPublisher { eventsList ->
+            updateFavorites(eventsList)
+        }
     }
 
     fun getEventsByLocationPaged(page: Int, pageSize: Int = 5): Flowable<List<Event>> {

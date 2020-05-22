@@ -13,7 +13,7 @@ import com.eventbox.app.android.utils.converter.*
 
 @Database(entities = [Event::class, User::class, Feedback::class,
     Notification::class, Settings::class], version = 1)
-@TypeConverters(EventIdConverter::class, EventTypeConverter::class, UserIdConverter::class)
+@TypeConverters(EventIdConverter::class, EventTypeConverter::class, UserIdConverter::class, CategoryConverter::class)
 abstract class EventboxDatabase : RoomDatabase() {
 
     abstract fun eventDao(): EventDao

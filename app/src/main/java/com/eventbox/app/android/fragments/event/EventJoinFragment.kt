@@ -50,11 +50,6 @@ class EventJoinFragment : Fragment(), BottomIconDoubleClick {
     private val favoriteEventsRecyclerAdapter =
         FavoriteEventsListAdapter()
 
-    override fun onStart() {
-        super.onStart()
-        if (!favoriteEventViewModel.isLoggedIn())
-            redirectToLogin()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

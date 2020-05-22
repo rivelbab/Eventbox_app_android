@@ -20,14 +20,14 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.eventbox.app.android.ComplexBackPressFragment
 import com.eventbox.app.android.MainActivity
 import com.eventbox.app.android.R
-import com.eventbox.app.android.ui.event.EventDetailsViewModel
+import com.eventbox.app.android.models.event.Event
+import com.eventbox.app.android.ui.event.EventAddViewModel
 import com.eventbox.app.android.utils.RotateBitmap
 import com.eventbox.app.android.utils.Utils.hideSoftKeyboard
 import com.eventbox.app.android.utils.Utils.progressDialog
@@ -48,7 +48,7 @@ import java.util.*
 
 class EventAddFragment : Fragment(), ComplexBackPressFragment {
 
-    private val eventViewModel by viewModel<EventDetailsViewModel>()
+    private val eventViewModel by viewModel<EventAddViewModel>()
     private lateinit var rootView: View
 
     private var storagePermissionGranted = false
@@ -63,7 +63,7 @@ class EventAddFragment : Fragment(), ComplexBackPressFragment {
     private val CAMERA_REQUEST = arrayOf(Manifest.permission.CAMERA)
     private val CAMERA_REQUEST_CODE = 2
 
-    private val itemsCategory = listOf("Sport", "Education", "Conference", "Culturel")
+    private val itemsCategory = listOf("Sport", "Education", "Conference", "Culturel", "Social")
     private val itemsPrivacy = listOf("Public", "Privé")
 
     private val MAX_LENGTH_NORMAL = 255
@@ -77,14 +77,14 @@ class EventAddFragment : Fragment(), ComplexBackPressFragment {
             handleBackPress()
         }
 
-        val progressDialog = progressDialog(context, getString(R.string.creating_order_message))
+        val progressDialog = progressDialog(context, getString(R.string.creating_event_message))
         eventViewModel.progress
             .nonNull()
             .observe(viewLifecycleOwner, Observer {
                 progressDialog.show(it)
             })
 
-        eventViewModel.getEventTempFile()
+        eventViewModel.getAddedTempFile()
             .nonNull()
             .observe(viewLifecycleOwner, Observer { file ->
                 // prevent picasso from storing tempAvatar cache,
@@ -110,7 +110,7 @@ class EventAddFragment : Fragment(), ComplexBackPressFragment {
             }
         }
 
-        eventViewModel.popMessage
+        eventViewModel.message
             .nonNull()
             .observe(viewLifecycleOwner, Observer {
                 rootView.snackbar(it)
@@ -197,9 +197,8 @@ class EventAddFragment : Fragment(), ComplexBackPressFragment {
 
     //=== disable key listener on some field ===
     private fun disabledKeyListener() {
-        rootView.categoryOne.keyListener = null
+        rootView.category.keyListener = null
         rootView.privacy.keyListener = null
-        rootView.categoryTwo.keyListener = null
         rootView.startsOn.keyListener = null
         rootView.endsOn.keyListener = null
         rootView.startTime.keyListener = null
@@ -247,8 +246,7 @@ class EventAddFragment : Fragment(), ComplexBackPressFragment {
        // drop down menu
         val adapterCategory = ArrayAdapter(requireContext(), R.layout.item_event_dropdown_list, itemsCategory)
         val adapterPrivacy = ArrayAdapter(requireContext(), R.layout.item_event_dropdown_list, itemsPrivacy)
-        rootView.categoryTwo.setAdapter(adapterCategory)
-        rootView.categoryOne.setAdapter(adapterCategory)
+        rootView.category.setAdapter(adapterCategory)
         rootView.privacy.setAdapter(adapterPrivacy)
     }
 
@@ -366,7 +364,7 @@ class EventAddFragment : Fragment(), ComplexBackPressFragment {
             fos.flush()
             fos.close()
 
-            eventViewModel.setEventTempFile(tempAvatar)
+            eventViewModel.setAddedTempFile(tempAvatar)
             eventViewModel.eventAvatar = tempAvatar.toURI().toString()
         } catch (e: IOException) {
             e.printStackTrace()
@@ -422,14 +420,22 @@ class EventAddFragment : Fragment(), ComplexBackPressFragment {
     private fun createEvent() {
         val startAt = rootView.startsOn.text.toString() + "T" + rootView.startTime.text.toString()+"Z"
         val endAt = rootView.endsOn.text.toString() + "T" + rootView.endTime.text.toString()+"Z"
-        eventViewModel.createEvent(
-            rootView.name.text.toString(),
-            rootView.description.text.toString(),
-            rootView.location.text.toString(),
-            startAt,
-            endAt,
-            rootView.privacy.text.toString()
+        val id = eventViewModel.getId()
+        val event = Event(
+            name = rootView.name.text.toString(),
+            description = rootView.description.text.toString(),
+            locationName = rootView.location.text.toString(),
+            startsAt = startAt,
+            endsAt = endAt,
+            codeOfConduct = "",
+            isComplete = false,
+            privacy = rootView.privacy.text.toString(),
+            originalImageUrl = "",
+            ownerName = id,
+            category = rootView.category.text.toString()
         )
+
+        eventViewModel.addEvent(event)
     }
 
     override fun onDestroyView() {

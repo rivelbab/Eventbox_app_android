@@ -82,19 +82,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_size_expanded_title_medium"
+                        android:textSize="@dimen/text_size_expanded_title"
                         android:textStyle="bold"
+                        android:layout_marginTop="@dimen/layout_margin_extra_large"
                         android:layout_gravity="center_horizontal"
                         android:text="@string/no_message_yet"
-                        android:textColor="@color/black"
+                        android:textColor="@color/greyMore"
                         android:id="@+id/findText"/>
-
-                    <ImageView
-                        android:layout_width="250dp"
-                        android:layout_height="250dp"
-                        android:src="@drawable/under_construction"
-                        android:layout_gravity="center"
-                        android:layout_margin="@dimen/layout_margin_large"/>
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </FrameLayout>

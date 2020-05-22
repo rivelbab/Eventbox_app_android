@@ -39,7 +39,7 @@ class EventsDataSource(
         callback: LoadCallback<Int, Event>?
     ) {
         compositeDisposable +=
-            eventService.getEventsByLocationPaged(requestedPage)
+            eventService.getAllEvents()
                 .withDefaultSchedulers()
                 .subscribe({ response ->
                     if (response.isEmpty()) mutableProgress.value = false

@@ -112,31 +112,6 @@ class EventDetailsViewModel(
             })
     }
 
-    fun createEvent(
-        name: String, description: String, location: String,
-        startAt: String, endAt: String, privacy: String
-    ) {
-
-        val event = Event(
-            name = name, description = description,
-            locationName = location, startsAt = startAt,
-            endsAt = endAt, privacy = privacy, ownerName = getLoggedInUserName(),
-            originalImageUrl = eventAvatar.toString()
-        )
-
-        compositeDisposable += eventService.createEvent(event)
-            .withDefaultSchedulers()
-            .doOnSubscribe {
-                mutableProgress.value = true
-            }.subscribe({
-                mutablePopMessage.value = resource.getString(R.string.create_event_success_message)
-                mutableCreatedEvent.value = it
-            }, {
-                mutableProgress.value = false
-                mutablePopMessage.value = resource.getString(R.string.create_event_fail_message)
-            })
-    }
-
     fun submitFeedback(comment: String, rating: Float?, eventId: String) {
         val feedback = Feedback(
             rating = rating.toString(), comment = comment,

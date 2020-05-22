@@ -12,7 +12,7 @@ interface EventApi {
     @GET("/events/{eventIdentifier}")
     fun getEventFromApi(@Path("eventIdentifier") eventIdentifier: String): Single<Event>
 
-    @POST("/createevent")
+    @POST("/events")
     fun createEvent(@Body event: Event): Single<Event>
 
     @GET("events")
