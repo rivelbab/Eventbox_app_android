@@ -9,10 +9,10 @@ interface EventApi {
     @GET
     fun getEvent(id: String): Single<Event>
 
-    @GET("/events/{eventIdentifier}")
+    @GET("events/{eventIdentifier}")
     fun getEventFromApi(@Path("eventIdentifier") eventIdentifier: String): Single<Event>
 
-    @POST("/events")
+    @POST("events")
     fun createEvent(@Body event: Event): Single<Event>
 
     @GET("events")
@@ -28,6 +28,12 @@ interface EventApi {
 
     @GET("events")
     fun getAllEvents(): Single<List<Event>>
+
+    @GET("events/category/{category}")
+    fun getAllEventsByCategory(@Path("category") category: String): Single<List<Event>>
+
+    @GET("events/user/{userID}")
+    fun getAllUserEvents(@Path("userID") userID: String): Single<List<Event>>
 
     @GET("events")
     fun eventsByQuery(@Query("filter") filter: String): Single<List<Event>>

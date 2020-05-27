@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "1ee21eb95ef3859f553c9d8d17b4b03c",
+    "identityHash": "b3edce0683084f1ece4dd18b97000173",
     "entities": [
       {
         "tableName": "Event",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT, `locationName` TEXT, `startsAt` TEXT NOT NULL, `endsAt` TEXT NOT NULL, `codeOfConduct` TEXT, `isComplete` INTEGER NOT NULL, `privacy` TEXT NOT NULL, `originalImageUrl` TEXT, `ownerName` TEXT, `favorite` INTEGER NOT NULL, `favoriteEventId` TEXT, `category` TEXT, `eventType` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT, `locationName` TEXT, `startsAt` TEXT NOT NULL, `endsAt` TEXT NOT NULL, `codeOfConduct` TEXT, `isComplete` INTEGER NOT NULL, `privacy` TEXT NOT NULL, `originalImageUrl` TEXT, `ownerName` TEXT, `category` TEXT, `favorite` INTEGER NOT NULL, `favoriteEventId` TEXT, `eventType` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -75,6 +75,12 @@
             "notNull": false
           },
           {
+            "fieldPath": "category",
+            "columnName": "category",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
             "fieldPath": "favorite",
             "columnName": "favorite",
             "affinity": "INTEGER",
@@ -83,12 +89,6 @@
           {
             "fieldPath": "favoriteEventId",
             "columnName": "favoriteEventId",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "category",
-            "columnName": "category",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -110,7 +110,7 @@
       },
       {
         "tableName": "User",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `email` TEXT, `name` TEXT, `details` TEXT, `phone` TEXT, `avatarUrl` TEXT, `emailVerified` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `email` TEXT, `name` TEXT, `interest` TEXT, `details` TEXT, `phone` TEXT, `avatarUrl` TEXT, `emailVerified` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -127,6 +127,12 @@
           {
             "fieldPath": "name",
             "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "interest",
+            "columnName": "interest",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -336,7 +342,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1ee21eb95ef3859f553c9d8d17b4b03c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b3edce0683084f1ece4dd18b97000173')"
     ]
   }
 }

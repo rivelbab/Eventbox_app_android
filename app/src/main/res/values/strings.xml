@@ -31,6 +31,7 @@
 	<!-- interested page-->
 	<string name="no_interested_event">Trouver l\'event qui vous intéresse !</string>
 	<string name="remember_interested">Ajouter les events que vous aimez dans les favories pour vous en souvenir</string>
+	<string name="interest">Centres d\'interet</string>
 
 	<!-- created page-->
 	<string name="no_created_event">Vous n\'avez pas encore créer d\'events !</string>

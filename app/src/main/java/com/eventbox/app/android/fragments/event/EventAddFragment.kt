@@ -277,7 +277,7 @@ class EventAddFragment : Fragment(), ComplexBackPressFragment {
     }
 
     private fun updateDateInView(view : String) {
-        val localFormat = "dd/MM/yyyy"
+        val localFormat = "yyyy-MM-dd"
         val simpleDateFormat = SimpleDateFormat(localFormat, Locale.FRANCE)
         when (view) {
             "STARTS_ON" -> rootView.startsOn.setText(simpleDateFormat.format(calendar.time))
@@ -430,7 +430,7 @@ class EventAddFragment : Fragment(), ComplexBackPressFragment {
             codeOfConduct = "",
             isComplete = false,
             privacy = rootView.privacy.text.toString(),
-            originalImageUrl = "",
+            originalImageUrl = "https://drive.google.com/file/d/1oXNPU9lTSWbyMsi7xPkcM2YBCsgBR-tM/view",
             ownerName = id,
             category = rootView.category.text.toString()
         )

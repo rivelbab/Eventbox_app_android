@@ -43,11 +43,11 @@ data class Event(
     @JsonProperty("ownerName")
     var ownerName: String? = null,
     //== favorite and interested
+    var category: String? = null,
     @JsonIgnore
     var favorite: Boolean = false,
     @JsonIgnore
     var favoriteEventId: String? = null,
-    var category: String? = null,
     @JsonIgnore
     var eventType: String? = null
 )

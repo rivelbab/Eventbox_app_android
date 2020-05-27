@@ -42,8 +42,7 @@ const val MY_EVENT_FRAGMENT = "MyEventFragment"
 class MyEventFragment : Fragment(), BottomIconDoubleClick {
     private val favoriteEventViewModel by viewModel<FavoriteEventsViewModel>()
     private lateinit var rootView: View
-    private val favoriteEventsRecyclerAdapter =
-        FavoriteEventsListAdapter()
+    private val favoriteEventsRecyclerAdapter = FavoriteEventsListAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
@@ -56,7 +55,7 @@ class MyEventFragment : Fragment(), BottomIconDoubleClick {
             //setStartPostponedEnterTransition()
         }
 
-        favoriteEventViewModel.events
+        favoriteEventViewModel.userEvents
             .nonNull()
             .observe(viewLifecycleOwner, Observer { list ->
                 favoriteEventsRecyclerAdapter.submitList(list.sortedBy { getEventDateTime(it.startsAt, "UTC") })
@@ -82,6 +81,7 @@ class MyEventFragment : Fragment(), BottomIconDoubleClick {
             findNavController(rootView).navigate(MyEventFragmentDirections.actionMyEventToEventAdd())
         }
 
+        favoriteEventViewModel.loadUserEvents()
         return rootView
     }
 

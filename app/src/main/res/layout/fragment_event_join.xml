@@ -84,6 +84,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_expanded_title_medium"
                     android:textStyle="bold"
+                    android:gravity="center"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/no_interested_event"
                     android:textColor="@color/black"

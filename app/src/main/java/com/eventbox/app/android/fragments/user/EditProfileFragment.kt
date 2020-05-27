@@ -11,6 +11,8 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -68,6 +70,9 @@ class EditProfileFragment : Fragment(), ComplexBackPressFragment {
     private lateinit var userName: String
     private lateinit var userDetails: String
     private lateinit var userPhone: String
+    private lateinit var userInterest: String
+
+    private val itemsCategory = listOf("Sport", "Education", "Conference", "Culturel", "Social")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -138,6 +143,10 @@ class EditProfileFragment : Fragment(), ComplexBackPressFragment {
             showEditPhotoDialog()
         }
 
+        val adapterInterest = ArrayAdapter(requireContext(), R.layout.item_event_dropdown_list, itemsCategory)
+        rootView.interest.setAdapter(adapterInterest)
+        rootView.interest.keyListener = null
+
         return rootView
     }
 
@@ -171,6 +180,7 @@ class EditProfileFragment : Fragment(), ComplexBackPressFragment {
 
     private fun loadUserUI(user: User) {
         userName = user.name.nullToEmpty()
+        userInterest = user.interest.nullToEmpty()
         userDetails = user.details.nullToEmpty()
         if (editProfileViewModel.userAvatar == null)
             editProfileViewModel.userAvatar = user.avatarUrl.nullToEmpty()
@@ -191,11 +201,16 @@ class EditProfileFragment : Fragment(), ComplexBackPressFragment {
             //editProfileViewModel.avatarUpdated = true
         }
         setTextIfNull(rootView.name, userName)
+        setTextIfNull2(rootView.interest, userInterest)
         setTextIfNull(rootView.details, userDetails)
         setTextIfNull(rootView.phone, userPhone)
     }
 
     private fun setTextIfNull(input: TextInputEditText, text: String) {
+        if (input.text.isNullOrBlank()) input.setText(text)
+    }
+
+    private fun setTextIfNull2(input: AutoCompleteTextView, text: String) {
         if (input.text.isNullOrBlank()) input.setText(text)
     }
 
@@ -352,6 +367,7 @@ class EditProfileFragment : Fragment(), ComplexBackPressFragment {
         val newUser = User(
             id = editProfileViewModel.getId(),
             name = rootView.name.text.toString(),
+            interest = rootView.interest.text.toString(),
             details = rootView.details.text.toString(),
             phone = rootView.phone.text.toString().emptyToNull()
         )
@@ -360,6 +376,7 @@ class EditProfileFragment : Fragment(), ComplexBackPressFragment {
 
     private fun noDataChanged() = !editProfileViewModel.avatarUpdated &&
         rootView.name.text.toString() == userName &&
+        rootView.interest.text.toString() == userInterest &&
         rootView.details.text.toString() == userDetails &&
         rootView.phone.text.toString() == userPhone
 

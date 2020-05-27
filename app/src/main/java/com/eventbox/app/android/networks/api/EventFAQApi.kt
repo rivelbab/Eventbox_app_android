@@ -7,6 +7,6 @@ import retrofit2.http.Path
 
 interface EventFAQApi {
 
-    @GET("events/{id}/faqs?sort=question")
+    @GET("events/{id}/faqs")
     fun getEventFAQ(@Path("id") id: String): Single<List<EventFAQ>>
 }

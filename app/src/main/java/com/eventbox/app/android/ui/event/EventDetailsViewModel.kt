@@ -76,23 +76,6 @@ class EventDetailsViewModel(
 
     fun getId() = authHolder.getId()
 
-    fun getLoggedInUserName(): String {
-        var username: String = resource.getString(R.string.app_name).toString()
-        compositeDisposable += authService.getProfile()
-            .withDefaultSchedulers()
-            .doOnSubscribe {
-                mutableProgress.value = true
-            }.doFinally {
-                mutableProgress.value = false
-            }.subscribe({ user ->
-                username = user.name.toString()
-            }) {
-                Timber.e(it, "Failure")
-                mutablePopMessage.value = resource.getString(R.string.failure)
-            }
-        return username
-    }
-
     fun fetchEventFeedback(id: String) {
         if (id == "") return
 
@@ -115,9 +98,7 @@ class EventDetailsViewModel(
     fun submitFeedback(comment: String, rating: Float?, eventId: String) {
         val feedback = Feedback(
             rating = rating.toString(), comment = comment,
-            event = EventId(eventId), user = UserId(
-                getId()
-            )
+            event = eventId, user = getId()
         )
         compositeDisposable += feedbackService.submitFeedback(feedback)
             .withDefaultSchedulers()

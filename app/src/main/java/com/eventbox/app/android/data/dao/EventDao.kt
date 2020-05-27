@@ -44,8 +44,8 @@ interface EventDao {
     @Query("SELECT * from Event WHERE favorite = 1 AND id in (:ids)")
     fun getFavoriteEventWithinIds(ids: List<String>): Single<List<Event>>
 
-    @Query("SELECT * from Event WHERE eventType = :eventType")
-    fun getAllSimilarEvents(eventType: EventType): Flowable<List<Event>>
+    @Query("SELECT * from Event WHERE category = :category")
+    fun getAllSimilarEvents(category: String): Flowable<List<Event>>
 
     @Query("UPDATE Event SET favorite = :favorite AND favoriteEventId = NULL")
     fun clearFavoriteEvents(favorite: Boolean = false)

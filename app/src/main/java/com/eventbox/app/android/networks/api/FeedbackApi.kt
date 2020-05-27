@@ -10,11 +10,9 @@ import retrofit2.http.Query
 
 interface FeedbackApi {
 
-    @GET("events/{eventId}/feedbacks?include=event")
+    @GET("events/{eventId}/feedbacks")
     fun getEventFeedback(
-        @Path("eventId") eventId: String,
-        @Query("sort") sort: String = "rating",
-        @Query("filter") eventName: String = "[]"
+        @Path("eventId") eventId: String
     ): Single<List<Feedback>>
 
     @POST("feedbacks")

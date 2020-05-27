@@ -45,6 +45,10 @@ class EventService(
         }
     }
 
+    fun getUserEvents(id: String): Single<List<Event>> {
+        return eventApi.getAllUserEvents(id)
+    }
+
     fun getFavoriteEvents(): Flowable<List<Event>> {
         return eventDao.getFavoriteEvents()
     }

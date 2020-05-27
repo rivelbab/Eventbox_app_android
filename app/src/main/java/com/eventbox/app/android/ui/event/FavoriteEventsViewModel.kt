@@ -31,7 +31,12 @@ class FavoriteEventsViewModel(
     private val mutableEvents = MutableLiveData<List<Event>>()
     val events: LiveData<List<Event>> = mutableEvents
 
+    private val mutableUserEvents = MutableLiveData<List<Event>>()
+    val userEvents: LiveData<List<Event>> = mutableUserEvents
+
     fun isLoggedIn() = authHolder.isLoggedIn()
+
+    fun getId() = authHolder.getId()
 
     fun loadFavoriteEvents() {
         compositeDisposable +=
@@ -52,6 +57,19 @@ class FavoriteEventsViewModel(
         } else {
             removeFavorite(event)
         }
+    }
+
+    fun loadUserEvents() {
+        compositeDisposable +=
+            eventService.getUserEvents(getId())
+                .withDefaultSchedulers()
+                .subscribe({
+                    mutableUserEvents.value = it
+                    mutableProgress.value = false
+                }, {
+                    Timber.e(it, "Error fetching user events")
+                    mutableMessage.value = resource.getString(R.string.fetch_favorite_events_error_message)
+                })
     }
 
     private fun addFavorite(event: Event) {

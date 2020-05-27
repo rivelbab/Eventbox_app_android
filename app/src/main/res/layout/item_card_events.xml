@@ -47,22 +47,6 @@
             android:src="@drawable/header" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/joinEventFab"
-            android:layout_width="@dimen/fab_width"
-            android:layout_height="@dimen/fab_height"
-            android:layout_marginEnd="132dp"
-            android:background="@android:color/white"
-            android:scaleType="center"
-            app:backgroundTint="@android:color/white"
-            app:tint="@color/colorAccent"
-            app:elevation="@dimen/fab_elevation"
-            app:layout_constraintBottom_toBottomOf="@+id/eventImage"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/eventImage"
-            app:fabCustomSize="40dp"
-            app:srcCompat="@drawable/ic_baseline_star_white" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/shareFab"
             android:layout_width="@dimen/fab_width"
             android:layout_height="@dimen/fab_height"
@@ -159,10 +143,34 @@
             app:chipSpacingVertical="4dp"
             app:chipSpacingHorizontal="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/joinTags"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/locationName">
 
+        </com.google.android.material.chip.ChipGroup>
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/joinTags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_margin_small"
+            android:layout_marginBottom="@dimen/layout_margin_extra_large"
+            app:chipSpacingVertical="4dp"
+            app:chipSpacingHorizontal="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/chipTags"
+            app:layout_constraintTop_toBottomOf="@+id/locationName">
+            <com.google.android.material.chip.Chip
+                android:id="@+id/btnJoin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_join"
+                android:checkable="false"
+                app:chipStrokeWidth="1dp"
+                app:chipIconEnabled="true"
+                app:chipIcon="@drawable/ic_baseline_star_white"
+                app:chipBackgroundColor="@color/colorSecondary"
+                app:chipStrokeColor="@color/colorSecondary"/>
         </com.google.android.material.chip.ChipGroup>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

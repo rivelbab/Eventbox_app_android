@@ -19,6 +19,7 @@ data class User(
     val id: String = "",
     val email: String? = null,
     val name: String? = null,
+    val interest: String? = null,
     val details: String? = null,
     val phone: String? = null,
     //== image details

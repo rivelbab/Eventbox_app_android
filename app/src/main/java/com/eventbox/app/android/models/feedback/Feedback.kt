@@ -20,8 +20,6 @@ data class Feedback(
     val id: String = "",
     val rating: String?,
     val comment: String?,
-    @Relationship("event")
-    var event: EventId? = null,
-    @Relationship("user")
-    var user: UserId? = null
+    var event: String? = null,
+    var user: String? = null
 )
