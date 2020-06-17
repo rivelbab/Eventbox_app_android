@@ -9,12 +9,12 @@ import retrofit2.http.Path
 
 interface NotificationApi {
 
-    @GET("users/{userId}/notifications?sort=received-at")
+    @GET("users/notifications/{userId}")
     fun getNotifications(@Path("userId") userId: String): Single<List<Notification>>
 
     @PATCH("notifications/{notification_id}")
     fun updateNotification(
-        @Path("notification_id") notificationId: Int,
+        @Path("notification_id") notificationId: String,
         @Body notification: Notification
     ): Single<Notification>
 }

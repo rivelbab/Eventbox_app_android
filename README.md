@@ -17,11 +17,7 @@ Le projet contient deux modules principaux : Main et Playstore
 
 - package di (pour dependency injection): contient le module de koin en charge de l'injection de dependance
 
-- package fragments: Contient tous les fragments de l'appli. 
-
-NB. Il faut noter que l'appli utilise le "Single activity app", ce qui veut dire qu'elle ne contient
-qu'une activity et plusieurs fragments. cela est une bonne pratique recommandée par Google pour 
-avoir de meilleur performance.
+- package fragments: Contient tous les fragments de l'appli.
 
 - package models: Contient tous les models (data class et entity)
 
@@ -33,8 +29,7 @@ avoir de meilleur performance.
 
 - package utils: Contient des fichiers utilitaires et des converters
 
-### Installation 
 
-Il n'y a pas de prérequis ou config spécifique pour faire tourner l'appli. Idéalement une connexion internet
+### dev with :heart: by @rivelbab :fire:
 
 

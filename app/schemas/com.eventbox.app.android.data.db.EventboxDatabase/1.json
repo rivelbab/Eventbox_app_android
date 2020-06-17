@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b3edce0683084f1ece4dd18b97000173",
+    "identityHash": "8c147f08a03098995336286143455447",
     "entities": [
       {
         "tableName": "Event",
@@ -216,12 +216,12 @@
       },
       {
         "tableName": "Notification",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `message` TEXT, `receivedAt` TEXT, `isRead` INTEGER NOT NULL, `title` TEXT, `deletedAt` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `message` TEXT, `receivedAt` TEXT, `isRead` INTEGER NOT NULL, `title` TEXT, `deletedAt` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
-            "affinity": "INTEGER",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -342,7 +342,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b3edce0683084f1ece4dd18b97000173')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8c147f08a03098995336286143455447')"
     ]
   }
 }

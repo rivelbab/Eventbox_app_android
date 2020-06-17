@@ -98,7 +98,7 @@ class EventService(
     fun getEventById(eventId: String): Single<Event> {
         return eventDao.getEventById(eventId)
             .onErrorResumeNext {
-                eventApi.getEventFromApi(eventId.toString()).map {
+                eventApi.getEventFromApi(eventId).map {
                     eventDao.insertEvent(it)
                     it
                 }

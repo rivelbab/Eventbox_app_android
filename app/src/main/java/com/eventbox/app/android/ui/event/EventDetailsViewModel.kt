@@ -155,9 +155,8 @@ class EventDetailsViewModel(
             mutablePopMessage.value = resource.getString(R.string.error_fetching_event_message)
             return
         }
-        compositeDisposable += eventService.getEvent(id)
+        compositeDisposable += eventService.getEventById(id)
             .withDefaultSchedulers()
-            .distinctUntilChanged()
             .doOnSubscribe {
                 mutableProgress.value = true
             }.subscribe({
