@@ -2,7 +2,11 @@
 
 ## Image de l'application 
 
-<img src="screens/img1.jpeg" title="image 1"/>
+<p align="center">
+  <img src="screens/img1.jpeg" width="350" title="app screenshot 1" alt="app screenshot 1">
+  <img src="screens/img2.jpeg" width="350" alt="app screenshot 2" title="app screenshot 2">
+  <img src="screens/img3.jpeg" width="350" alt="app screenshot 3" title="app screenshot 3">
+</p>
 
 
 ## Organisation du projet
