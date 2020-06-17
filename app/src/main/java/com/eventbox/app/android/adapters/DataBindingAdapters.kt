@@ -2,20 +2,14 @@ package com.eventbox.app.android.adapters
 
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
-import android.graphics.PorterDuff
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.eventbox.app.android.R
-import com.eventbox.app.android.ui.attendees.ORDER_STATUS_COMPLETED
-import com.eventbox.app.android.ui.attendees.ORDER_STATUS_PENDING
-import com.eventbox.app.android.ui.attendees.ORDER_STATUS_PLACED
-import com.eventbox.app.android.config.Resource
 import com.eventbox.app.android.utils.nullToEmpty
 import com.eventbox.app.android.utils.stripHtml
 import timber.log.Timber
@@ -72,39 +66,5 @@ fun setExpired(imageView: ImageView, isExpired: Boolean) {
         val matrix = ColorMatrix()
         matrix.setSaturation(0F)
         imageView.colorFilter = ColorMatrixColorFilter(matrix)
-    }
-}
-
-@BindingAdapter("orderStatus")
-fun setOrderStatus(textView: TextView, orderStatus: String) {
-    val resource = Resource()
-    when (orderStatus) {
-        ORDER_STATUS_PLACED -> {
-            textView.isVisible = true
-            textView.text =
-                ORDER_STATUS_PLACED
-            resource.getColor(R.color.orderStatusBlue)?.let {
-                textView.background.setColorFilter(it, PorterDuff.Mode.SRC_ATOP)
-            }
-        }
-        ORDER_STATUS_COMPLETED -> {
-            textView.isVisible = true
-            textView.text =
-                ORDER_STATUS_COMPLETED
-            resource.getColor(R.color.orderStatusGreen)?.let {
-                textView.background.setColorFilter(it, PorterDuff.Mode.SRC_ATOP)
-            }
-        }
-        ORDER_STATUS_PENDING -> {
-            textView.isVisible = true
-            textView.text =
-                ORDER_STATUS_PENDING
-            resource.getColor(R.color.orderStatusOrange)?.let {
-                textView.background.setColorFilter(it, PorterDuff.Mode.SRC_ATOP)
-            }
-        }
-        else -> {
-            textView.isVisible = false
-        }
     }
 }

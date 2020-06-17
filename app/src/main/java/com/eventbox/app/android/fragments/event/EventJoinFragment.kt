@@ -42,17 +42,14 @@ import org.jetbrains.anko.design.snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
+const val EVENT_JOIN_FRAGMENT = "EventJoinFragment"
+
 class EventJoinFragment : Fragment(), BottomIconDoubleClick {
     private val favoriteEventViewModel by viewModel<FavoriteEventsViewModel>()
     private lateinit var rootView: View
     private val favoriteEventsRecyclerAdapter =
         FavoriteEventsListAdapter()
 
-    override fun onStart() {
-        super.onStart()
-        if (!favoriteEventViewModel.isLoggedIn())
-            redirectToLogin()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -88,7 +85,7 @@ class EventJoinFragment : Fragment(), BottomIconDoubleClick {
         favoriteEventViewModel.events
             .nonNull()
             .observe(viewLifecycleOwner, Observer { list ->
-                favoriteEventsRecyclerAdapter.submitList(list.sortedBy { getEventDateTime(it.startsAt, it.timezone) })
+                favoriteEventsRecyclerAdapter.submitList(list.sortedBy { getEventDateTime(it.startsAt, "UTC") })
                 rootView.likesNumber.text = resources.getQuantityString(R.plurals.events_number, list.size, list.size)
                 showEmptyMessage(list.size)
                 Timber.d("Fetched events of size %s", list.size)
@@ -107,7 +104,6 @@ class EventJoinFragment : Fragment(), BottomIconDoubleClick {
                 rootView.favoriteProgressBar.isVisible = it
             })
 
-        favoriteEventViewModel.loadInterestedEvents()
         return rootView
     }
 
@@ -115,7 +111,7 @@ class EventJoinFragment : Fragment(), BottomIconDoubleClick {
         super.onViewCreated(view, savedInstanceState)
 
         val eventClickListener: EventClickListener = object : EventClickListener {
-            override fun onClick(eventID: Long, imageView: ImageView) {
+            override fun onClick(eventID: String, imageView: ImageView) {
                 findNavController(rootView).navigate(
                     FavoriteFragmentDirections.actionFavouriteToEventDetails(
                         eventID
@@ -126,11 +122,9 @@ class EventJoinFragment : Fragment(), BottomIconDoubleClick {
 
         val favFabClickListener: FavoriteFabClickListener = object : FavoriteFabClickListener {
             override fun onClick(event: Event, itemPosition: Int) {
-                favoriteEventViewModel.setInterested(event, false)
                 favoriteEventsRecyclerAdapter.notifyItemChanged(itemPosition)
                 rootView.snackbar(getString(R.string.removed_from_liked, event.name),
                     getString(R.string.undo)) {
-                    favoriteEventViewModel.setInterested(event, true)
                     favoriteEventsRecyclerAdapter.notifyItemChanged(itemPosition)
                 }
             }
@@ -171,8 +165,7 @@ class EventJoinFragment : Fragment(), BottomIconDoubleClick {
     private fun redirectToLogin() {
         findNavController(rootView).navigate(
             FavoriteFragmentDirections.actionFavouriteToAuth(
-                getString(R.string.log_in_first),
-                MESSAGE_FRAGMENT
+                EVENT_JOIN_FRAGMENT, showSkipButton = false
             )
         )
     }

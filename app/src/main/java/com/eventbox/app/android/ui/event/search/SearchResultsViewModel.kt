@@ -81,8 +81,7 @@ class SearchResultsViewModel(
         type: String,
         freeEvents: Boolean,
         sortBy: String,
-        sessionsAndSpeakers: Boolean,
-        callForSpeakers: Boolean
+        sessionsAndSpeakers: Boolean
     ) {
         if (mutablePagedEvents.value != null) return
 

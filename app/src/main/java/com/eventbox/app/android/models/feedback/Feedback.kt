@@ -15,13 +15,11 @@ import com.eventbox.app.android.models.event.EventId
 @JsonNaming(PropertyNamingStrategy.KebabCaseStrategy::class)
 @Entity
 data class Feedback(
-    @Id(LongIdHandler::class)
+    @Id
     @PrimaryKey
-    val id: Long? = null,
+    val id: String = "",
     val rating: String?,
     val comment: String?,
-    @Relationship("event")
-    var event: EventId? = null,
-    @Relationship("user")
-    var user: UserId? = null
+    var event: String? = null,
+    var user: String? = null
 )

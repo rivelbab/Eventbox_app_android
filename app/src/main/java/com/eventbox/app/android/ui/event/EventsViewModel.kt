@@ -38,43 +38,27 @@ class EventsViewModel(
     val connection: LiveData<Boolean> = mutableConnectionLiveData
     private val mutableProgress = MediatorLiveData<Boolean>()
     val progress: MediatorLiveData<Boolean> = mutableProgress
-    private val mutablePagedEvents = MutableLiveData<PagedList<Event>>()
-    val pagedEvents: LiveData<PagedList<Event>> = mutablePagedEvents
+    private val mutablePagedEvents = MutableLiveData<List<Event>>()
+    val pagedEvents: LiveData<List<Event>> = mutablePagedEvents
     private val mutableMessage = SingleLiveEvent<String>()
     val message: SingleLiveEvent<String> = mutableMessage
-    private lateinit var sourceFactory: EventsDataSourceFactory
 
     fun loadAllEvents() {
-
-        sourceFactory = EventsDataSourceFactory(
-            compositeDisposable,
-            eventService,
-            mutableProgress
-        )
-        val eventPagedList = RxPagedListBuilder(sourceFactory, config)
-            .setFetchScheduler(Schedulers.io())
-            .buildObservable()
-            .cache()
-
-        compositeDisposable += eventPagedList
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .distinctUntilChanged()
-            .doOnSubscribe {
+        compositeDisposable += eventService.getAllEvents()
+            .withDefaultSchedulers()
+            .doOnSubscribe{
                 mutableProgress.value = true
-            }.subscribe({
-                val currentPagedEvents = mutablePagedEvents.value
-                if (currentPagedEvents == null) {
-                    mutablePagedEvents.value = it
-                } else {
-                    currentPagedEvents.addAll(it)
-                    mutablePagedEvents.value = currentPagedEvents
-                }
+            }
+            .subscribe({
+                mutablePagedEvents.value = it
+                mutableProgress.value = false
             }, {
                 Timber.e(it, "Error fetching events")
                 mutableMessage.value = resource.getString(R.string.error_fetching_events_message)
             })
+
     }
+
     fun isConnected(): Boolean = mutableConnectionLiveData.value ?: false
 
     fun clearEvents() {

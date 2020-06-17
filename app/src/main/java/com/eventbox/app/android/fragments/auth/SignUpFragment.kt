@@ -21,12 +21,8 @@ import com.eventbox.app.android.models.auth.SignUp
 import com.eventbox.app.android.fragments.event.EVENT_DETAIL_FRAGMENT
 import com.eventbox.app.android.fragments.message.MESSAGE_FRAGMENT
 import com.eventbox.app.android.fragments.notification.NOTIFICATION_FRAGMENT
-import com.eventbox.app.android.fragments.payment.ORDERS_FRAGMENT
 import com.eventbox.app.android.ui.event.search.ORDER_COMPLETED_FRAGMENT
 import com.eventbox.app.android.fragments.event.search.SEARCH_RESULTS_FRAGMENT
-import com.eventbox.app.android.fragments.payment.TICKETS_FRAGMENT
-import com.eventbox.app.android.fragments.welcome.WELCOME_FRAGMENT
-import com.eventbox.app.android.fragments.welcome.WelcomeFragmentDirections
 import com.eventbox.app.android.utils.StringUtils.getTermsAndPolicyText
 import com.eventbox.app.android.utils.Utils.hideSoftKeyboard
 import com.eventbox.app.android.utils.Utils.progressDialog
@@ -71,19 +67,6 @@ class SignUpFragment : Fragment() {
         rootView.signUpText.text = getTermsAndPolicyText(requireContext(), resources)
         rootView.signUpText.movementMethod = LinkMovementMethod.getInstance()
 
-        rootView.lastNameText.setOnEditorActionListener { _, actionId, _ ->
-            when (actionId) {
-                EditorInfo.IME_ACTION_DONE -> {
-                    if (validateRequiredFieldsEmpty()) {
-                        rootView.signUpButton.performClick()
-                    }
-                    hideSoftKeyboard(context, rootView)
-                    true
-                }
-                else -> false
-            }
-        }
-
         rootView.signUpButton.setOnClickListener {
             if (!rootView.signUpCheckbox.isChecked) {
                 rootView.snackbar(R.string.accept_terms_and_conditions)
@@ -91,9 +74,7 @@ class SignUpFragment : Fragment() {
             } else {
                 val signUp = SignUp(
                     email = rootView.emailSignUp.text.toString(),
-                    password = rootView.passwordSignUp.text.toString(),
-                    firstName = rootView.firstNameText.text.toString(),
-                    lastName = rootView.lastNameText.text.toString()
+                    password = rootView.passwordSignUp.text.toString()
                 )
                 signUpViewModel.signUp(signUp)
             }
@@ -195,12 +176,9 @@ class SignUpFragment : Fragment() {
             when (safeArgs.redirectedFrom) {
                 PROFILE_FRAGMENT -> R.id.profileFragment
                 EVENT_DETAIL_FRAGMENT -> R.id.eventDetailsFragment
-                ORDERS_FRAGMENT -> R.id.orderUnderUserFragment
-                TICKETS_FRAGMENT -> R.id.ticketsFragment
                 NOTIFICATION_FRAGMENT -> R.id.notificationFragment
                 MESSAGE_FRAGMENT -> R.id.favoriteFragment
                 SEARCH_RESULTS_FRAGMENT -> R.id.searchResultsFragment
-                ORDER_COMPLETED_FRAGMENT -> R.id.orderCompletedFragment
                 else -> R.id.eventsFragment
             }
         if (destinationId == R.id.eventsFragment) {

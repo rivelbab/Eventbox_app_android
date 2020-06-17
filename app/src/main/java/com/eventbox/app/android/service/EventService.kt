@@ -30,7 +30,7 @@ class EventService(
         return eventLocationApi.getEventLocation()
     }
 
-    fun getEventFAQs(id: Long): Single<List<EventFAQ>> {
+    fun getEventFAQs(id: String): Single<List<EventFAQ>> {
         return eventFAQApi.getEventFAQ(id)
     }
 
@@ -38,17 +38,25 @@ class EventService(
         return eventTypesApi.getEventTypes()
     }
 
-    fun getSearchEventsPaged(filter: String, sortBy: String, page: Int): Flowable<List<Event>> {
-        return eventApi.searchEventsPaged(sortBy, filter, page).flatMapPublisher { eventsList ->
+    fun getAllEvents(): Single<List<Event>> {
+        return eventApi.getAllEvents().map{ eventsList ->
             updateFavorites(eventsList)
+            eventsList
         }
+    }
+
+    fun getUserEvents(id: String): Single<List<Event>> {
+        return eventApi.getAllUserEvents(id)
     }
 
     fun getFavoriteEvents(): Flowable<List<Event>> {
         return eventDao.getFavoriteEvents()
     }
-    fun getInterestedEvents(): Flowable<List<Event>> {
-        return eventDao.getInterestedEvents()
+
+    fun getSearchEventsPaged(filter: String, sortBy: String, page: Int): Flowable<List<Event>> {
+        return eventApi.searchEventsPaged(sortBy, filter, page).flatMapPublisher { eventsList ->
+            updateFavorites(eventsList)
+        }
     }
 
     fun getEventsByLocationPaged(page: Int, pageSize: Int = 5): Flowable<List<Event>> {
@@ -79,7 +87,7 @@ class EventService(
             }
     }
 
-    fun getEvent(id: Long): Flowable<Event> {
+    fun getEvent(id: String): Flowable<Event> {
         return eventDao.getEvent(id)
     }
 
@@ -87,10 +95,10 @@ class EventService(
         return eventApi.getEventFromApi(identifier)
     }
 
-    fun getEventById(eventId: Long): Single<Event> {
+    fun getEventById(eventId: String): Single<Event> {
         return eventDao.getEventById(eventId)
             .onErrorResumeNext {
-                eventApi.getEventFromApi(eventId.toString()).map {
+                eventApi.getEventFromApi(eventId).map {
                     eventDao.insertEvent(it)
                     it
                 }
@@ -133,15 +141,6 @@ class EventService(
             it
         }
 
-    fun addInterested(favoriteEvent: FavoriteEvent, event: Event) =
-        favoriteEventApi.addFavorite(favoriteEvent).map {
-            event.favoriteEventId = it.id
-           // event.favorite = true
-            event.interested = true
-            eventDao.insertEvent(event)
-            it
-        }
-
     fun removeFavorite(favoriteEvent: FavoriteEvent, event: Event): Completable =
         favoriteEventApi.removeFavorite(event.id).andThen {
             event.favorite = false
@@ -149,7 +148,7 @@ class EventService(
             eventDao.insertEvent(event)
         }
 
-    fun getSimilarEventsPaged(id: Long, page: Int, pageSize: Int = 5): Flowable<List<Event>> {
+    fun getSimilarEventsPaged(id: String, page: Int, pageSize: Int = 5): Flowable<List<Event>> {
         val filter = "[{\"name\":\"ends-at\",\"op\":\"ge\",\"val\":\"%${EventUtils.getTimeInISO8601(
             Date()
         )}%\"}]"

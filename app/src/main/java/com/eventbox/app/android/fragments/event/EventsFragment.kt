@@ -220,7 +220,7 @@ class EventsFragment : Fragment(), BottomIconDoubleClick {
         }
 
         val eventClickListener: EventClickListener = object : EventClickListener {
-            override fun onClick(eventID: Long, imageView: ImageView) {
+            override fun onClick(eventID: String, imageView: ImageView) {
                 findNavController(rootView).navigate(
                     EventsFragmentDirections.actionEventsToEventsDetail(
                         eventID

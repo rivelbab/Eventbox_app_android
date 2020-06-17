@@ -13,4 +13,8 @@ class NewsService(
     }
 
     fun loadAllNews(): Single<List<News>> = newsApi.getAllNews()
+
+    fun getNewsById(newsId: String): Single<News> {
+        return newsApi.getNewsById(newsId)
+    }
 }

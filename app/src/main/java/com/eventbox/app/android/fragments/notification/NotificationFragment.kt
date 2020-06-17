@@ -179,8 +179,7 @@ class NotificationFragment : Fragment() {
             .also {
                 Navigation.findNavController(rootView).navigate(
                     NotificationFragmentDirections.actionNotificationToAuth(
-                        getString(R.string.log_in_first),
-                        NOTIFICATION_FRAGMENT
+                        NOTIFICATION_FRAGMENT, showSkipButton = true
                     )
                 )
             }

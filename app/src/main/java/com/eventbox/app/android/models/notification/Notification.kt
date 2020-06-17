@@ -9,19 +9,21 @@ import com.github.jasminb.jsonapi.IntegerIdHandler
 import com.github.jasminb.jsonapi.annotations.Id
 import com.github.jasminb.jsonapi.annotations.Type
 import io.reactivex.annotations.NonNull
+import java.util.*
 
 @Type("notification")
 @JsonNaming(PropertyNamingStrategy.KebabCaseStrategy::class)
 @Entity
 data class Notification(
-    @Id(IntegerIdHandler::class)
-    @NonNull
+    @Id
     @PrimaryKey
-    val id: Int,
+    val id: String = UUID.randomUUID().toString(),
     val message: String? = null,
+    @JsonProperty("receivedAt")
     val receivedAt: String? = null,
-    @get:JsonProperty("is-read")
+    @get:JsonProperty("isRead")
     var isRead: Boolean = false,
     val title: String? = null,
+    @JsonProperty("deletedAt")
     val deletedAt: String? = null
 )

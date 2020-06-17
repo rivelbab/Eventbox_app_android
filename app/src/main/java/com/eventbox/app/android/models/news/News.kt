@@ -1,19 +1,17 @@
 package com.eventbox.app.android.models.news
 
-
-import androidx.room.PrimaryKey
-import com.github.jasminb.jsonapi.LongIdHandler
 import com.github.jasminb.jsonapi.annotations.Id
 import com.github.jasminb.jsonapi.annotations.Type
 
 @Type("news")
 data class News (
-    @Id(LongIdHandler::class)
-    val id: String,
+    @Id
+    val id: String? = null,
     val title: String,
     val content: String,
     val author: String,
-    val publishedOn: String = "",
-    val createdAt: String = "",
-    val visible: Boolean = false
+    val publishedOn: String? = null,
+    val createdAt: String? = null,
+    val visible: Boolean = false,
+    val isNanterreNews: Boolean = false
 )

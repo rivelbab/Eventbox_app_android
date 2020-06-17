@@ -35,11 +35,11 @@ class FavoriteEventsListAdapter : ListAdapter<Event, FavoriteEventViewHolder>(Ev
     override fun onBindViewHolder(holder: FavoriteEventViewHolder, position: Int) {
         val event = getItem(position)
         holder.apply {
-            val eventDate = getDateFormat(event.startsAt, event.timezone)
+            val eventDate = getDateFormat(event.startsAt, "UTC")
             var showEventDate = true
             if (position != 0) {
                 val previousEvent = getItem(position - 1)
-                if (previousEvent != null && eventDate == getDateFormat(previousEvent.startsAt, previousEvent.timezone))
+                if (previousEvent != null && eventDate == getDateFormat(previousEvent.startsAt, "UTC"))
                     showEventDate = false
             }
             bind(event, position, if (showEventDate) eventDate else "")

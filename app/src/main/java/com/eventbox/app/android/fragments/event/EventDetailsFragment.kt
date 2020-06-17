@@ -33,7 +33,6 @@ import com.eventbox.app.android.R
 import com.eventbox.app.android.ui.common.EventClickListener
 import com.eventbox.app.android.ui.common.FavoriteFabClickListener
 import com.eventbox.app.android.models.event.Event
-import com.eventbox.app.android.utils.EventUtils.loadMapUrl
 import com.eventbox.app.android.adapters.SimilarEventsListAdapter
 import com.eventbox.app.android.adapters.FeedbackRecyclerAdapter
 import com.eventbox.app.android.adapters.LIMITED_FEEDBACK_NUMBER
@@ -75,19 +74,12 @@ class EventDetailsFragment : Fragment() {
         setToolbar(activity)
         setHasOptionsMenu(true)
 
-        setupOrder()
         setupEventOverview()
         setupFeedback()
         setupSimilarEvents()
 
         rootView.buttonTickets.setOnClickListener {
-            val ticketUrl = currentEvent?.ticketUrl
-            if (!ticketUrl.isNullOrEmpty() &&
-                Uri.parse(ticketUrl).host != getString(R.string.FRONTEND_HOST)) {
-                Utils.openUrl(requireContext(), ticketUrl)
-            } else {
-                loadTicketFragment()
-            }
+
         }
 
         eventViewModel.popMessage
@@ -110,31 +102,6 @@ class EventDetailsFragment : Fragment() {
         return rootView
     }
 
-    private fun setupOrder() {
-        if (eventViewModel.orders.value == null) eventViewModel.loadOrders()
-        eventViewModel.orders
-            .nonNull()
-            .observe(viewLifecycleOwner, Observer {
-                it.forEach { order ->
-                    if (order.event?.id == safeArgs.eventId) {
-                        rootView.alreadyRegisteredLayout.isVisible = true
-                        rootView.alreadyRegisteredLayout.setOnClickListener {
-                            order.identifier?.let { identifier ->
-                                EventDetailsFragmentDirections.actionEventDetailsToOrderDetail(
-                                    eventId = safeArgs.eventId,
-                                    orderId = order.id,
-                                    orderIdentifier = identifier
-                                )
-                            }?.let { navigation ->
-                                findNavController(rootView).navigate(navigation)
-                            }
-                        }
-                        return@forEach
-                    }
-                }
-            })
-    }
-
     private fun setupEventOverview() {
         eventViewModel.event
             .nonNull()
@@ -142,13 +109,12 @@ class EventDetailsFragment : Fragment() {
                 currentEvent = it
                 loadEvent(it)
                 if (eventViewModel.similarEvents.value == null) {
-                    val eventTypeId = it.eventType?.id ?: 0
+                    //TODO: Fetch event type
+                    val eventTypeId = ""
                     val eventLocation = it.locationName
                     eventViewModel.fetchSimilarEvents(it.id, eventTypeId, eventLocation)
                 }
                 if (eventViewModel.eventFeedback.value == null) eventViewModel.fetchEventFeedback(it.id)
-
-                if (eventViewModel.priceRange.value == null) eventViewModel.syncTickets(it)
 
                 // Update favorite icon and external event url menu option
                 activity?.invalidateOptionsMenu()
@@ -252,8 +218,8 @@ class EventDetailsFragment : Fragment() {
     }
 
     private fun loadEvent(event: Event) {
-        val startsAt = EventUtils.getEventDateTime(event.startsAt, event.timezone)
-        val endsAt = EventUtils.getEventDateTime(event.endsAt, event.timezone)
+        val startsAt = EventUtils.getEventDateTime(event.startsAt, "UTC")
+        val endsAt = EventUtils.getEventDateTime(event.endsAt, "UTC")
         binding.event = event
         binding.executePendingBindings()
 
@@ -299,7 +265,7 @@ class EventDetailsFragment : Fragment() {
         rootView.eventDateDetailsSecond.text = EventUtils.getFormattedEventDateTimeRangeSecond(startsAt, endsAt)
 
         // Time section
-        rootView.eventTimeDetailsFirst.text = EventUtils.getFormattedEventTimeRange(startsAt, endsAt)
+        rootView.eventTimeDetailsFirst.text = EventUtils.getFormattedEventTimeRange(startsAt)
         rootView.eventTimeDetailsSecond.text = EventUtils.getFormattedEventTimeRangeSecond(startsAt, endsAt)
 
         // Add event to Calendar
@@ -330,7 +296,7 @@ class EventDetailsFragment : Fragment() {
             })
 
         val eventClickListener: EventClickListener = object : EventClickListener {
-            override fun onClick(eventID: Long, imageView: ImageView) {
+            override fun onClick(eventID: String, imageView: ImageView) {
                 findNavController(rootView)
                     .navigate(
                         EventDetailsFragmentDirections.actionSimilarEventsToEventDetails(
@@ -450,12 +416,12 @@ class EventDetailsFragment : Fragment() {
         intent.putExtra(CalendarContract.Events.TITLE, event.name)
         intent.putExtra(CalendarContract.Events.DESCRIPTION, event.description?.stripHtml())
         intent.putExtra(CalendarContract.Events.EVENT_LOCATION, event.locationName)
-        intent.putExtra(CalendarContract.Events.CALENDAR_TIME_ZONE, event.timezone)
+        intent.putExtra(CalendarContract.Events.CALENDAR_TIME_ZONE, "UTC")
         intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
-            EventUtils.getTimeInMilliSeconds(event.startsAt, event.timezone)
+            EventUtils.getTimeInMilliSeconds(event.startsAt, "UTC")
         )
         intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
-            EventUtils.getTimeInMilliSeconds(event.endsAt, event.timezone)
+            EventUtils.getTimeInMilliSeconds(event.endsAt, "UTC")
         )
         startActivity(intent)
     }
@@ -494,28 +460,6 @@ class EventDetailsFragment : Fragment() {
         }
     }
 
-    private fun loadTicketFragment() {
-        val currency = currentEvent?.paymentCurrency ?: "USD"
-        currentEvent?.let {
-            findNavController(rootView).navigate(
-                EventDetailsFragmentDirections.actionEventDetailsToTickets(
-                    it.id,
-                    currency
-                )
-            )
-        }
-    }
-
-    private fun startMap(event: Event) {
-        // start map intent
-        val mapUrl = loadMapUrl(event)
-        val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse(mapUrl))
-        val packageManager = activity?.packageManager
-        if (packageManager != null && mapIntent.resolveActivity(packageManager) != null) {
-            startActivity(mapIntent)
-        }
-    }
-
     private fun setFavoriteIconFilled(filled: Boolean) {
         val id = when {
             filled -> R.drawable.ic_baseline_favorite_white
@@ -545,8 +489,7 @@ class EventDetailsFragment : Fragment() {
     private fun redirectToLogin() {
         findNavController(rootView).navigate(
             EventDetailsFragmentDirections.actionEventDetailsToAuth(
-                getString(R.string.log_in_first),
-                EVENT_DETAIL_FRAGMENT
+                EVENT_DETAIL_FRAGMENT, showSkipButton = true
             )
         )
     }

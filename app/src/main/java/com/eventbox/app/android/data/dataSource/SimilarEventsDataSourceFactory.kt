@@ -9,8 +9,8 @@ import com.eventbox.app.android.service.EventService
 
 class SimilarEventsDataSourceFactory(
     private val compositeDisposable: CompositeDisposable,
-    private val topicId: Long,
-    private val eventId: Long,
+    private val topicId: String,
+    private val eventId: String,
     private val mutableProgress: MutableLiveData<Boolean>,
     private val eventService: EventService
 ) : DataSource.Factory<Int, Event>() {

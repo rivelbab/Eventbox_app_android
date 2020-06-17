@@ -1,5 +1,6 @@
 package com.eventbox.app.android.models.event
 
+import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -11,9 +12,10 @@ import com.github.jasminb.jsonapi.annotations.Type
 @Type("event-type")
 @Entity
 data class EventType(
-    @Id(LongIdHandler::class)
+    @Id
     @PrimaryKey
-    val id: Long,
+    @NonNull
+    val id: String,
     val name: String,
     val slug: String,
     @ColumnInfo(index = true)

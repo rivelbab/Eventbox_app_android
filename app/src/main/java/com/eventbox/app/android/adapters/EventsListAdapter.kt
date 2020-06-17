@@ -3,6 +3,7 @@ package com.eventbox.app.android.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.ListAdapter
 import com.eventbox.app.android.ui.common.EventClickListener
 import com.eventbox.app.android.ui.common.EventsDiffCallback
 import com.eventbox.app.android.ui.common.FavoriteFabClickListener
@@ -17,7 +18,7 @@ import com.eventbox.app.android.ui.event.EventViewHolder
  * @property onEventClick The callback to be invoked when an event is clicked
  * @property onFavFabClick The callback to be invoked when the favorite FAB is clicked
  */
-class EventsListAdapter : PagedListAdapter<Event, EventViewHolder>(EventsDiffCallback()) {
+class EventsListAdapter : ListAdapter<Event, EventViewHolder>(EventsDiffCallback()) {
 
     var onEventClick: EventClickListener? = null
     var onFavFabClick: FavoriteFabClickListener? = null

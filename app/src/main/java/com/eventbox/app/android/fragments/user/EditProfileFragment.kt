@@ -11,6 +11,8 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -27,14 +29,6 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
-import kotlinx.android.synthetic.main.fragment_edit_profile.view.details
-import kotlinx.android.synthetic.main.fragment_edit_profile.view.firstName
-import kotlinx.android.synthetic.main.fragment_edit_profile.view.lastName
-import kotlinx.android.synthetic.main.fragment_edit_profile.view.phone
-import kotlinx.android.synthetic.main.fragment_edit_profile.view.profilePhoto
-import kotlinx.android.synthetic.main.fragment_edit_profile.view.profilePhotoFab
-import kotlinx.android.synthetic.main.fragment_edit_profile.view.toolbar
-import kotlinx.android.synthetic.main.fragment_edit_profile.view.updateButton
 import com.eventbox.app.android.utils.CircleTransform
 import com.eventbox.app.android.ComplexBackPressFragment
 import com.eventbox.app.android.MainActivity
@@ -52,6 +46,7 @@ import com.eventbox.app.android.models.user.User
 import com.eventbox.app.android.ui.user.EditProfileViewModel
 import com.eventbox.app.android.ui.user.ProfileViewModel
 import kotlinx.android.synthetic.main.dialog_edit_profile_image.view.*
+import kotlinx.android.synthetic.main.fragment_edit_profile.view.*
 import org.jetbrains.anko.design.snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -72,10 +67,12 @@ class EditProfileFragment : Fragment(), ComplexBackPressFragment {
     private val CAMERA_REQUEST = arrayOf(Manifest.permission.CAMERA)
     private val CAMERA_REQUEST_CODE = 2
 
-    private lateinit var userFirstName: String
-    private lateinit var userLastName: String
+    private lateinit var userName: String
     private lateinit var userDetails: String
     private lateinit var userPhone: String
+    private lateinit var userInterest: String
+
+    private val itemsCategory = listOf("Sport", "Education", "Conference", "Culturel", "Social")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -146,6 +143,10 @@ class EditProfileFragment : Fragment(), ComplexBackPressFragment {
             showEditPhotoDialog()
         }
 
+        val adapterInterest = ArrayAdapter(requireContext(), R.layout.item_event_dropdown_list, itemsCategory)
+        rootView.interest.setAdapter(adapterInterest)
+        rootView.interest.keyListener = null
+
         return rootView
     }
 
@@ -178,8 +179,8 @@ class EditProfileFragment : Fragment(), ComplexBackPressFragment {
     }
 
     private fun loadUserUI(user: User) {
-        userFirstName = user.firstName.nullToEmpty()
-        userLastName = user.lastName.nullToEmpty()
+        userName = user.name.nullToEmpty()
+        userInterest = user.interest.nullToEmpty()
         userDetails = user.details.nullToEmpty()
         if (editProfileViewModel.userAvatar == null)
             editProfileViewModel.userAvatar = user.avatarUrl.nullToEmpty()
@@ -199,13 +200,17 @@ class EditProfileFragment : Fragment(), ComplexBackPressFragment {
             //editProfileViewModel.encodedImage = encodeImage(croppedImage)
             //editProfileViewModel.avatarUpdated = true
         }
-        setTextIfNull(rootView.firstName, userFirstName)
-        setTextIfNull(rootView.lastName, userLastName)
+        setTextIfNull(rootView.name, userName)
+        setTextIfNull2(rootView.interest, userInterest)
         setTextIfNull(rootView.details, userDetails)
         setTextIfNull(rootView.phone, userPhone)
     }
 
     private fun setTextIfNull(input: TextInputEditText, text: String) {
+        if (input.text.isNullOrBlank()) input.setText(text)
+    }
+
+    private fun setTextIfNull2(input: AutoCompleteTextView, text: String) {
         if (input.text.isNullOrBlank()) input.setText(text)
     }
 
@@ -361,8 +366,8 @@ class EditProfileFragment : Fragment(), ComplexBackPressFragment {
     private fun updateUser() {
         val newUser = User(
             id = editProfileViewModel.getId(),
-            firstName = rootView.firstName.text.toString(),
-            lastName = rootView.lastName.text.toString(),
+            name = rootView.name.text.toString(),
+            interest = rootView.interest.text.toString(),
             details = rootView.details.text.toString(),
             phone = rootView.phone.text.toString().emptyToNull()
         )
@@ -370,8 +375,8 @@ class EditProfileFragment : Fragment(), ComplexBackPressFragment {
     }
 
     private fun noDataChanged() = !editProfileViewModel.avatarUpdated &&
-        rootView.lastName.text.toString() == userLastName &&
-        rootView.firstName.text.toString() == userFirstName &&
+        rootView.name.text.toString() == userName &&
+        rootView.interest.text.toString() == userInterest &&
         rootView.details.text.toString() == userDetails &&
         rootView.phone.text.toString() == userPhone
 

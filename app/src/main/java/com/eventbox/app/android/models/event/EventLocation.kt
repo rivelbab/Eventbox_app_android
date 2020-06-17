@@ -6,8 +6,8 @@ import com.github.jasminb.jsonapi.annotations.Type
 
 @Type("event-location")
 data class EventLocation(
-    @Id(LongIdHandler::class)
-    val id: Long,
+    @Id
+    val id: String,
     val name: String,
     val slug: String
 )

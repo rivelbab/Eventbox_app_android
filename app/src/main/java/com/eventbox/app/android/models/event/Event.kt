@@ -1,95 +1,53 @@
 package com.eventbox.app.android.models.event
 
+import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
 import com.fasterxml.jackson.databind.annotation.JsonNaming
 import com.github.jasminb.jsonapi.LongIdHandler
 import com.github.jasminb.jsonapi.annotations.Id
 import com.github.jasminb.jsonapi.annotations.Relationship
 import com.github.jasminb.jsonapi.annotations.Type
+import java.util.*
 
 @Type("event")
 @JsonNaming(PropertyNamingStrategy.KebabCaseStrategy::class)
 @Entity
 data class Event(
-    @Id(LongIdHandler::class)
+    @Id
     @PrimaryKey
-    val id: Long,
+    val id: String = UUID.randomUUID().toString(),
     //== basic details
     var name: String,
     var description: String? = null,
+    @JsonProperty("locationName")
     var locationName: String? = null,
+    @JsonProperty("startsAt")
     var startsAt: String,
+    @JsonProperty("endsAt")
     var endsAt: String,
+    @JsonProperty("codeOfConduct")
     val codeOfConduct: String? = null,
-    val createdAt: String? = null,
-    val deletedAt: String? = null,
+    @JsonProperty("isComplete")
     val isComplete: Boolean = false,
     var privacy: String = "public",
     //== image url
-    var thumbnailImageUrl: String? = null,
+    @JsonProperty("originalImageUrl")
     var originalImageUrl: String? = null,
-    var largeImageUrl: String? = null,
     //== owner details
-    val ownerDescription: String? = null,
+    @JsonProperty("ownerName")
     var ownerName: String? = null,
-    val hasOwnerInfo: Boolean = false,
-    //== geolocation details
-    val timezone: String = "UTC",
-    val latitude: Double? = null,
-    val longitude: Double? = null,
-    val isMapShown: Boolean = false,
     //== favorite and interested
+    var category: String? = null,
+    @JsonIgnore
     var favorite: Boolean = false,
-    var favoriteEventId: Long? = null,
-    var interested: Boolean = false,
-    var interestedEventId: Long? = null,
-    //== payment details
-    val paymentCurrency: String? = null,
-    val paymentCountry: String? = null,
-    val paypalEmail: String? = null,
-    val ticketUrl: String? = null,
-    val refundPolicy: String? = null,
-    val canPayByStripe: Boolean = false,
-    val canPayByBank: Boolean = false,
-    val canPayByPaypal: Boolean = false,
-    val canPayOnsite: Boolean = false,
-    val isTicketingEnabled: Boolean = false,
-    val isTaxEnabled: Boolean = false,
-
-    @ColumnInfo(index = true)
-    @Relationship("event-type", resolve = true)
-    val eventType: EventType? = null
-) {
-    constructor(
-        name: String,
-        description: String,
-        locationName: String,
-        startsAt: String,
-        endsAt: String,
-        thumbnailImageUrl: String,
-        originalImageUrl: String,
-        largeImageUrl: String,
-        privacy: String,
-        ownerName: String
-    ) : this(
-        Long.MIN_VALUE,
-        name,
-        description,
-        locationName,
-        startsAt,
-        endsAt,
-        null,
-        null,
-        null,
-        false,
-        privacy,
-        thumbnailImageUrl,
-        originalImageUrl,
-        largeImageUrl,
-        null,
-        ownerName
-    )
-}
+    @JsonIgnore
+    var favoriteEventId: String? = null,
+    @JsonIgnore
+    var eventType: String? = null
+)

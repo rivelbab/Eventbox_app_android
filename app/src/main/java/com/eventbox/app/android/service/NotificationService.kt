@@ -10,7 +10,7 @@ class NotificationService(
     private val notificationDao: NotificationDao
 ) {
 
-    fun getNotifications(userId: Long): Single<List<Notification>> {
+    fun getNotifications(userId: String): Single<List<Notification>> {
         return notificationDao.getNotifications()
             .onErrorResumeNext {
                 notificationApi.getNotifications(userId).map {
@@ -20,7 +20,7 @@ class NotificationService(
             }
     }
 
-    fun syncNotifications(userId: Long): Single<List<Notification>> {
+    fun syncNotifications(userId: String): Single<List<Notification>> {
         return notificationApi.getNotifications(userId).map {
             notificationDao.insertNotifications(it)
             it

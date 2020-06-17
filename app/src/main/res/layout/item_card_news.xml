@@ -40,7 +40,7 @@
         android:paddingTop="@dimen/padding_small"
         android:paddingStart="@dimen/padding_large"
         android:paddingEnd="@dimen/padding_large"
-        android:textColor="@color/black"
+        android:textColor="@color/greyMore"
         android:text="@{headerDate}"
         tools:text="Jan 11, 2019" />
 </LinearLayout>
@@ -80,17 +80,18 @@
 
         <ImageView
             android:id="@+id/newsImage"
-            android:layout_width="@dimen/layout_margin_search_view"
-            android:layout_height="@dimen/layout_margin_search_view"
+            android:layout_width="@dimen/layout_margin_news_icon"
+            android:layout_height="@dimen/layout_margin_news_icon"
             android:layout_gravity="center"
             android:scaleType="centerCrop"
-            android:src="@drawable/news"
+            tools:src="@drawable/news_icon"
             android:background="@drawable/round_image"
             android:layout_marginBottom="@dimen/layout_margin_moderate"
             android:paddingTop="@dimen/padding_medium"
             android:paddingBottom="@dimen/padding_small"
             android:layout_marginStart="@dimen/layout_margin_large"
             android:layout_marginTop="@dimen/layout_margin_moderate"
+            android:src="@{news.isNanterreNews ? @drawable/nanterre_presse : @drawable/news_icon}"
             android:transitionName="@{`cardItemNewsImage` + position}"/>
 
         <LinearLayout
@@ -110,7 +111,7 @@
                 android:ellipsize="end"
                 android:layout_marginBottom="@dimen/details_margin_small"
                 android:textColor="@color/black"
-                android:textSize="@dimen/heading_text_size"
+                android:textSize="@dimen/text_size_larger"
                 android:text="@{news.title}"
                 tools:text="News title" />
 
@@ -125,6 +126,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/details_text_size"
                     android:maxLines="1"
+                    android:textColor="@color/colorSecondary"
                     android:ellipsize="end"
                     android:text="@{dateTime}"
                     tools:text="10h:40" />
@@ -136,6 +138,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:ellipsize="end"
+                android:textColor="@color/colorPrimary"
                 android:layout_marginTop="@dimen/layout_margin_small"
                 android:textSize="@dimen/details_text_size"
                 android:text="@{news.author}"

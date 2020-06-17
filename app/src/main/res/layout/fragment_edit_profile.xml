@@ -56,34 +56,47 @@
         android:weightSum="2">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/firstNameLayout"
+            android:id="@+id/nameLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:layout_width="@dimen/layout_margin_none"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="@string/first_name">
+            android:hint="@string/name">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/firstName"
+                android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName|textCapWords" />
+                android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/lastNameLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:layout_width="@dimen/layout_margin_none"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/layout_margin_small"
-            android:layout_weight="1"
-            android:hint="@string/last_name">
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layout_margin_small"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/padding_medium"
+        android:weightSum="2">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/lastName"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/categoryLayout"
+            app:boxBackgroundColor="@color/colorPrimary10"
+            style="@style/TextInputLayout_filledBox_dropdown"
+            app:hintTextColor="@color/colorSecondary"
+            android:textColorHint="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/interest">
+            <AutoCompleteTextView
+                android:id="@+id/interest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName|textCapWords" />
+                style="@style/TextInput_filledBox"
+                android:inputType="none"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>

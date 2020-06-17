@@ -17,20 +17,20 @@ class NewsViewHolder (private val binding: ItemCardNewsBinding): RecyclerView.Vi
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun bind(news: News, itemPosition: Int, headerDate: String) {
-        val publishedOn = EventUtils.getEventDateTime(news.publishedOn, "UTC")
+        val publishedOn = EventUtils.getEventDateTime(news.publishedOn.toString(), "UTC")
 
         with(binding) {
             this.news = news
             this.headerDate = headerDate
             position = itemPosition
-            dateTime = EventUtils.getFormattedDateShort(publishedOn)
+            dateTime = EventUtils.getFormattedTime(publishedOn)
             executePendingBindings()
         }
 
         itemView.shareFab.scaleType = ImageView.ScaleType.CENTER
         itemView.newsImage.clipToOutline = true
         itemView.setOnClickListener {
-            newsClickListener?.onClick(news.id, itemView.newsImage)
+            newsClickListener?.onClick(news.id.toString())
         }
         itemView.shareFab.setOnClickListener {
             NewsUtils.share(news, itemView.context)

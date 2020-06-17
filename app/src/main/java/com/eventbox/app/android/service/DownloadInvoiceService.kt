@@ -4,7 +4,6 @@ import android.app.IntentService
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import javax.annotation.Nullable
 
 const val DOWNLOAD_PATH = "downloadPath"
 const val DESTINATION_PATH = "destinationPath"

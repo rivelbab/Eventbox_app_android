@@ -55,8 +55,7 @@ class ProfileFragment : Fragment(), BottomIconDoubleClick {
     private fun redirectToLogin() {
         findNavController(rootView).navigate(
             ProfileFragmentDirections.actionProfileToAuth(
-                null,
-                PROFILE_FRAGMENT
+                PROFILE_FRAGMENT, showSkipButton = true
             )
         )
     }
@@ -94,12 +93,12 @@ class ProfileFragment : Fragment(), BottomIconDoubleClick {
         if (token != null)
             profileViewModel.verifyProfile(token)
 
-        val progressDialog = progressDialog(context, getString(R.string.loading_message))
+        /*val progressDialog = progressDialog(context, getString(R.string.loading_message))
         profileViewModel.progress
             .nonNull()
             .observe(viewLifecycleOwner, Observer {
                 progressDialog.show(it)
-            })
+            })*/
 
         profileViewModel.message
             .nonNull()
@@ -156,11 +155,11 @@ class ProfileFragment : Fragment(), BottomIconDoubleClick {
     }
 
     private fun updateProfile(it: User) {
-        rootView.accountName.text = "${it.firstName.nullToEmpty()} ${it.lastName.nullToEmpty()}"
+        rootView.accountName.text =  it.name
         rootView.accountEmail.text = it.email
         emailSettings = it.email.nullToEmpty()
-        rootView.accountNotVerified.isVisible = !it.isVerified
-        rootView.accountVerified.isVisible = it.isVerified
+        rootView.accountNotVerified.isVisible = !it.emailVerified
+        rootView.accountVerified.isVisible = it.emailVerified
         Picasso.get()
             .load(it.avatarUrl)
             .placeholder(requireDrawable(requireContext(), R.drawable.ic_account_circle_grey))

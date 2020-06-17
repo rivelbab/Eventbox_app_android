@@ -6,8 +6,8 @@ import com.github.jasminb.jsonapi.annotations.Type
 
 @Type("faq")
 data class EventFAQ(
-    @Id(LongIdHandler::class)
-    val id: Long,
+    @Id
+    val id: String = "",
     val question: String,
     val answer: String
 )

@@ -58,7 +58,7 @@ class LoginViewModel(
             }
         }
 
-        compositeDisposable += loginObservable
+        compositeDisposable += authService.login(email, password)
             .withDefaultSchedulers()
             .doOnSubscribe {
                 mutableProgress.value = true

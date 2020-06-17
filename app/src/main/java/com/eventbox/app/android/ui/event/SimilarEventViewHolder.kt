@@ -22,7 +22,7 @@ class SimilarEventViewHolder(
         event: Event,
         itemPosition: Int
     ) {
-        val time = EventUtils.getEventDateTime(event.startsAt, event.timezone)
+        val time = EventUtils.getEventDateTime(event.startsAt, "UTC")
 
         with(binding) {
             this.event = event

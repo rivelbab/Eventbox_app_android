@@ -17,5 +17,5 @@ interface FeedbackDao {
     fun insertSingleFeedback(feedback: Feedback)
 
     @Query("SELECT * FROM feedback WHERE event = :eventId")
-    fun getAllFeedbackUnderEvent(eventId: Long): Single<List<Feedback>>
+    fun getAllFeedbackUnderEvent(eventId: String): Single<List<Feedback>>
 }

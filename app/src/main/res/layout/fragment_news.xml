@@ -4,94 +4,118 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/scrollView"
-        android:orientation="vertical"
-        android:fitsSystemWindows="true"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/background_fragment_welcome"
-                android:scaleType="fitXY"/>
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <TextView
-                    android:id="@+id/newsTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_margin_large"
-                    android:layout_marginTop="@dimen/layout_margin_extra_large"
-                    android:text="@string/news"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/text_size_expanded_title_large"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-                <TextView
-                    android:id="@+id/newsNumber"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="@dimen/layout_margin_large"
-                    android:textSize="@dimen/text_size_large"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/newsTitle"
-                    android:textColor="@color/greyMore"
-                    tools:text="2 events" />
-                <ProgressBar
-                    android:layout_gravity="center"
-                    android:id="@+id/newsProgressBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    tools:visibility="visible">
-                </ProgressBar>
+   <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+       android:id="@+id/swipeRefresh"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+       <androidx.core.widget.NestedScrollView
+           android:id="@+id/scrollView"
+           android:orientation="vertical"
+           android:fitsSystemWindows="true"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+           <FrameLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent">
+               <ImageView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   app:srcCompat="@drawable/background_fragment_welcome"
+                   android:scaleType="fitXY"/>
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:orientation="vertical">
+                   <TextView
+                       android:id="@+id/newsTitle"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginStart="@dimen/layout_margin_large"
+                       android:layout_marginTop="@dimen/layout_margin_extra_large"
+                       android:text="@string/news"
+                       android:textColor="@color/white"
+                       android:textStyle="bold"
+                       android:textSize="@dimen/text_size_expanded_title_large" />
+                   <TextView
+                       android:id="@+id/newsNumber"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginStart="16dp"
+                       android:layout_marginTop="@dimen/layout_margin_large"
+                       android:textSize="@dimen/text_size_large"
+                       android:textColor="@color/greyMore"
+                       tools:text="2 news" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/newsRecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/layout_margin_large"
-                    android:layout_marginTop="@dimen/layout_margin_extreme_large"
-                    android:layout_marginStart="@dimen/layout_margin_medium"
-                    android:layout_marginEnd="@dimen/layout_margin_medium"
-                    app:layout_constraintTop_toBottomOf="@id/newsNumber"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    android:scrollbars="vertical" />
+                   <androidx.recyclerview.widget.RecyclerView
+                       android:id="@+id/newsRecycler"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="@dimen/layout_margin_larger"
+                       android:layout_marginStart="@dimen/layout_margin_medium"
+                       android:layout_marginEnd="@dimen/layout_margin_medium"
+                       android:scrollbars="vertical"
+                       tools:listitem="@layout/item_card_news"/>
 
-                <LinearLayout
-                    android:id="@+id/noNewsLL"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                   <include
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="@dimen/layout_margin_larger"
+                       layout="@layout/content_no_internet"
+                       android:visibility="gone"
+                       tools:visibility="visible"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_size_expanded_title_medium"
-                        android:textStyle="bold"
-                        android:layout_gravity="center_horizontal"
-                        android:text="@string/no_news_yet"
-                        android:textColor="@color/black"
-                        android:id="@+id/findText"/>
-                </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </FrameLayout>
-    </androidx.core.widget.NestedScrollView>
+                   <com.facebook.shimmer.ShimmerFrameLayout
+                       android:id="@+id/shimmerNews"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="@dimen/layout_margin_larger">
+                       <LinearLayout
+                           android:layout_width="match_parent"
+                           android:layout_height="match_parent"
+                           android:orientation="vertical">
+                           <include layout="@layout/placeholder_item_card_search" />
+                           <include layout="@layout/placeholder_item_card_search" />
+                           <include layout="@layout/placeholder_item_card_search" />
+                           <include layout="@layout/placeholder_item_card_search" />
+                       </LinearLayout>
+                   </com.facebook.shimmer.ShimmerFrameLayout>
+                   <LinearLayout
+                       android:id="@+id/newsEmptyView"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="vertical"
+                       app:layout_constraintTop_toTopOf="parent"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                       android:visibility="gone"
+                       tools:visibility="visible">
+                       <RelativeLayout
+                           android:layout_width="@dimen/item_image_view_large"
+                           android:layout_height="@dimen/item_image_view_large"
+                           android:layout_gravity="center_horizontal"
+                           android:layout_marginTop="@dimen/layout_margin_large">
+
+                           <ImageView
+                               android:layout_width="@dimen/item_image_view_large"
+                               android:layout_height="@dimen/item_image_view_large"
+                               android:layout_centerInParent="true"
+                               android:scaleType="centerCrop"
+                               app:srcCompat="@drawable/round_shape" />
+
+                       </RelativeLayout>
+
+                       <TextView
+                           android:id="@+id/emptyEventsText"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_gravity="center_horizontal"
+                           android:layout_marginTop="@dimen/layout_margin_extra_large"
+                           android:text="@string/no_news_yet"
+                           android:textSize="@dimen/text_size_medium" />
+                   </LinearLayout>
+               </LinearLayout>
+           </FrameLayout>
+       </androidx.core.widget.NestedScrollView>
+   </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/toolbarLayout"

@@ -9,7 +9,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import kotlinx.android.synthetic.main.activity_main.mainFragmentCoordinatorLayout
 import kotlinx.android.synthetic.main.activity_main.navigation
-import com.eventbox.app.android.fragments.auth.AuthFragment
+import com.eventbox.app.android.fragments.auth.LoginFragment
 import com.eventbox.app.android.auth.RC_CREDENTIALS_READ
 import com.eventbox.app.android.auth.SmartAuthUtil
 import com.eventbox.app.android.auth.SmartAuthViewModel
@@ -76,13 +76,12 @@ class MainActivity : AppCompatActivity() {
             val currentFragment = hostFragment.childFragmentManager.fragments.first()
             if (currentFragment is ComplexBackPressFragment) {
                 currentFragment.handleBackPress()
-                if (currentFragment is AuthFragment)
+                if (currentFragment is LoginFragment)
                     mainFragmentCoordinatorLayout.snackbar(R.string.sign_in_canceled)
                 return
             }
         }
         when (currentFragmentId) {
-            R.id.orderCompletedFragment -> navController.popBackStack(R.id.eventDetailsFragment, false)
             R.id.welcomeFragment -> finish()
             else -> super.onBackPressed()
         }

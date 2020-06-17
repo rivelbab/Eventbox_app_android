@@ -4,7 +4,6 @@ import com.eventbox.app.android.networks.api.AuthApi
 import com.eventbox.app.android.ui.auth.AuthHolder
 import io.reactivex.Completable
 import io.reactivex.Single
-import com.eventbox.app.android.data.dao.AttendeeDao
 import com.eventbox.app.android.networks.payloads.auth.ChangeRequestToken
 import com.eventbox.app.android.networks.payloads.auth.ChangeRequestTokenResponse
 import com.eventbox.app.android.models.auth.Password
@@ -12,7 +11,6 @@ import com.eventbox.app.android.models.auth.Email
 import com.eventbox.app.android.networks.payloads.auth.RequestToken
 import com.eventbox.app.android.networks.payloads.auth.RequestTokenResponse
 import com.eventbox.app.android.data.dao.UserDao
-import com.eventbox.app.android.networks.api.EventApi
 import com.eventbox.app.android.data.dao.EventDao
 import com.eventbox.app.android.models.auth.Login
 import com.eventbox.app.android.models.auth.SignUp
@@ -21,17 +19,13 @@ import com.eventbox.app.android.models.user.User
 import com.eventbox.app.android.networks.payloads.auth.*
 import com.eventbox.app.android.networks.payloads.utils.ImageResponse
 import com.eventbox.app.android.networks.payloads.utils.UploadImage
-import com.eventbox.app.android.data.dao.OrderDao
 import timber.log.Timber
 
 class AuthService(
     private val authApi: AuthApi,
     private val authHolder: AuthHolder,
     private val userDao: UserDao,
-    private val orderDao: OrderDao,
-    private val attendeeDao: AttendeeDao,
-    private val eventDao: EventDao,
-    private val eventApi: EventApi
+    private val eventDao: EventDao
 ) {
     fun login(username: String, password: String): Single<LoginResponse> {
         if (username.isEmpty() || password.isEmpty())
@@ -50,12 +44,7 @@ class AuthService(
     }
 
     fun checkPasswordValid(email: String, password: String): Single<LoginResponse> =
-        authApi.login(
-            Login(
-                email,
-                password
-            )
-        )
+        authApi.login(Login(email, password))
 
     fun signUp(signUp: SignUp): Single<User> {
         val email = signUp.email
@@ -63,17 +52,11 @@ class AuthService(
         if (email.isNullOrEmpty() || password.isNullOrEmpty())
             throw IllegalArgumentException("Username or password cannot be empty")
 
-        return authApi.signUp(signUp).map {
-            userDao.insertUser(it)
-            it
-        }
+        return authApi.signUp(signUp)
     }
 
     fun updateUser(user: User): Single<User> {
-        return authApi.updateUser(user, user.id).map {
-            userDao.insertUser(it)
-            it
-        }
+        return authApi.updateUser(user, user.id)
     }
 
     fun uploadImage(uploadImage: UploadImage): Single<ImageResponse> {
@@ -87,34 +70,19 @@ class AuthService(
     fun logout(): Completable {
         return Completable.fromAction {
             authHolder.token = null
-            userDao.deleteUser(authHolder.getId())
-            orderDao.deleteAllOrders()
-            attendeeDao.deleteAllAttendees()
             eventDao.clearFavoriteEvents()
         }
     }
 
-    fun deleteProfile(userId: Long = authHolder.getId()) =
+    fun deleteProfile(userId: String = authHolder.getId()) =
         authApi.deleteAccount(userId)
 
-    fun getProfile(id: Long = authHolder.getId()): Single<User> {
-        return userDao.getUser(id)
-                .onErrorResumeNext {
-                    Timber.d(it, "User not found in Database %d", id)
-                    authApi.getProfile(id)
-                            .map {
-                                userDao.insertUser(it)
-                                it
-                            }
-                }
+    fun getProfile(id: String = authHolder.getId()): Single<User> {
+        return authApi.getProfile(id)
     }
 
-    fun syncProfile(id: Long = authHolder.getId()): Single<User> {
+    fun syncProfile(id: String = authHolder.getId()): Single<User> {
         return authApi.getProfile(id)
-            .map {
-                userDao.insertUser(it)
-                it
-            }
     }
 
     fun sendResetPasswordEmail(email: String): Single<RequestTokenResponse> {

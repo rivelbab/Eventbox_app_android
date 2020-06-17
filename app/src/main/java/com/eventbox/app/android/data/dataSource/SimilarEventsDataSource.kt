@@ -12,8 +12,8 @@ import timber.log.Timber
 
 class SimilarEventsDataSource(
     private val compositeDisposable: CompositeDisposable,
-    private val topicId: Long,
-    private val eventId: Long,
+    private val topicId: String,
+    private val eventId: String,
     private val mutableProgress: MutableLiveData<Boolean>,
     private val eventService: EventService
 ) : PageKeyedDataSource<Int, Event>() {
@@ -42,7 +42,7 @@ class SimilarEventsDataSource(
         callback: LoadCallback<Int, Event>?
     ) {
         var similarEventsFlowable = eventService.getEventsByLocationPaged(requestedPage, 3)
-        if (topicId != -1L) {
+        if (topicId != "") {
             similarEventsFlowable = similarEventsFlowable
                 .zipWith(eventService.getSimilarEventsPaged(topicId, requestedPage, 3),
                     BiFunction { firstList: List<Event>, secondList: List<Event> ->

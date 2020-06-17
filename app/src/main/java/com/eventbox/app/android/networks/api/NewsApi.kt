@@ -5,12 +5,16 @@ import io.reactivex.Single
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface NewsApi {
 
-    @GET("https://us-central1-eventboxapi.cloudfunctions.net/webApi/eventbox/api/v1/news")
+    @GET("news")
     fun getAllNews() : Single<List<News>>
 
-    @POST("https://us-central1-eventboxapi.cloudfunctions.net/webApi/eventbox/api/v1/news")
+    @POST("news")
     fun createNews(@Body news: News): Single<News>
+
+    @GET("news/{newsId}")
+    fun getNewsById(@Path("newsId") newsId: String) : Single<News>
 }

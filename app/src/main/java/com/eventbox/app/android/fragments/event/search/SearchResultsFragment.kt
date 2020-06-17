@@ -241,7 +241,7 @@ class SearchResultsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val eventClickListener: EventClickListener = object : EventClickListener {
-            override fun onClick(eventID: Long, imageView: ImageView) {
+            override fun onClick(eventID: String, imageView: ImageView) {
                 findNavController(rootView)
                     .navigate(SearchResultsFragmentDirections.actionSearchResultsToEventDetail(eventID),
                         FragmentNavigatorExtras(imageView to "eventDetailImage"))
@@ -319,12 +319,11 @@ class SearchResultsFragment : Fragment(), CompoundButton.OnCheckedChangeListener
         val date = eventDate
         val freeEvents = safeArgs.freeEvents
         val sortBy = safeArgs.sort
-        val callForSpeakers = safeArgs.callForSpeakers
 
         val sessionsAndSpeakers = safeArgs.sessionsAndSpeakers
         searchResultsViewModel.searchEvent = query
         searchResultsViewModel
-            .loadEvents(location, date, type, freeEvents, sortBy, sessionsAndSpeakers, callForSpeakers)
+            .loadEvents(location, date, type, freeEvents, sortBy, sessionsAndSpeakers)
         hideSoftKeyboard(requireContext(), rootView)
     }
 

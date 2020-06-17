@@ -81,7 +81,7 @@ class FavoriteFragment : Fragment(), BottomIconDoubleClick {
         favoriteEventViewModel.events
             .nonNull()
             .observe(viewLifecycleOwner, Observer { list ->
-                favoriteEventsRecyclerAdapter.submitList(list.sortedBy { getEventDateTime(it.startsAt, it.timezone) })
+                favoriteEventsRecyclerAdapter.submitList(list.sortedBy { getEventDateTime(it.startsAt, "UTC") })
                 rootView.likesNumber.text= resources.getQuantityString(R.plurals.events_number, list.size, list.size)
                 showEmptyMessage(list.size)
                 Timber.d("Fetched events of size %s", list.size)
@@ -108,7 +108,7 @@ class FavoriteFragment : Fragment(), BottomIconDoubleClick {
         super.onViewCreated(view, savedInstanceState)
 
         val eventClickListener: EventClickListener = object : EventClickListener {
-            override fun onClick(eventID: Long, imageView: ImageView) {
+            override fun onClick(eventID: String, imageView: ImageView) {
                 findNavController(rootView).navigate(
                     FavoriteFragmentDirections.actionFavouriteToEventDetails(
                         eventID
@@ -164,8 +164,7 @@ class FavoriteFragment : Fragment(), BottomIconDoubleClick {
     private fun redirectToLogin() {
         findNavController(rootView).navigate(
             FavoriteFragmentDirections.actionFavouriteToAuth(
-                getString(R.string.log_in_first),
-                MESSAGE_FRAGMENT
+                FAVORITE_FRAGMENT, showSkipButton = true
             )
         )
     }

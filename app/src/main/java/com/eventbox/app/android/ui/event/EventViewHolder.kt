@@ -33,7 +33,7 @@ class EventViewHolder(private val binding: ItemCardEventsBinding) : RecyclerView
 
         val time = EventUtils.getEventDateTime(
             event.startsAt,
-            event.timezone
+            "UTC"
         )
 
         with(binding) {
@@ -47,14 +47,18 @@ class EventViewHolder(private val binding: ItemCardEventsBinding) : RecyclerView
 
         itemView.shareFab.scaleType = ImageView.ScaleType.CENTER
         itemView.favoriteFab.scaleType = ImageView.ScaleType.CENTER
-        itemView.joinEventFab.scaleType = ImageView.ScaleType.CENTER
 
-        /*if (itemView.chipTags != null) {
+        if (itemView.chipTags != null) {
             itemView.chipTags.removeAllViews()
-            event.eventType?.let {
-                addChips(it.name)
+            val category: String = event.category.toString()
+
+            if (category.isNotEmpty()) {
+                val cat = category.split(",").toTypedArray()
+                cat.forEach {
+                    addChips(it);
+                }
             }
-        }*/
+        }
 
         itemView.setOnClickListener {
             eventClickListener?.onClick(event.id, itemView.eventImage)

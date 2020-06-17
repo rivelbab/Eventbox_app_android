@@ -22,7 +22,7 @@ interface FavoriteEventApi {
 
     @DELETE("user-favourite-events/{favoriteEventId}")
     fun removeFavorite(
-        @Path("favoriteEventId") eventId: Long,
+        @Path("favoriteEventId") eventId: String,
         @Header("Content-Type") header: String = "application/vnd.api+json"
     ): Completable
 }
