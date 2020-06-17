@@ -2,11 +2,7 @@
 
 ## Image de l'application 
 
-![Screenshot] (screens/img1.jpeg)
-
-![Screenshot] (screens/img2.jpeg)
-
-![Screenshot] (screens/img2.jpeg)
+<img src="screens/img1.jpeg" title="image 1"/>
 
 
 ## Organisation du projet
