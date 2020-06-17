@@ -1,6 +1,6 @@
-## Eventbox_app_android
+# Eventbox Android
 
-### Organisation du projet
+## Organisation du projet
 
 Le projet contient deux modules principaux : Main et Playstore
 
@@ -30,6 +30,4 @@ Le projet contient deux modules principaux : Main et Playstore
 - package utils: Contient des fichiers utilitaires et des converters
 
 
-### dev with :heart: by @rivelbab :fire:
-
-
+### dev with :heart: by @rivelbab
