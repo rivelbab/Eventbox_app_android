@@ -2,9 +2,11 @@
 
 ## Image de l'application 
 
-![alt text] (https://github.com/rivelbab/Eventbox_app_android/blob/master/screens/img1.jpeg?raw=true)
-![alt text] (https://github.com/rivelbab/Eventbox_app_android/blob/master/screens/img2.jpeg?raw=true)
-![alt text] (https://github.com/rivelbab/Eventbox_app_android/blob/master/screens/img3.jpeg?raw=true)
+![Screenshot] (screens/img1.jpeg)
+
+![Screenshot] (screens/img2.jpeg)
+
+![Screenshot] (screens/img2.jpeg)
 
 
 ## Organisation du projet
