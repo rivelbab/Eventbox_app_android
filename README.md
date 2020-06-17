@@ -1,5 +1,12 @@
 # Eventbox Android
 
+## Image de l'application 
+
+![alt text] (https://github.com/rivelbab/Eventbox_app_android/blob/master/screens/img1.jpeg?raw=true)
+![alt text] (https://github.com/rivelbab/Eventbox_app_android/blob/master/screens/img2.jpeg?raw=true)
+![alt text] (https://github.com/rivelbab/Eventbox_app_android/blob/master/screens/img3.jpeg?raw=true)
+
+
 ## Organisation du projet
 
 Le projet contient deux modules principaux : Main et Playstore
